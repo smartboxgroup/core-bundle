@@ -1,0 +1,8 @@
+framework:
+    secret: "5yg6u543wrftg34"
+    validation:      { enable_annotations: true }
+
+sensio_framework_extra:
+    request:
+        converters: true
+        auto_convert: false

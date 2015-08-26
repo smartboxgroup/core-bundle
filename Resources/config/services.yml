@@ -1,0 +1,16 @@
+parameters:
+    smartcore.validation.validator.class: Smartbox\CoreBundle\Validation\ValidatorWithExclusion
+    smartcore.serialization.subscriber.class: Smartbox\CoreBundle\SerializationHandler\SerializerEventsSubscriber
+
+services:
+    smartcore.serialization.subscriber:
+        class:  %smartcore.serialization.subscriber.class%
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    smartcore.validation.validator:
+        class: %smartcore.validation.validator.class%
+        decorates: validator
+        calls:
+            - [ setDecoratedValidator, [ @smartcore.validation.validator.inner ] ]
+            - [ setMetadataFactory, [ @jms_serializer.metadata_factory ] ]
