@@ -7,6 +7,7 @@ use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
 use JMS\Serializer\Exclusion\VersionExclusionStrategy;
 use JMS\Serializer\SerializationContext;
 use Metadata\MetadataFactoryInterface;
+use Smartbox\CoreBundle\Entity\Entity;
 use Smartbox\CoreBundle\Entity\EntityInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -16,7 +17,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
 {
 
     /**
-     * @var MetadataFactoryInterface
+     * @var MetadataFactoryInterface  JMS Metadata factory
      */
     protected $metadataFactory;
 
@@ -113,7 +114,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
     {
         if (is_object($value) && $value instanceof EntityInterface) {
             if (!$groups && $value->getGroup()) {
-                $groups = array($value->getGroup());
+                $groups = array($value->getGroup(), Entity::GROUP_DEFAULT);
             }
         }
 
