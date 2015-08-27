@@ -19,5 +19,12 @@
         "phpunit/phpunit": "4.7.*",
         "sensio/generator-bundle": "~2.3",
         "digitalnature/php-ref": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Smartbox/CoreBundle",
+    "extra": {
+        "branch-alias": {
+          "dev-master": "0.1-dev"
+        }
     }
 }
