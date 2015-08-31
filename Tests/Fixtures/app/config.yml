@@ -6,3 +6,7 @@ sensio_framework_extra:
     request:
         converters: true
         auto_convert: false
+
+smartbox_core:
+  fixtures_path: "%kernel.root_dir%/../Json"
+  tests_path: "%kernel.root_dir%/../IntegrationTests"

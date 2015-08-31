@@ -22,6 +22,12 @@ class SmartboxCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        if(empty($config['fixtures_path'])){
+            $config['fixtures_path'] = $container->getParameter('kernel.root_dir').'/Resources/Fixtures';
+        }
+
+        $container->setParameter('smartesb.fixtures_path',$config['fixtures_path']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

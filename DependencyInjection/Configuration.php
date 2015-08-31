@@ -18,7 +18,15 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
+
         $rootNode = $treeBuilder->root('smartbox_core');
+        $rootNode
+            ->children()
+                ->scalarNode('fixtures_path')
+                    ->info("Base path to store/lookup the entity fixtures")
+                    ->defaultNull()
+                ->end()
+            ->end();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

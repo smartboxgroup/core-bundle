@@ -22,9 +22,7 @@ class EntityArray extends Entity
         $this->array = array();
 
         if (is_array($input)) {
-            foreach ($input as $key => $value) {
-                $this->set($key, $value);
-            }
+            $this->setArray($input);
         } else {
             $this->set(0, $input);
         }
@@ -94,6 +92,19 @@ class EntityArray extends Entity
             }
         } else {
             return null;
+        }
+    }
+
+    /**
+     * @param $array
+     */
+    public function setArray($array){
+        if(!is_array($array)){
+            throw new \InvalidArgumentException("Expected array");
+        }
+
+        foreach ($array as $key => $value) {
+            $this->set($key, $value);
         }
     }
 
