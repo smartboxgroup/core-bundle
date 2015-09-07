@@ -9,4 +9,3 @@ sensio_framework_extra:
 
 smartbox_core:
   fixtures_path: "%kernel.root_dir%/../Json"
-  tests_path: "%kernel.root_dir%/../IntegrationTests"

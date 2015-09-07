@@ -31,8 +31,8 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('smartesb:generate:fixture')
-            ->setAliases(array('generate:smartesb:fixture'))
+            ->setName('smartbox:generate:fixture')
+            ->setAliases(array('generate:smartbox:fixture'))
             ->setDescription('Generates a fixture of a smartesb entity serialized in json');
     }
 
@@ -201,6 +201,23 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $result = null;
 
         switch ($tName) {
+            case 'DateTime':
+                $customQuestion = "$field (Datetime, e.g.: '2011-05-24 10:20'): ";
+                $result = $this->ask($customQuestion);
+                try{
+                    $result = new \DateTime($result);
+                }catch (\Exception $ex){
+                    rt($ex,$result);
+                    $result = 'INVALID';
+                }
+
+                while($result == 'INVALID'){
+                    $this->out->writeln("<error>Invalid date. Use the format Year-Month-Day Hours:Minutes.</error>");
+                    $result = $this->ask($customQuestion);
+                }
+
+                break;
+
             case 'integer':
                 $result = $this->ask($question);
                 while (!(is_numeric($result) || empty($result))) {

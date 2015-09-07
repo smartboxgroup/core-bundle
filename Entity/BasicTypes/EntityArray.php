@@ -52,6 +52,8 @@ class EntityArray extends Entity
             $cleanValue = new EntityArray($value);
         } elseif (is_object($value) && $value instanceof Entity) {
             $cleanValue = $value;
+        }elseif(is_object($value) && $value instanceof \DateTime){
+            $cleanValue = new Date($value);
         }
 
         if ($cleanValue === false) {
