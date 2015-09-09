@@ -38,7 +38,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
     public function getCleanDefaultPathForFixture($name){
 
-        $folder = realpath($this->getContainer()->getParameter('smartesb.fixtures_path'));
+        $folder = realpath($this->getContainer()->getParameter('smartcore.fixtures_path'));
 
         if(!file_exists($folder)){
             throw new \RuntimeException("Fixtures folder $folder doesn't exist");
@@ -96,6 +96,20 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $this->out->writeln("<info>Fixture successfully generated in $path.</info>");
     }
 
+    protected function getFullClassFor($class){
+        $namespaces = $this->getContainer()->getParameter('smartcore.entity.namespaces');
+
+        if(class_exists($class)){
+            return $class;
+        }else{
+            foreach($namespaces as $namespace){
+                if(class_exists($namespace.'\\'.$class)){
+                    return $namespace.'\\'.$class;
+                }
+            }
+        }
+    }
+
     /**
      * @param $class
      * @return EntityInterface
@@ -105,6 +119,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         if(!$class){
             $question = "Entity class for $field: ";
             $class = $this->ask($question);
+            $class = $this->getFullClassFor($class);
 
             while(!(is_string($class) && class_exists($class) && is_subclass_of($class,EntityInterface::class))){
                 $this->out->writeln("<error>Invalid entity class.</error>");

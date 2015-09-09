@@ -26,6 +26,10 @@ class Configuration implements ConfigurationInterface
                     ->info("Base path to store/lookup the entity fixtures")
                     ->defaultNull()
                 ->end()
+                ->arrayNode('entities_namespaces')
+                    ->info("Namespaces to look for entity classes")
+                    ->prototype('scalar')
+                ->end()
             ->end();
 
         // Here you should define the parameters that are allowed to
