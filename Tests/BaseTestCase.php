@@ -4,6 +4,7 @@
 namespace Smartbox\CoreBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 class BaseTestCase extends KernelTestCase
@@ -16,6 +17,9 @@ class BaseTestCase extends KernelTestCase
         return \AppKernel::class;
     }
 
+    /**
+     * @return ContainerInterface
+     */
     public function getContainer()
     {
         return self::$kernel->getContainer();

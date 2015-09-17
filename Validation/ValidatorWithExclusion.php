@@ -82,8 +82,10 @@ class ValidatorWithExclusion extends ValidatorDecorator
             $className = get_class($object);
             $meta = $this->metadataFactory->getMetadataForClass($className);
 
-            if (array_key_exists($propertySubPath, $meta->propertyMetadata)) {
-                $propertyMeta = $meta->propertyMetadata[$propertySubPath];
+            $fieldName = preg_replace('/\[[0-9]+\]/','',$propertySubPath);
+
+            if (array_key_exists($fieldName, $meta->propertyMetadata)) {
+                $propertyMeta = $meta->propertyMetadata[$fieldName];
                 $context = SerializationContext::create();
 
                 $exclusionStrategies = array();

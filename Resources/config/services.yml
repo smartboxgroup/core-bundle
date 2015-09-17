@@ -1,6 +1,7 @@
 parameters:
     smartcore.validation.validator.class: Smartbox\CoreBundle\Validation\ValidatorWithExclusion
     smartcore.serialization.subscriber.class: Smartbox\CoreBundle\SerializationHandler\SerializerEventsSubscriber
+    smartcore.hydrator.group_version.class: Smartbox\CoreBundle\Hydrator\GroupVersionHydrator
 
 services:
     smartcore.serialization.subscriber:
@@ -14,3 +15,7 @@ services:
         calls:
             - [ setDecoratedValidator, [ @smartcore.validation.validator.inner ] ]
             - [ setMetadataFactory, [ @jms_serializer.metadata_factory ] ]
+
+    smartcore.hydrator.group_version:
+        class: %smartcore.hydrator.group_version.class%
+        arguments: [@jms_serializer.metadata_factory]
