@@ -93,7 +93,7 @@ class TestNestedEntity extends Entity {
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
+     * @return \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
     public function getAssocItems()
     {
@@ -101,7 +101,7 @@ class TestNestedEntity extends Entity {
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity $assoc_items
+     * @param \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[] $assoc_items
      */
     public function setAssocItems($assoc_items)
     {
@@ -109,7 +109,7 @@ class TestNestedEntity extends Entity {
     }
 
     /**
-     * @return Entity
+     * @return Entity[]
      */
     public function getGenericItems()
     {
@@ -117,7 +117,7 @@ class TestNestedEntity extends Entity {
     }
 
     /**
-     * @param Entity $generic_items
+     * @param Entity[] $generic_items
      */
     public function setGenericItems($generic_items)
     {
