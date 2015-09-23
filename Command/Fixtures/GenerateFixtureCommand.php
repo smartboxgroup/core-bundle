@@ -222,7 +222,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 try{
                     $result = new \DateTime($result);
                 }catch (\Exception $ex){
-                    rt($ex,$result);
                     $result = 'INVALID';
                 }
 
