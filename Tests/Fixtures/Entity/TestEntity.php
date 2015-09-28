@@ -23,7 +23,7 @@ class TestEntity extends Entity{
      * @Assert\Type(type="string")
      * @Assert\NotBlank
      * @JMS\Groups({"A","B"})
-     * @JMS\Since("v2")
+     * @JMS\Since("2")
      * @JMS\Type("string")
      */
     protected $description;

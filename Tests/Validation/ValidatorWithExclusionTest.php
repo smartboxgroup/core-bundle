@@ -60,9 +60,9 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
             array("A",null,2),
             array("B",null,1),
             array("XXX",null,0),
-            array(null,"v2",3),
+            array(null,"2",3),
             array(null,"v1",2),
-            array("A","v2",2),
+            array("A","2",2),
             array("A","v1",1),
         );
     }
