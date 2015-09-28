@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\Serializer;
 
+use JMS\Serializer\Construction\ObjectConstructorInterface;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 /**
@@ -16,12 +17,14 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
      * Constructor
      *
      * @param PropertyNamingStrategyInterface $namingStrategy
+     * @param ObjectConstructorInterface $objectConstructor
      * @param DeserializationCastingChecker $castingChecker
      */
     public function __construct(PropertyNamingStrategyInterface $namingStrategy,
+                                ObjectConstructorInterface $objectConstructor,
                                 DeserializationCastingChecker $castingChecker)
     {
-        parent::__construct($namingStrategy);
+        parent::__construct($namingStrategy, $objectConstructor);
         $this->castingChecker = $castingChecker;
     }
 }

@@ -18,11 +18,15 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     {
         $builder = new SerializerBuilder();
 
+        /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
+        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')->getMock();
+
         $this->serializer = $builder
             ->setDeserializationVisitor(
                 'json',
                 new JsonDeserializationVisitor(
                     new IdenticalPropertyNamingStrategy(),
+                    $objectConstructor,
                     new StrongDeserializationCastingChecker()
                 )
             )
