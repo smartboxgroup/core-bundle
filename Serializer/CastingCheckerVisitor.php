@@ -10,7 +10,7 @@ use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchExceptio
  * Trait CastingCheckerAwareVisitor
  * @package Smartbox\CoreBundle\Serializer
  */
-trait CastingCheckerAwareVisitor
+trait CastingCheckerVisitor
 {
     /**
      * @var DeserializationCastingChecker

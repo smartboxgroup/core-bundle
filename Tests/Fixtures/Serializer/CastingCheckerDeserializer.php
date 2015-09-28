@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Fixtures\Serializer;
 
 use JMS\Serializer\Context;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
-use Smartbox\CoreBundle\Serializer\CastingCheckerAwareVisitor;
+use Smartbox\CoreBundle\Serializer\CastingCheckerVisitor;
 use Smartbox\CoreBundle\Serializer\DeserializationCastingChecker;
 
 class DummyParent
@@ -18,7 +18,7 @@ class DummyParent
 
 class CastingCheckerDeserializer extends DummyParent
 {
-    use CastingCheckerAwareVisitor;
+    use CastingCheckerVisitor;
 
     /** @var PropertyNamingStrategyInterface */
     private $namingStrategy;

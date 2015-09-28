@@ -6,7 +6,7 @@ use Smartbox\CoreBundle\Tests\Fixtures\Serializer\CastingCheckerDeserializer;
 
 class CastingCheckerAwareVisitorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Smartbox\CoreBundle\Serializer\CastingCheckerAwareVisitor */
+    /** @var \Smartbox\CoreBundle\Serializer\CastingCheckerVisitor */
     private $visitor;
 
     /** @var \JMS\Serializer\Naming\PropertyNamingStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */

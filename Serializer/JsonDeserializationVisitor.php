@@ -11,7 +11,7 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
  */
 class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisitor
 {
-    use CastingCheckerAwareVisitor;
+    use CastingCheckerVisitor;
 
     /**
      * Constructor

@@ -11,7 +11,7 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
  */
 class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisitor
 {
-    use CastingCheckerAwareVisitor;
+    use CastingCheckerVisitor;
 
     /**
      * Constructor
