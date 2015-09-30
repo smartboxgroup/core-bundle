@@ -46,7 +46,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
             ->addOption(
                 'raw-output',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Determine a group of entity'
             )
         ;
@@ -67,7 +67,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
         $entityClass = $this->in->getArgument('entity');
         $group = $this->in->getOption('entity-group');
         $version = $this->in->getOption('entity-version');
-        $rawOutput = $this->in->hasOption('raw-output');
+        $rawOutput = $this->in->getOption('raw-output');
 
         if (!$rawOutput) {
             $this->out->writeln("<info>####################################</info>");
