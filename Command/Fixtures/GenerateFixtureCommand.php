@@ -7,11 +7,12 @@ use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
 use JMS\Serializer\Exclusion\VersionExclusionStrategy;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
+use Smartbox\CoreBundle\Entity\Context\ContextFactory;
 use Smartbox\CoreBundle\Entity\Entity;
 use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -27,6 +28,9 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     protected $version;
 
     protected $path;
+
+    /** @var NamespaceResolver */
+    protected $namespaceResolver;
 
     protected function configure()
     {
@@ -69,6 +73,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     {
         $this->in = $in;
         $this->out = $out;
+        $this->namespaceResolver = $this->getContainer()->get('smartcore.helper.entity_namespace_resolver');
 
         $this->out->writeln("<info>###################################</info>");
         $this->out->writeln("<info>##       Fixture generator       ##</info>");
@@ -81,12 +86,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $path = $this->getCleanDefaultPathForFixture($name);
 
-        $context = new SerializationContext();
-        $context->setVersion($entity->getVersion());
-
-        if ($entity->getGroup()) {
-            $context->setGroups(array($entity->getGroup(), Entity::GROUP_METADATA, Entity::GROUP_DEFAULT));
-        }
+        $context = ContextFactory::prepareSerializationContextForFixtures($entity->getGroup(), $entity->getVersion());
 
         $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
 
@@ -94,20 +94,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $this->out->writeln("");
         $this->out->writeln("<info>Fixture successfully generated in $path.</info>");
-    }
-
-    protected function getFullClassFor($class){
-        $namespaces = $this->getContainer()->getParameter('smartcore.entity.namespaces');
-
-        if(class_exists($class)){
-            return $class;
-        }else{
-            foreach($namespaces as $namespace){
-                if(class_exists($namespace.'\\'.$class)){
-                    return $namespace.'\\'.$class;
-                }
-            }
-        }
     }
 
     /**
@@ -119,7 +105,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         if(!$class){
             $question = "Entity class for $field: ";
             $class = $this->ask($question);
-            $class = $this->getFullClassFor($class);
+            $class = $this->namespaceResolver->resolveNamespaceForClass($class);
 
             while(!(is_string($class) && class_exists($class) && is_subclass_of($class,EntityInterface::class))){
                 $this->out->writeln("<error>Invalid entity class.</error>");

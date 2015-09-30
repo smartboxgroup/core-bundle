@@ -1,3 +1,4 @@
+.idea/
 Tests/Fixtures/app/cache/
 composer.lock
 vendor

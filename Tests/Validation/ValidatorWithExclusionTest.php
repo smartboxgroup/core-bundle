@@ -1,12 +1,13 @@
 <?php
 
-namespace Smartbox\ApiBundle\Tests\Services\Validation;
+namespace Smartbox\CoreBundle\Tests\Services\Validation;
 
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\Metadata\Driver\AnnotationDriver;
 use Metadata\MetadataFactory;
 use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Validation\ValidatorWithExclusion;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -57,13 +58,13 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
         // Group, Version, Errors
         return array(
             array(null,null,3),
-            array("A",null,2),
-            array("B",null,1),
+            array(EntityConstants::GROUP_A,null,3),
+            array(EntityConstants::GROUP_B,null,2),
             array("XXX",null,0),
-            array(null,"v2",3),
-            array(null,"v1",2),
-            array("A","v2",2),
-            array("A","v1",1),
+            array(null,EntityConstants::VERSION_2,3),
+            array(null,EntityConstants::VERSION_1,2),
+            array(EntityConstants::GROUP_A,EntityConstants::VERSION_2,3),
+            array(EntityConstants::GROUP_A,EntityConstants::VERSION_1,2),
         );
     }
 

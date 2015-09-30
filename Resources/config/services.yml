@@ -2,6 +2,8 @@ parameters:
     smartcore.validation.validator.class: Smartbox\CoreBundle\Validation\ValidatorWithExclusion
     smartcore.serialization.subscriber.class: Smartbox\CoreBundle\SerializationHandler\SerializerEventsSubscriber
     smartcore.hydrator.group_version.class: Smartbox\CoreBundle\Hydrator\GroupVersionHydrator
+    smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
+    smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
 
 services:
     smartcore.serialization.subscriber:
@@ -19,3 +21,11 @@ services:
     smartcore.hydrator.group_version:
         class: %smartcore.hydrator.group_version.class%
         arguments: [@jms_serializer.metadata_factory]
+
+    smartcore.helper.entity_namespace_resolver:
+        class: %smartcore.helper.namespace_resolver.class%
+        arguments: ['%smartcore.entity.namespaces%']
+
+    smartcore.generator.random_fixture:
+        class: %smartcore.generator.random_fixture.class%
+        arguments: [@jms_serializer.metadata_factory, @smartcore.helper.entity_namespace_resolver]

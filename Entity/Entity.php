@@ -24,7 +24,7 @@ class Entity implements EntityInterface
      * @JMS\VirtualProperty
      * @JMS\SerializedName("type")
      * @JMS\Type("string")
-     * @JMS\Groups({"metadata"})
+     * @JMS\Groups({Entity::GROUP_METADATA})
      * @return string
      */
     public function getType()
