@@ -9,10 +9,6 @@ use Smartbox\CoreBundle\Entity\Traits\HasVersion;
 
 class Entity implements EntityInterface
 {
-    const GROUP_PUBLIC = 'public';
-    const GROUP_METADATA = 'metadata';
-    const GROUP_DEFAULT = 'Default';
-
     use HasGroup;
     use HasVersion;
 
