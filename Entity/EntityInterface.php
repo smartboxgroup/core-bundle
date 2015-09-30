@@ -1,11 +1,12 @@
 <?php
 
-
 namespace Smartbox\CoreBundle\Entity;
-
 
 interface EntityInterface
 {
+    const GROUP_PUBLIC = 'public';
+    const GROUP_METADATA = 'metadata';
+    const GROUP_DEFAULT = 'Default';
 
     public function __construct();
 

@@ -116,7 +116,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
     {
         if (is_object($value) && $value instanceof EntityInterface) {
             if (!$groups && $value->getGroup()) {
-                $groups = array($value->getGroup(), Entity::GROUP_DEFAULT);
+                $groups = array($value->getGroup(), EntityInterface::GROUP_DEFAULT);
             }
         }
 

@@ -85,7 +85,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $context->setVersion($entity->getVersion());
 
         if ($entity->getGroup()) {
-            $context->setGroups(array($entity->getGroup(), Entity::GROUP_METADATA, Entity::GROUP_DEFAULT));
+            $context->setGroups(array($entity->getGroup(), EntityInterface::GROUP_METADATA, EntityInterface::GROUP_DEFAULT));
         }
 
         $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
@@ -263,8 +263,8 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 break;
 
             default:
-                if (is_string($tName) && class_exists($tName) && is_subclass_of($tName, EntityInterface::class)) {
-                    if ($tName == Entity::class) {
+                if (is_string($tName) && class_exists($tName) && is_a($tName, EntityInterface::class, true)) {
+                    if ($tName == EntityInterface::class) {
                         $tName = null;
                     }
 
@@ -290,8 +290,8 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                             }
 
                             $serializer  = $this->getContainer()->get('serializer');
-                            $obj = $serializer->deserialize(file_get_contents($path),Entity::class,'json');
-                            if(!$obj || ($tName && !(is_a($obj,$tName) || is_subclass_of($obj,$tName)))){
+                            $obj = $serializer->deserialize(file_get_contents($path), Entity::class, 'json');
+                            if(!$obj || ($tName && !(is_a($obj, $tName) || is_subclass_of($obj, $tName)))){
                                 $this->out->writeln("<error>The given fixture is not of type: $tName but of type ".$obj->getType()."</error>");
                             }else{
                                 $result = $obj;

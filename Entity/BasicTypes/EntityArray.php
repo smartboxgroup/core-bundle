@@ -5,6 +5,7 @@ namespace Smartbox\CoreBundle\Entity\BasicTypes;
 
 use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Entity\EntityInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EntityArray extends Entity
@@ -30,7 +31,7 @@ class EntityArray extends Entity
 
     /**
      * @param string $key
-     * @param Entity $value
+     * @param EntityInterface $value
      */
     public function set($key, $value)
     {
@@ -50,7 +51,7 @@ class EntityArray extends Entity
             }
         } elseif (is_array($value) && count($value) > 0) {
             $cleanValue = new EntityArray($value);
-        } elseif (is_object($value) && $value instanceof Entity) {
+        } elseif (is_object($value) && $value instanceof EntityInterface) {
             $cleanValue = $value;
         }elseif(is_object($value) && $value instanceof \DateTime){
             $cleanValue = new Date($value);
