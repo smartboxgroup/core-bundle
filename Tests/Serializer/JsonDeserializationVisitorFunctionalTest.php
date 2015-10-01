@@ -9,6 +9,7 @@ use JMS\Serializer\SerializerInterface;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
+use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 
 class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,7 +71,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         // should not be triggered
 
         $context = new DeserializationContext();
-        $context->setVersion(1);
+        $context->setVersion(EntityConstants::VERSION_1);
 
         $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json', $context);
         $this->assertEquals('some title', $obj->getTitle());
@@ -94,7 +95,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         // should not be triggered
 
         $context = new DeserializationContext();
-        $context->setGroups(['B']);
+        $context->setGroups([EntityConstants::GROUP_C]);
 
         $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json', $context);
         $this->assertNull($obj->getTitle());

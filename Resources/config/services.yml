@@ -6,6 +6,8 @@ parameters:
     smartcore.deserialization_types_validator.class: Smartbox\CoreBundle\Serializer\DeserializationTypesValidator
     smartcore.xml_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\XmlDeserializationVisitor
     smartcore.json_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor
+    smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
+    smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
 
 services:
     smartcore.serialization.subscriber:
@@ -44,3 +46,11 @@ services:
         arguments: [@smartcore.deserialization_types_validator]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: json }
+
+    smartcore.helper.entity_namespace_resolver:
+        class: %smartcore.helper.namespace_resolver.class%
+        arguments: ['%smartcore.entity.namespaces%']
+
+    smartcore.generator.random_fixture:
+        class: %smartcore.generator.random_fixture.class%
+        arguments: [@jms_serializer.metadata_factory, @smartcore.helper.entity_namespace_resolver]

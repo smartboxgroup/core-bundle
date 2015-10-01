@@ -6,15 +6,12 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Smartbox\CoreBundle\Entity\Entity;
 
-class TestEntity extends Entity{
-
-    const GROUP_A = 'A';
-    const GROUP_B = 'B';
-
+class TestEntity extends Entity
+{
     /**
      * @Assert\Type(type="string")
      * @Assert\NotBlank
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @JMS\Type("string")
      */
     protected $title;
@@ -22,8 +19,8 @@ class TestEntity extends Entity{
     /**
      * @Assert\Type(type="string")
      * @Assert\NotBlank
-     * @JMS\Groups({"A","B"})
-     * @JMS\Since("2")
+     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B, EntityConstants::GROUP_C})
+     * @JMS\Since(EntityConstants::VERSION_2)
      * @JMS\Type("string")
      */
     protected $description;
@@ -31,6 +28,7 @@ class TestEntity extends Entity{
     /**
      * @Assert\Type(type="string")
      * @Assert\NotBlank
+     * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @JMS\Type("string")
      */
     protected $note;

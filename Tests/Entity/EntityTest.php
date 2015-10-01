@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\ApiBundle\Tests\Entity;
+namespace Smartbox\CoreBundle\Tests\Entity;
 
 
 use JMS\Serializer\Serializer;

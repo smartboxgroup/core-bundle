@@ -7,39 +7,39 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Smartbox\CoreBundle\Entity\Entity;
 
-class TestNestedEntity extends Entity {
-
+class TestNestedEntity extends Entity
+{
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_A})
      * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
      */
     protected $item;
 
     /**
      * @var Entity
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_A})
      * @JMS\Type("Smartbox\CoreBundle\Entity\Entity")
      */
     protected $generic_item;
 
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_A})
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
      */
     protected $items;
 
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_A})
      * @JMS\Type("array<string,Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
      */
     protected $assoc_items;
 
     /**
      * @var Entity
-     * @JMS\Groups({"A"})
+     * @JMS\Groups({EntityConstants::GROUP_A})
      * @JMS\Type("array<Smartbox\CoreBundle\Entity\Entity>")
      */
     protected $generic_items;
