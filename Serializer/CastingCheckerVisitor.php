@@ -7,7 +7,7 @@ use JMS\Serializer\Metadata\PropertyMetadata;
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 
 /**
- * Trait CastingCheckerAwareVisitor
+ * Trait CastingCheckerVisitor
  * @package Smartbox\CoreBundle\Serializer
  */
 trait CastingCheckerVisitor

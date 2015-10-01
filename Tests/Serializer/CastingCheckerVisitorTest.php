@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use Smartbox\CoreBundle\Tests\Fixtures\Serializer\CastingCheckerDeserializer;
 
-class CastingCheckerAwareVisitorTest extends \PHPUnit_Framework_TestCase
+class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Smartbox\CoreBundle\Serializer\CastingCheckerVisitor */
     private $visitor;
