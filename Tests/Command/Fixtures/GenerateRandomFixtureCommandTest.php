@@ -107,32 +107,4 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
             'Generated entity should be instance of ' . TestComplexEntity::class
         );
     }
-
-//    public function testExecuteForFailureOutput()
-//    {
-//        $this->markTestSkipped('After fixing a problem with excluding fields regarding to different groups in ValidatorWithExclusion this test should pass.');
-//
-//        $kernel = $this->createKernel();
-//        $kernel->boot();
-//
-//        $application = new Application($kernel);
-//        $application->add(new JsonFilesValidationCommand());
-//
-//        $path = '@SmartboxIntegrationFrameworkBundle/Tests/Unit/Command/fixtures/failure';
-//
-//        $command = $application->find('smartbox:integration:framework:validate_fixtures');
-//        $commandTester = new CommandTester($command);
-//        $commandTester->execute(array(
-//            'command'      => $command->getName(),
-//            'path'         => $path,
-//        ));
-//
-//        $this->assertRegExp(
-//            sprintf(
-//                '/Some fixture files in "%s" directory have invalid format./',
-//                '@SmartboxIntegrationFrameworkBundle\/Tests\/Unit\/Command\/fixtures\/failure'
-//            ),
-//            $commandTester->getDisplay()
-//        );
-//    }
 }
