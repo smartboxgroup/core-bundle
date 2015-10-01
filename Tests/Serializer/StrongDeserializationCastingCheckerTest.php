@@ -20,14 +20,14 @@ class StrongDeserializationCastingCheckerTest extends \PHPUnit_Framework_TestCas
             [''],
             ['some string'],
             ['123456'],
+            [123456],
+            [22.1767],
+            [0],
         ];
     }
 
     public function invalidString() {
         return [
-            [123456],
-            [22.1767],
-            [0],
             [[]],
             [new \stdClass()],
         ];

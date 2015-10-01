@@ -13,7 +13,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToString($data)
     {
-        return is_string($data) || is_null($data);
+        return !is_object($data) && !is_array($data) ;
     }
 
     /**
