@@ -4,14 +4,14 @@ namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\GenericDeserializationVisitor;
-use Smartbox\CoreBundle\Serializer\DeserializationVisitorValidator;
+use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 
 class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \JMS\Serializer\GenericDeserializationVisitor|\PHPUnit_Framework_MockObject_MockObject */
     private $visitorMock;
 
-    /** @var DeserializationVisitorValidator|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DeserializationTypesValidator|\PHPUnit_Framework_MockObject_MockObject */
     private $visitorValidator;
 
     /** @var \JMS\Serializer\Naming\PropertyNamingStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -62,7 +62,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock()
         ;
-        $this->visitorValidator = new DeserializationVisitorValidator($this->castingChecker);
+        $this->visitorValidator = new DeserializationTypesValidator($this->castingChecker);
     }
 
     /**

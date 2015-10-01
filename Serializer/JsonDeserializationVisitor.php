@@ -13,18 +13,18 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisitor
 {
     /**
-     * @var DeserializationVisitorValidator
+     * @var DeserializationTypesValidator
      */
     protected $visitorValidator;
 
     /**
      * @param PropertyNamingStrategyInterface $namingStrategy
      * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationVisitorValidator $visitorValidator
+     * @param DeserializationTypesValidator $visitorValidator
      */
     public function __construct(PropertyNamingStrategyInterface $namingStrategy,
                                 ObjectConstructorInterface $objectConstructor,
-                                DeserializationVisitorValidator $visitorValidator)
+                                DeserializationTypesValidator $visitorValidator)
     {
         parent::__construct($namingStrategy, $objectConstructor);
 

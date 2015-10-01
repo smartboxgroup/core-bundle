@@ -11,7 +11,7 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 use JMS\Serializer\VisitorInterface;
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 
-class DeserializationVisitorValidator
+class DeserializationTypesValidator
 {
     /**
      * @var DeserializationCastingCheckerInterface
