@@ -74,14 +74,14 @@ class RandomFixtureGeneratorTest extends KernelTestCase
         $serializedEntity = $serializer->serialize(
             $entity,
             'json',
-            ContextFactory::prepareSerializationContextForFixtures($group, $version)
+            ContextFactory::createSerializationContextForFixtures($group, $version)
         );
 
         $deserializedEntity = $serializer->deserialize(
             $serializedEntity,
             TestComplexEntity::class,
             'json',
-            ContextFactory::prepareDeserializationContextForFixtures($group, $version)
+            ContextFactory::createDeserializationContextForFixtures($group, $version)
         );
 
         $this->assertEquals(TestComplexEntity::class, get_class($entity));

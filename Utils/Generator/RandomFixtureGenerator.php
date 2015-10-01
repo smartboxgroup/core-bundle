@@ -60,7 +60,7 @@ class RandomFixtureGenerator
         $versionExclusion = new VersionExclusionStrategy($version);
         $groupExclusion = new GroupsExclusionStrategy(array($group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC));
         $propertyAccessor = new PropertyAccessor();
-        $context = ContextFactory::prepareSerializationContextForFixtures($group, $version);
+        $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
         $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
 

@@ -2,6 +2,10 @@ parameters:
     smartcore.validation.validator.class: Smartbox\CoreBundle\Validation\ValidatorWithExclusion
     smartcore.serialization.subscriber.class: Smartbox\CoreBundle\SerializationHandler\SerializerEventsSubscriber
     smartcore.hydrator.group_version.class: Smartbox\CoreBundle\Hydrator\GroupVersionHydrator
+    smartcore.deserialization_casting_checker.class: Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker
+    smartcore.deserialization_types_validator.class: Smartbox\CoreBundle\Serializer\DeserializationTypesValidator
+    smartcore.xml_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\XmlDeserializationVisitor
+    smartcore.json_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
     smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
 
@@ -21,6 +25,27 @@ services:
     smartcore.hydrator.group_version:
         class: %smartcore.hydrator.group_version.class%
         arguments: [@jms_serializer.metadata_factory]
+
+    smartcore.deserialization_casting_checker:
+        class: %smartcore.deserialization_casting_checker.class%
+
+    smartcore.deserialization_types_validator:
+        class: %smartcore.deserialization_types_validator.class%
+        arguments: [@smartcore.deserialization_casting_checker]
+
+    smartcore.xml_deserialization_visitor:
+        class: %smartcore.xml_deserialization_visitor.class%
+        parent: jms_serializer.xml_deserialization_visitor
+        arguments: [@smartcore.deserialization_types_validator]
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: xml }
+
+    smartcore.json_deserialization_visitor:
+        class: %smartcore.json_deserialization_visitor.class%
+        parent: jms_serializer.json_deserialization_visitor
+        arguments: [@smartcore.deserialization_types_validator]
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: json }
 
     smartcore.helper.entity_namespace_resolver:
         class: %smartcore.helper.namespace_resolver.class%

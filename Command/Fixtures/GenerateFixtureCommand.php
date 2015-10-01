@@ -86,7 +86,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $path = $this->getCleanDefaultPathForFixture($name);
 
-        $context = ContextFactory::prepareSerializationContextForFixtures($entity->getGroup(), $entity->getVersion());
+        $context = ContextFactory::createSerializationContextForFixtures($entity->getGroup(), $entity->getVersion());
 
         $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
 

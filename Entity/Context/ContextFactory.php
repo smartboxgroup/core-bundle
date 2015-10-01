@@ -22,7 +22,7 @@ class ContextFactory
         }
 
         if (!is_null($group)) {
-            $context->setGroups([$group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC]);
+            $context->setGroups([$group, Entity::GROUP_METADATA]);
         }
 
         return $context;
@@ -33,7 +33,7 @@ class ContextFactory
      * @param $version
      * @return SerializationContext
      */
-    public static function prepareSerializationContextForFixtures($group, $version)
+    public static function createSerializationContextForFixtures($group, $version)
     {
         return self::prepareContextForFixtures(new SerializationContext(), $group, $version);
     }
@@ -43,7 +43,7 @@ class ContextFactory
      * @param $version
      * @return DeserializationContext
      */
-    public static function prepareDeserializationContextForFixtures($group, $version)
+    public static function createDeserializationContextForFixtures($group, $version)
     {
         return self::prepareContextForFixtures(new DeserializationContext(), $group, $version);
     }

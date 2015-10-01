@@ -40,14 +40,13 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
                 'entity-group',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Determine a group of entity',
-                EntityConstants::GROUP_DEFAULT
+                'Determine a group of entity'
             )
             ->addOption(
                 'raw-output',
                 null,
                 InputOption::VALUE_NONE,
-                'Determine a group of entity'
+                'If set raw json without comments will be printed'
             )
         ;
     }
@@ -80,7 +79,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
 
         $randomFixtureGenerator = $this->getContainer()->get('smartcore.generator.random_fixture');
         $entity = $randomFixtureGenerator->generate($entityNamespace, $group, $version);
-        $context = ContextFactory::prepareSerializationContextForFixtures($group, $version);
+        $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
         $result = $serializer->serialize($entity, 'json', $context);
         if (!$rawOutput) {

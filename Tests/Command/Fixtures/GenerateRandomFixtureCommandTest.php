@@ -59,8 +59,8 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      * @covers ::execute
      * @covers Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator::generate
      * @covers Smartbox\CoreBundle\Utils\Helper\NamespaceResolver::resolveNamespaceForClass
-     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::prepareSerializationContextForFixtures
-     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::prepareDeserializationContextForFixtures
+     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::createSerializationContextForFixtures
+     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::createDeserializationContextForFixtures
      *
      * @param $group
      * @param $version
@@ -83,6 +83,8 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
             $commandConfiguration['--entity-version'] = $version;
         }
 
+        $commandConfiguration['--raw-output'] = true;
+
         $commandTester->execute(
             array_merge(
                 array(
@@ -100,7 +102,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
                 $commandTester->getDisplay(),
                 TestComplexEntity::class,
                 'json',
-                ContextFactory::prepareDeserializationContextForFixtures($group, $version)
+                ContextFactory::createDeserializationContextForFixtures($group, $version)
             ),
             'Generated entity should be instance of ' . TestComplexEntity::class
         );

@@ -19,7 +19,7 @@ class TestEntity extends Entity
     /**
      * @Assert\Type(type="string")
      * @Assert\NotBlank
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B, EntityConstants::GROUP_C})
      * @JMS\Since(EntityConstants::VERSION_2)
      * @JMS\Type("string")
      */
