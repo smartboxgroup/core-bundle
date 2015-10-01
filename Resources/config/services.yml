@@ -3,6 +3,7 @@ parameters:
     smartcore.serialization.subscriber.class: Smartbox\CoreBundle\SerializationHandler\SerializerEventsSubscriber
     smartcore.hydrator.group_version.class: Smartbox\CoreBundle\Hydrator\GroupVersionHydrator
     smartcore.deserialization_casting_checker.class: Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker
+    smartcore.deserialization_visitor.validator.class: Smartbox\CoreBundle\Serializer\DeserializationVisitorValidator
     smartcore.xml_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\XmlDeserializationVisitor
     smartcore.json_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor
 
@@ -26,16 +27,20 @@ services:
     smartcore.deserialization_casting_checker:
         class: %smartcore.deserialization_casting_checker.class%
 
+    smartcore.deserialization_visitor.validator:
+        class: %smartcore.deserialization_visitor.validator.class%
+        arguments: [@smartcore.deserialization_casting_checker]
+
     smartcore.xml_deserialization_visitor:
         class: %smartcore.xml_deserialization_visitor.class%
         parent: jms_serializer.xml_deserialization_visitor
-        arguments: [@smartcore.deserialization_casting_checker]
+        arguments: [@smartcore.deserialization_visitor.validator]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: xml }
 
     smartcore.json_deserialization_visitor:
         class: %smartcore.json_deserialization_visitor.class%
         parent: jms_serializer.json_deserialization_visitor
-        arguments: [@smartcore.deserialization_casting_checker]
+        arguments: [@smartcore.deserialization_visitor.validator]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: json }

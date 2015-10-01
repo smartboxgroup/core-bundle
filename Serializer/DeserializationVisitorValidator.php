@@ -2,28 +2,45 @@
 
 namespace Smartbox\CoreBundle\Serializer;
 
+use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\Context;
+use JMS\Serializer\GraphNavigator;
+use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
+use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
+use JMS\Serializer\VisitorInterface;
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 
-/**
- * Trait CastingCheckerVisitor
- * @package Smartbox\CoreBundle\Serializer
- */
-trait CastingCheckerVisitor
+class DeserializationVisitorValidator
 {
     /**
-     * @var DeserializationCastingChecker
+     * @var DeserializationCastingCheckerInterface
      */
-    private $castingChecker;
+    protected $castingChecker;
 
     /**
-     * {@inheritDoc}
+     * @var PropertyNamingStrategyInterface
      */
-    public function visitString($data, array $type, Context $context)
-    {
-        $data = $this->fixXmlNode($data);
+    protected $namingStrategy;
 
+    /**
+     * @param DeserializationCastingCheckerInterface $castingChecker
+     */
+    public function __construct(DeserializationCastingCheckerInterface $castingChecker)
+    {
+        $this->castingChecker = $castingChecker;
+    }
+
+    /**
+     * @param PropertyNamingStrategyInterface $namingStrategy
+     */
+    public function setNamingStrategy(PropertyNamingStrategyInterface $namingStrategy)
+    {
+        $this->namingStrategy = $namingStrategy;
+    }
+
+    public function validateString($data, Context $context, $currentObject)
+    {
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
@@ -32,20 +49,14 @@ trait CastingCheckerVisitor
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
                     $this->getCurrentClassName($context),
-                    $data, 'string', $this->getCurrentObject()
+                    $data, 'string', $currentObject
                 );
             }
         }
-        return parent::visitString($data, $type, $context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function visitBoolean($data, array $type, Context $context)
+    public function validateBoolean($data, Context $context, $currentObject)
     {
-        $data = $this->fixXmlNode($data);
-
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
@@ -54,43 +65,14 @@ trait CastingCheckerVisitor
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
                     $this->getCurrentClassName($context),
-                    $data, 'boolean', $this->getCurrentObject()
+                    $data, 'boolean', $currentObject
                 );
             }
         }
-        return parent::visitBoolean($data, $type, $context);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function visitInteger($data, array $type, Context $context)
+    public function validateDouble($data, Context $context, $currentObject)
     {
-        $data = $this->fixXmlNode($data);
-
-        if (null === $context->getExclusionStrategy() ||
-            !$context->getExclusionStrategy()
-                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
-
-            if (!$this->castingChecker->canBeCastedToInteger($data)) {
-                throw new DeserializationTypeMismatchException(
-                    $this->getCurrentPropertyName($context),
-                    $this->getCurrentClassName($context),
-                    $data, 'integer', $this->getCurrentObject()
-                );
-            }
-        }
-
-        return parent::visitInteger($data, $type, $context);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function visitDouble($data, array $type, Context $context)
-    {
-        $data = $this->fixXmlNode($data);
-
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
@@ -99,12 +81,26 @@ trait CastingCheckerVisitor
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
                     $this->getCurrentClassName($context),
-                    $data, 'double', $this->getCurrentObject()
+                    $data, 'double', $currentObject
                 );
             }
         }
+    }
 
-        return parent::visitDouble($data, $type, $context);
+    public function validateInteger($data, Context $context, $currentObject)
+    {
+        if (null === $context->getExclusionStrategy() ||
+            !$context->getExclusionStrategy()
+                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
+
+            if (!$this->castingChecker->canBeCastedToInteger($data)) {
+                throw new DeserializationTypeMismatchException(
+                    $this->getCurrentPropertyName($context),
+                    $this->getCurrentClassName($context),
+                    $data, 'integer', $currentObject
+                );
+            }
+        }
     }
 
     /**
@@ -148,20 +144,5 @@ trait CastingCheckerVisitor
         }
 
         return $class;
-    }
-
-    /**
-     * @param $data
-     * @return string
-     */
-    private function fixXmlNode($data) {
-        if ($data instanceof \SimpleXMLElement) {
-
-            if (in_array(dom_import_simplexml($data)->firstChild->nodeType, [XML_CDATA_SECTION_NODE, XML_TEXT_NODE])) {
-                $data = $data->__toString();
-            }
-        }
-
-        return $data;
     }
 }

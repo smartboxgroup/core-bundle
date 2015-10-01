@@ -6,6 +6,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
+use Smartbox\CoreBundle\Serializer\DeserializationVisitorValidator;
 use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 
@@ -27,7 +28,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
                 new JsonDeserializationVisitor(
                     new IdenticalPropertyNamingStrategy(),
                     $objectConstructor,
-                    new StrongDeserializationCastingChecker()
+                    new DeserializationVisitorValidator(new StrongDeserializationCastingChecker())
                 )
             )
             ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')

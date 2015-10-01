@@ -3,10 +3,10 @@
 namespace Smartbox\CoreBundle\Serializer;
 
 /**
- * Interface DeserializationCastingChecker
+ * Interface DeserializationCastingCheckerInterface
  * @package Smartbox\CoreBundle\Serializer
  */
-interface DeserializationCastingChecker
+interface DeserializationCastingCheckerInterface
 {
     /**
      * Checks if the given data can be safely casted to string

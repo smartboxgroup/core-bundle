@@ -2,12 +2,17 @@
 
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
-use Smartbox\CoreBundle\Tests\Fixtures\Serializer\CastingCheckerDeserializer;
+use JMS\Serializer\AbstractVisitor;
+use JMS\Serializer\GenericDeserializationVisitor;
+use Smartbox\CoreBundle\Serializer\DeserializationVisitorValidator;
 
-class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
+class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Smartbox\CoreBundle\Serializer\CastingCheckerVisitor */
-    private $visitor;
+    /** @var \JMS\Serializer\GenericDeserializationVisitor|\PHPUnit_Framework_MockObject_MockObject */
+    private $visitorMock;
+
+    /** @var DeserializationVisitorValidator|\PHPUnit_Framework_MockObject_MockObject */
+    private $visitorValidator;
 
     /** @var \JMS\Serializer\Naming\PropertyNamingStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $namingStrategy;
@@ -52,7 +57,12 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
         $this->context->method('getMetadataStack')->will($this->returnValue($this->metadataStack));
         $this->context->method('getExclusionStrategy')->willReturn($this->exclusionStrategy);
 
-        $this->visitor = new CastingCheckerDeserializer($this->namingStrategy, $this->castingChecker, $this->metadataStack);
+        $this->visitorMock = $this
+            ->getMockBuilder(GenericDeserializationVisitor::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $this->visitorValidator = new DeserializationVisitorValidator($this->castingChecker);
     }
 
     /**
@@ -71,7 +81,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->method('canBeCastedToString')
         ;
 
-        $this->visitor->visitString('some string', [], $this->context);
+        $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -91,7 +101,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->visitor->visitString('some string', [], $this->context);
+        $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -112,7 +122,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false))
         ;
 
-        $this->visitor->visitString(11111, [], $this->context);
+        $this->visitorValidator->validateString(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -131,7 +141,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->method('canBeCastedToBoolean')
         ;
 
-        $this->visitor->visitBoolean(true, [], $this->context);
+        $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -151,7 +161,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->visitor->visitBoolean(true, [], $this->context);
+        $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -172,7 +182,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false))
         ;
 
-        $this->visitor->visitBoolean(11111, [], $this->context);
+        $this->visitorValidator->validateBoolean(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -191,7 +201,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->method('canBeCastedToInteger')
         ;
 
-        $this->visitor->visitInteger(17, [], $this->context);
+        $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -211,7 +221,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->visitor->visitInteger(17, [], $this->context);
+        $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -232,7 +242,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false))
         ;
 
-        $this->visitor->visitInteger('notAnInteger', [], $this->context);
+        $this->visitorValidator->validateInteger('notAnInteger', $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -251,7 +261,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->method('canBeCastedToDouble')
         ;
 
-        $this->visitor->visitDouble(22.5, [], $this->context);
+        $this->visitorValidator->validateDouble(22.5, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -271,7 +281,7 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true))
         ;
 
-        $this->visitor->visitDouble(22.4, [], $this->context);
+        $this->visitorValidator->validateDouble(22.4, $this->context, $this->visitorMock->getCurrentObject());
     }
 
     /**
@@ -292,6 +302,6 @@ class CastingCheckerVisitorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false))
         ;
 
-        $this->visitor->visitDouble('notADouble', [], $this->context);
+        $this->visitorValidator->validateDouble('notADouble', $this->context, $this->visitorMock->getCurrentObject());
     }
 }

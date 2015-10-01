@@ -3,6 +3,7 @@
 namespace Smartbox\CoreBundle\Serializer;
 
 use JMS\Serializer\Construction\ObjectConstructorInterface;
+use JMS\Serializer\Context;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 /**
@@ -11,20 +12,50 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
  */
 class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisitor
 {
-    use CastingCheckerVisitor;
+    /**
+     * @var DeserializationVisitorValidator
+     */
+    protected $visitorValidator;
 
     /**
-     * Constructor
-     *
      * @param PropertyNamingStrategyInterface $namingStrategy
      * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationCastingChecker $castingChecker
+     * @param DeserializationVisitorValidator $visitorValidator
      */
     public function __construct(PropertyNamingStrategyInterface $namingStrategy,
                                 ObjectConstructorInterface $objectConstructor,
-                                DeserializationCastingChecker $castingChecker)
+                                DeserializationVisitorValidator $visitorValidator)
     {
         parent::__construct($namingStrategy, $objectConstructor);
-        $this->castingChecker = $castingChecker;
+
+        $visitorValidator->setNamingStrategy($this->namingStrategy);
+        $this->visitorValidator = $visitorValidator;
+    }
+
+    public function visitString($data, array $type, Context $context)
+    {
+        $this->visitorValidator->validateString($data, $context, $this->getCurrentObject());
+
+        return parent::visitString($data, $type, $context);
+    }
+
+    public function visitBoolean($data, array $type, Context $context)
+    {
+        $this->visitorValidator->validateBoolean($data, $context, $this->getCurrentObject());
+
+        return parent::visitBoolean($data, $type, $context);
+    }
+
+    public function visitDouble($data, array $type, Context $context)
+    {
+        $this->visitorValidator->validateDouble($data, $context, $this->getCurrentObject());
+
+        return parent::visitDouble($data, $type, $context);    }
+
+    public function visitInteger($data, array $type, Context $context)
+    {
+        $this->visitorValidator->validateInteger($data, $context, $this->getCurrentObject());
+
+        return parent::visitInteger($data, $type, $context);
     }
 }

@@ -6,7 +6,7 @@ namespace Smartbox\CoreBundle\Serializer;
  * Class StrongDeserializationCastingChecker
  * @package Smartbox\CoreBundle\Serializer
  */
-class StrongDeserializationCastingChecker implements DeserializationCastingChecker
+class StrongDeserializationCastingChecker implements DeserializationCastingCheckerInterface
 {
     /**
      * {@inheritDoc}
