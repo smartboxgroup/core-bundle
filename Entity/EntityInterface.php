@@ -2,7 +2,7 @@
 
 namespace Smartbox\CoreBundle\Entity;
 
-interface EntityInterface
+interface EntityInterface extends SerializableInterface
 {
     const GROUP_PUBLIC = 'public';
     const GROUP_METADATA = 'metadata';
@@ -29,9 +29,4 @@ interface EntityInterface
      * @param string $group
      */
     public function setGroup($group);
-
-    /**
-     * @return string
-     */
-    public function getType();
 }

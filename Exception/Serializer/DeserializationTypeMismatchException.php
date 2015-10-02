@@ -2,11 +2,17 @@
 
 namespace Smartbox\CoreBundle\Exception\Serializer;
 
+use JMS\Serializer\Annotation as JMS;
+
 /**
  * Class DeserializationTypeMismatchException
  * @package Smartbox\CoreBundle\Exception\Serializer
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class DeserializationTypeMismatchException extends \Exception implements \JMS\Serializer\Exception\Exception
+class DeserializationTypeMismatchException
+    extends \Exception
+    implements \JMS\Serializer\Exception\Exception
 {
     /**
      * @var string
@@ -30,6 +36,9 @@ class DeserializationTypeMismatchException extends \Exception implements \JMS\Se
 
     /**
      * @var mixed
+     *
+     * @JMS\Expose
+     * @JMS\Groups({"errorLogs"})
      */
     private $originalData;
 
@@ -113,5 +122,13 @@ class DeserializationTypeMismatchException extends \Exception implements \JMS\Se
         }
 
         return gettype($data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getType()
+    {
+        return get_class($this);
     }
 }

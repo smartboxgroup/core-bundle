@@ -6,6 +6,7 @@ use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Entity\SerializableInterface;
 
 class SerializerEventsSubscriber implements EventSubscriberInterface
 {
@@ -31,7 +32,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
                 $type = $data['type'];
             }
 
-            if (!empty($type) && is_a($type, EntityInterface::class, true)) {
+            if (!empty($type) && is_a($type, SerializableInterface::class, true)) {
                 $event->setType($type);
             }
         }
@@ -41,7 +42,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getObject();
 
-        if (is_object($entity) && $entity instanceof EntityInterface) {
+        if (is_object($entity) && $entity instanceof SerializableInterface) {
             $event->setType($entity->getType());
         }
     }

@@ -2,18 +2,24 @@
 
 namespace Smartbox\CoreBundle\Tests\Entity;
 
-
 use JMS\Serializer\Serializer;
+use Smartbox\CoreBundle\Entity\BasicTypes\Date;
 use Smartbox\CoreBundle\Entity\BasicTypes\EntityArray;
 use Smartbox\CoreBundle\Entity\BasicTypes\Integer;
 use Smartbox\CoreBundle\Entity\BasicTypes\String;
 use Smartbox\CoreBundle\Entity\Entity;
 use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Entity\SerializableInterface;
 use Smartbox\CoreBundle\Tests\BaseTestCase;
+use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
+use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
+/**
+ * Class EntityTest
+ * @package Smartbox\CoreBundle\Tests\Entity
+ */
 class EntityTest extends BaseTestCase
 {
-
     public function validAndInvalidStringsDataProvider()
     {
         $exceptClass = 'InvalidArgumentException';
@@ -107,7 +113,6 @@ class EntityTest extends BaseTestCase
      */
     public function testSerializationEntity(EntityInterface $entity)
     {
-
         /** @var Serializer $serializer */
         $serializer = $this->getContainer()->get('serializer');
 
@@ -121,4 +126,40 @@ class EntityTest extends BaseTestCase
         $this->assertEquals($entity, $entityAfterXml);
     }
 
+    public function serializableObjectsToSerialize()
+    {
+        $thing = new SerializableThing();
+        $thing->setStringValue('foo');
+        $thing->setIntegerValue(17);
+        $thing->setDoubleValue(17.17);
+        $thing->setArrayOfDates([
+            new Date()
+        ]);
+        $thing->setArrayOfEntities([
+            new TestEntity()
+        ]);
+
+        return [
+            [$thing]
+        ];
+    }
+
+    /**
+     * @dataProvider serializableObjectsToSerialize
+     */
+    public function testSerializationSerializable(SerializableInterface $serializable)
+    {
+        /** @var Serializer $serializer */
+        $serializer = $this->getContainer()->get('serializer');
+
+        $json = $serializer->serialize($serializable, 'json');
+
+        $entityAfterJson = $serializer->deserialize($json, SerializableInterface::class, 'json');
+        $this->assertEquals($serializable, $entityAfterJson);
+
+
+        $xml = $serializer->serialize($serializable, 'xml');
+        $entityAfterXml = $serializer->deserialize($xml, SerializableInterface::class, 'xml');
+        $this->assertEquals($serializable, $entityAfterXml);
+    }
 }
