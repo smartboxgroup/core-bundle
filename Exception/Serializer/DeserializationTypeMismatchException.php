@@ -6,7 +6,7 @@ namespace Smartbox\CoreBundle\Exception\Serializer;
  * Class DeserializationTypeMismatchException
  * @package Smartbox\CoreBundle\Exception\Serializer
  */
-class DeserializationTypeMismatchException extends \Exception implements \JMS\Serializer\Exception\Exception
+class DeserializationTypeMismatchException extends \RuntimeException implements \JMS\Serializer\Exception\Exception
 {
     /**
      * @var string
