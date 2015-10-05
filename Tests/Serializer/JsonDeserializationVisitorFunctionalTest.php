@@ -113,7 +113,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $data =
         '{
             "title": "some title",
-            "description": 22,
+            "description": {},
             "note": "some note"
         }';
 
