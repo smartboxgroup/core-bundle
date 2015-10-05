@@ -10,8 +10,8 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @JMS\ExclusionPolicy("all")
  */
-class DeserializationTypeMismatchException
-    extends \Exception
+class DeserializationTypeMismatchException 
+    extends \RuntimeException 
     implements \JMS\Serializer\Exception\Exception
 {
     /**
