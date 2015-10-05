@@ -38,7 +38,7 @@ class DeserializationTypeMismatchException
      * @var mixed
      *
      * @JMS\Expose
-     * @JMS\Groups({"errorLogs"})
+     * @JMS\Groups({"logs"})
      */
     private $originalData;
 

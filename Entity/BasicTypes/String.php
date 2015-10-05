@@ -1,16 +1,19 @@
 <?php
 namespace Smartbox\CoreBundle\Entity\BasicTypes;
 
-
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class String
+ * @package Smartbox\CoreBundle\Entity\BasicTypes
+ */
 class String extends Basic
 {
-
     /**
      * @Assert\Type(type="string")
      * @JMS\Type("string")
+     * @JMS\Groups({"logs"})
      * @var string
      */
     protected $value = "";
@@ -42,7 +45,7 @@ class String extends Basic
         } elseif (is_object($value) && $value instanceof String) {
             $this->value = $value->getValue();
         } else {
-            throw \InvalidArgumentException("Expected string");
+            throw new \InvalidArgumentException("Expected string");
         }
     }
 

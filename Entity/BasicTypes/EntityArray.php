@@ -2,18 +2,21 @@
 
 namespace Smartbox\CoreBundle\Entity\BasicTypes;
 
-
 use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Entity\Entity;
 use Smartbox\CoreBundle\Entity\EntityInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class EntityArray
+ * @package Smartbox\CoreBundle\Entity\BasicTypes
+ */
 class EntityArray extends Entity
 {
-
     /**
      * @var array
      * @JMS\Type("array<string,Smartbox\CoreBundle\Entity\Entity>")
+     * @JMS\Groups({"logs"})
      * @JMS\XmlMap(inline = true)
      */
     protected $array;
@@ -110,5 +113,4 @@ class EntityArray extends Entity
             $this->set($key, $value);
         }
     }
-
 }
