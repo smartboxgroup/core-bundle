@@ -56,36 +56,36 @@ class TestComplexEntity extends Entity
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
+     * @JMS\Type("array<integer>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var \Smartbox\CoreBundle\Type\Integer[]
+     * @var integer[]
      */
     protected $arrayOfIntegers = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
+     * @JMS\Type("array<string>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var \Smartbox\CoreBundle\Type\String[]
+     * @var string[]
      */
     protected $arrayOfStrings = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
+     * @JMS\Type("array<double>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var \Smartbox\CoreBundle\Type\Double[]
+     * @var double[]
      */
     protected $arrayOfDoubles = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
+     * @JMS\Type("array<DateTime>")
      * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var \Smartbox\CoreBundle\Type\Date[]
+     * @var \DateTime[]
      */
     protected $arrayOfDates = [];
 

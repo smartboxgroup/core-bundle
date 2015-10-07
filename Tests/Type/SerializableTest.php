@@ -18,7 +18,7 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
  * Class EntityTest
  * @package Smartbox\CoreBundle\Tests\Entity
  */
-class EntityTest extends BaseTestCase
+class SerializableTest extends BaseTestCase
 {
     public function validAndInvalidStringsDataProvider()
     {
@@ -34,64 +34,7 @@ class EntityTest extends BaseTestCase
         );
     }
 
-    /**
-     * @dataProvider validAndInvalidStringsDataProvider
-     * @param $value
-     * @param $exceptionClass
-     */
-    public function testSetGetGroup($value, $exceptionClass)
-    {
-        $entity = new Entity();
-        $mustFail = !empty($exceptionClass);
-
-        try {
-            $entity->setGroup($value);
-
-            if ($mustFail) {
-                $this->fail("Expected exception $exceptionClass was not raised");
-            } else {
-                $this->assertEquals($value, $entity->getGroup());
-            }
-        } catch (\Exception $ex) {
-            if ($mustFail) {
-                $this->assertEquals(get_class($ex), $exceptionClass);
-            } else {
-                $this->fail("Not expected exception with message: ".$ex->getMessage());
-            }
-        }
-
-    }
-
-    /**
-     * @dataProvider validAndInvalidStringsDataProvider
-     * @param $value
-     * @param $exceptionClass
-     */
-    public function testSetGetVersion($value, $exceptionClass)
-    {
-        $entity = new Entity();
-        $mustFail = !empty($exceptionClass);
-
-        try {
-            $entity->setVersion($value);
-
-            if ($mustFail) {
-                $this->fail("Expected exception $exceptionClass was not raised");
-            } else {
-                $this->assertEquals($value, $entity->getVersion());
-            }
-        } catch (\Exception $ex) {
-            if ($mustFail) {
-                $this->assertEquals(get_class($ex), $exceptionClass);
-
-                return;
-            } else {
-                $this->fail("Not expected exception with message: ".$ex->getMessage());
-            }
-        }
-    }
-
-    public function entitiesToSerializeProvider()
+    public function objectsToSerializeProvider()
     {
         $arrEntityA = new SerializableArray();
         $arrEntityA->set('AAAA', new String("XXXXXXX"));
@@ -109,21 +52,21 @@ class EntityTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider entitiesToSerializeProvider
+     * @dataProvider objectsToSerializeProvider
      */
-    public function testSerializationEntity(EntityInterface $entity)
+    public function testSerializationEntity(SerializableInterface $object)
     {
         /** @var Serializer $serializer */
         $serializer = $this->getContainer()->get('serializer');
 
-        $json = $serializer->serialize($entity, 'json');
+        $json = $serializer->serialize($object, 'json');
         $entityAfterJson = $serializer->deserialize($json, Entity::class, 'json');
-        $this->assertEquals($entity, $entityAfterJson);
+        $this->assertEquals($object, $entityAfterJson);
 
 
-        $xml = $serializer->serialize($entity, 'xml');
+        $xml = $serializer->serialize($object, 'xml');
         $entityAfterXml = $serializer->deserialize($xml, Entity::class, 'xml');
-        $this->assertEquals($entity, $entityAfterXml);
+        $this->assertEquals($object, $entityAfterXml);
     }
 
     public function serializableObjectsToSerialize()
