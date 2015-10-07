@@ -4,94 +4,73 @@ namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
 use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Type\Entity;
-use Symfony\Component\Validator\Constraints as Assert;
+use Smartbox\CoreBundle\Type\SerializableInterface;
+use Smartbox\CoreBundle\Type\Traits\HasType;
 
-class TestComplexEntity extends Entity
+/**
+ * Class SerializableThing
+ * @package Smartbox\CoreBundle\Tests\Fixtures\Entity
+ */
+class SerializableThing implements SerializableInterface
 {
+    use HasType;
+
     /**
      * @JMS\Type("integer")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @JMS\Since(EntityConstants::VERSION_2)
-     * @Assert\Type(type="integer")
-     * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @var int
      */
     protected $integerValue;
 
     /**
      * @JMS\Type("double")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @JMS\Since(EntityConstants::VERSION_1)
-     * @Assert\Type(type="double")
-     * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @var double
      */
     protected $doubleValue;
 
     /**
      * @JMS\Type("string")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @var string
      */
     protected $stringValue;
 
     /**
      * @var Entity
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
      */
     protected $nestedEntity;
 
     /**
-     * @Assert\Type(type="array")
-     * @Assert\Valid
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_B})
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
     protected $arrayOfEntities = [];
 
     /**
-     * @Assert\Type(type="array")
-     * @Assert\Valid
-     * @JMS\Type("array<integer>")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var integer[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
+     * @var \Smartbox\CoreBundle\Type\Integer[]
      */
     protected $arrayOfIntegers = [];
 
     /**
-     * @Assert\Type(type="array")
-     * @Assert\Valid
-     * @JMS\Type("array<string>")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var string[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
+     * @var \Smartbox\CoreBundle\Type\String[]
      */
     protected $arrayOfStrings = [];
 
     /**
-     * @Assert\Type(type="array")
-     * @Assert\Valid
-     * @JMS\Type("array<double>")
-     * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var double[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
+     * @var \Smartbox\CoreBundle\Type\Double[]
      */
     protected $arrayOfDoubles = [];
 
     /**
-     * @Assert\Type(type="array")
-     * @Assert\Valid
-     * @JMS\Type("array<DateTime>")
-     * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var \DateTime[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
+     * @var \Smartbox\CoreBundle\Type\Date[]
      */
     protected $arrayOfDates = [];
 
     public function __construct()
     {
-        parent::__construct();
     }
 
     /**

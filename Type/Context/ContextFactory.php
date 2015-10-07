@@ -1,11 +1,11 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity\Context;
+namespace Smartbox\CoreBundle\Type\Context;
 
 use JMS\Serializer\Context;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 
 class ContextFactory
 {

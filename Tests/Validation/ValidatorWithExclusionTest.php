@@ -6,7 +6,7 @@ namespace Smartbox\CoreBundle\Tests\Services\Validation;
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\Metadata\Driver\AnnotationDriver;
 use Metadata\MetadataFactory;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Validation\ValidatorWithExclusion;

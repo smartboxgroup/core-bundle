@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 
 class TestEntity extends Entity
 {

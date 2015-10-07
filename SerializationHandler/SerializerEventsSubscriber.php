@@ -1,12 +1,15 @@
 <?php
 namespace Smartbox\CoreBundle\SerializationHandler;
 
-
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\SerializableInterface;
 
+/**
+ * Class SerializerEventsSubscriber
+ * @package Smartbox\CoreBundle\SerializationHandler
+ */
 class SerializerEventsSubscriber implements EventSubscriberInterface
 {
 
@@ -31,7 +34,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
                 $type = $data['type'];
             }
 
-            if (!empty($type) && is_subclass_of($type, Entity::class)) {
+            if (!empty($type) && is_a($type, SerializableInterface::class, true)) {
                 $event->setType($type);
             }
         }
@@ -41,8 +44,12 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getObject();
 
-        if (is_object($entity) && $entity instanceof Entity) {
+        if (is_object($entity) && $entity instanceof SerializableInterface) {
             $event->setType($entity->getType());
+        }
+
+        if(strpos(get_class($entity),'Mock') !== FALSE){
+            $event->setType(get_parent_class($entity));
         }
     }
 }

@@ -1,16 +1,19 @@
 <?php
-namespace Smartbox\CoreBundle\Entity\BasicTypes;
-
+namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class Double
+ * @package Smartbox\CoreBundle\Type
+ */
 class Double extends Basic
 {
-
     /**
      * @Assert\Type(type="double")
      * @JMS\Type("double")
+     * @JMS\Groups({"logs"})
      * @var double
      */
     protected $value = 0.0;
@@ -42,8 +45,7 @@ class Double extends Basic
         } elseif (is_object($value) && $value instanceof Double) {
             $this->value = $value->getValue();
         } else {
-            throw \InvalidArgumentException("Expected double");
+            throw new \InvalidArgumentException("Expected double");
         }
     }
-
 }

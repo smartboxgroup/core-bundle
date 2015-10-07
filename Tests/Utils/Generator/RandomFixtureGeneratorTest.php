@@ -2,7 +2,7 @@
 
 namespace Smartbox\CoreBundle\Tests\Utils\Generator;
 
-use Smartbox\CoreBundle\Entity\Context\ContextFactory;
+use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
 use Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator;
@@ -60,8 +60,8 @@ class RandomFixtureGeneratorTest extends KernelTestCase
     /**
      * @dataProvider dataProviderForGroupsAndVersions
      * @covers ::generate
-     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::prepareSerializationContext
-     * @covers Smartbox\CoreBundle\Entity\Context\ContextFactory::prepareDeserializationContext
+     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::prepareSerializationContext
+     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::prepareDeserializationContext
      *
      * @param $group
      * @param $version

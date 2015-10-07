@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Hydrator;
 
 use JMS\Serializer\Metadata\PropertyMetadata;
 use Metadata\MetadataFactoryInterface;
-use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Type\EntityInterface;
 
 /**
  * Class GroupVersionHydrator

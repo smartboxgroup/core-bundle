@@ -1,16 +1,19 @@
 <?php
-namespace Smartbox\CoreBundle\Entity\BasicTypes;
-
+namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class Integer
+ * @package Smartbox\CoreBundle\Type
+ */
 class Integer extends Basic
 {
-
     /**
      * @Assert\Type(type="integer")
      * @JMS\Type("integer")
+     * @JMS\Groups({"logs"})
      * @var int
      */
     protected $value;
@@ -42,8 +45,7 @@ class Integer extends Basic
         } elseif (is_object($value) && $value instanceof Integer) {
             $this->value = $value->getValue();
         } else {
-            throw \InvalidArgumentException("Expected integer");
+            throw new \InvalidArgumentException("Expected integer");
         }
     }
-
 }

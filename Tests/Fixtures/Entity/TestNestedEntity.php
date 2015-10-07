@@ -5,7 +5,7 @@ namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 
 class TestNestedEntity extends Entity
 {
@@ -19,7 +19,7 @@ class TestNestedEntity extends Entity
     /**
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("Smartbox\CoreBundle\Entity\Entity")
+     * @JMS\Type("Smartbox\CoreBundle\Type\Entity")
      */
     protected $generic_item;
 
@@ -40,7 +40,7 @@ class TestNestedEntity extends Entity
     /**
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\Entity>")
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Entity>")
      */
     protected $generic_items;
 

@@ -1,14 +1,20 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity\BasicTypes;
+namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Date extends Basic{
+/**
+ * Class Date
+ * @package Smartbox\CoreBundle\Type
+ */
+class Date extends Basic
+{
     /**
      * @Assert\DateTime()
      * @JMS\Type("DateTime")
+     * @JMS\Groups({"logs"})
      * @var \DateTime
      */
     protected $value = null;

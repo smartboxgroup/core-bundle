@@ -2,7 +2,7 @@
 
 namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 
 class EntityConstants
 {
