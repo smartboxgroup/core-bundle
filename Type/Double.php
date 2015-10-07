@@ -1,12 +1,12 @@
 <?php
-namespace Smartbox\CoreBundle\Entity\BasicTypes;
+namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Double
- * @package Smartbox\CoreBundle\Entity\BasicTypes
+ * @package Smartbox\CoreBundle\Type
  */
 class Double extends Basic
 {

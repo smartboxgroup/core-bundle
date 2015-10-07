@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity;
+namespace Smartbox\CoreBundle\Type;
 
 interface EntityInterface extends SerializableInterface
 {

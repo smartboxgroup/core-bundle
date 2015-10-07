@@ -4,8 +4,7 @@ namespace Smartbox\CoreBundle\SerializationHandler;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
-use Smartbox\CoreBundle\Entity\EntityInterface;
-use Smartbox\CoreBundle\Entity\SerializableInterface;
+use Smartbox\CoreBundle\Type\SerializableInterface;
 
 /**
  * Class SerializerEventsSubscriber

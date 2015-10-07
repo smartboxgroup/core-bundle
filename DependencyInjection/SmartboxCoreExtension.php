@@ -29,7 +29,7 @@ class SmartboxCoreExtension extends Extension
         if(empty($config['entities_namespaces'])){
             $config['entities_namespaces'] = array();
         }
-        $config['entities_namespaces'][] = 'Smartbox\CoreBundle\Entity\BasicTypes';
+        $config['entities_namespaces'][] = 'Smartbox\CoreBundle\Type';
 
         $container->setParameter('smartcore.fixtures_path',$config['fixtures_path']);
         $container->setParameter('smartcore.entity.namespaces',$config['entities_namespaces']);

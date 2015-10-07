@@ -5,9 +5,9 @@ namespace Smartbox\CoreBundle\Utils\Generator;
 use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
 use JMS\Serializer\Exclusion\VersionExclusionStrategy;
 use Metadata\MetadataFactoryInterface;
-use Smartbox\CoreBundle\Entity\Context\ContextFactory;
-use Smartbox\CoreBundle\Entity\Entity;
-use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Type\Context\ContextFactory;
+use Smartbox\CoreBundle\Type\Entity;
+use Smartbox\CoreBundle\Type\EntityInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class RandomFixtureGenerator

@@ -1,5 +1,5 @@
 <?php
-namespace Smartbox\CoreBundle\Entity\Traits;
+namespace Smartbox\CoreBundle\Type\Traits;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;

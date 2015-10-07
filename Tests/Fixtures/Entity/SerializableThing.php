@@ -3,9 +3,9 @@
 namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Entity\Entity;
-use Smartbox\CoreBundle\Entity\SerializableInterface;
-use Smartbox\CoreBundle\Entity\Traits\HasType;
+use Smartbox\CoreBundle\Type\Entity;
+use Smartbox\CoreBundle\Type\SerializableInterface;
+use Smartbox\CoreBundle\Type\Traits\HasType;
 
 /**
  * Class SerializableThing
@@ -46,26 +46,26 @@ class SerializableThing implements SerializableInterface
     protected $arrayOfEntities = [];
 
     /**
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Integer>")
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Integer[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
+     * @var \Smartbox\CoreBundle\Type\Integer[]
      */
     protected $arrayOfIntegers = [];
 
     /**
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\String>")
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\String[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
+     * @var \Smartbox\CoreBundle\Type\String[]
      */
     protected $arrayOfStrings = [];
 
     /**
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Double>")
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Double[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
+     * @var \Smartbox\CoreBundle\Type\Double[]
      */
     protected $arrayOfDoubles = [];
 
     /**
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Date>")
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Date[]
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
+     * @var \Smartbox\CoreBundle\Type\Date[]
      */
     protected $arrayOfDates = [];
 
@@ -154,7 +154,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Integer[]
+     * @return \Smartbox\CoreBundle\Type\Integer[]
      */
     public function getArrayOfIntegers()
     {
@@ -162,7 +162,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Integer[] $arrayOfIntegers
+     * @param \Smartbox\CoreBundle\Type\Integer[] $arrayOfIntegers
      */
     public function setArrayOfIntegers($arrayOfIntegers)
     {
@@ -170,7 +170,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\String[]
+     * @return \Smartbox\CoreBundle\Type\String[]
      */
     public function getArrayOfStrings()
     {
@@ -178,7 +178,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\String[] $arrayOfStrings
+     * @param \Smartbox\CoreBundle\Type\String[] $arrayOfStrings
      */
     public function setArrayOfStrings($arrayOfStrings)
     {
@@ -186,7 +186,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Double[]
+     * @return \Smartbox\CoreBundle\Type\Double[]
      */
     public function getArrayOfDoubles()
     {
@@ -194,7 +194,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Double[] $arrayOfDoubles
+     * @param \Smartbox\CoreBundle\Type\Double[] $arrayOfDoubles
      */
     public function setArrayOfDoubles($arrayOfDoubles)
     {
@@ -202,7 +202,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Date[]
+     * @return \Smartbox\CoreBundle\Type\Date[]
      */
     public function getArrayOfDates()
     {
@@ -210,7 +210,7 @@ class SerializableThing implements SerializableInterface
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Date[] $arrayOfDates
+     * @param \Smartbox\CoreBundle\Type\Date[] $arrayOfDates
      */
     public function setArrayOfDates($arrayOfDates)
     {

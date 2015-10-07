@@ -1,13 +1,14 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity;
+namespace Smartbox\CoreBundle\Type;
 
 /**
  * Interface SerializableInterface
- * @package Smartbox\CoreBundle\Entity
+ * @package Smartbox\CoreBundle\Type
  */
 interface SerializableInterface
 {
+
     /**
      * @return string
      */

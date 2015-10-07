@@ -1,9 +1,9 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity\Traits;
+namespace Smartbox\CoreBundle\Type\Traits;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Type\EntityInterface;
 
 trait HasType
 {

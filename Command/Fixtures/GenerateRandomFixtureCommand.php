@@ -2,7 +2,7 @@
 
 namespace Smartbox\CoreBundle\Command\Fixtures;
 
-use Smartbox\CoreBundle\Entity\Context\ContextFactory;
+use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

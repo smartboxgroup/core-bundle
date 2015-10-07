@@ -3,7 +3,7 @@
 namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Entity\Entity;
+use Smartbox\CoreBundle\Type\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class TestComplexEntity extends Entity
@@ -56,36 +56,36 @@ class TestComplexEntity extends Entity
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Integer>")
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Integer[]
+     * @var \Smartbox\CoreBundle\Type\Integer[]
      */
     protected $arrayOfIntegers = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\String>")
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\String[]
+     * @var \Smartbox\CoreBundle\Type\String[]
      */
     protected $arrayOfStrings = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Double>")
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Double[]
+     * @var \Smartbox\CoreBundle\Type\Double[]
      */
     protected $arrayOfDoubles = [];
 
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Entity\BasicTypes\Date>")
+     * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
      * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var \Smartbox\CoreBundle\Entity\BasicTypes\Date[]
+     * @var \Smartbox\CoreBundle\Type\Date[]
      */
     protected $arrayOfDates = [];
 
@@ -175,7 +175,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Integer[]
+     * @return \Smartbox\CoreBundle\Type\Integer[]
      */
     public function getArrayOfIntegers()
     {
@@ -183,7 +183,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Integer[] $arrayOfIntegers
+     * @param \Smartbox\CoreBundle\Type\Integer[] $arrayOfIntegers
      */
     public function setArrayOfIntegers($arrayOfIntegers)
     {
@@ -191,7 +191,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\String[]
+     * @return \Smartbox\CoreBundle\Type\String[]
      */
     public function getArrayOfStrings()
     {
@@ -199,7 +199,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\String[] $arrayOfStrings
+     * @param \Smartbox\CoreBundle\Type\String[] $arrayOfStrings
      */
     public function setArrayOfStrings($arrayOfStrings)
     {
@@ -207,7 +207,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Double[]
+     * @return \Smartbox\CoreBundle\Type\Double[]
      */
     public function getArrayOfDoubles()
     {
@@ -215,7 +215,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Double[] $arrayOfDoubles
+     * @param \Smartbox\CoreBundle\Type\Double[] $arrayOfDoubles
      */
     public function setArrayOfDoubles($arrayOfDoubles)
     {
@@ -223,7 +223,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Entity\BasicTypes\Date[]
+     * @return \Smartbox\CoreBundle\Type\Date[]
      */
     public function getArrayOfDates()
     {
@@ -231,7 +231,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Entity\BasicTypes\Date[] $arrayOfDates
+     * @param \Smartbox\CoreBundle\Type\Date[] $arrayOfDates
      */
     public function setArrayOfDates($arrayOfDates)
     {

@@ -1,21 +1,24 @@
 <?php
 
-namespace Smartbox\CoreBundle\Entity\BasicTypes;
+namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Entity\Entity;
-use Smartbox\CoreBundle\Entity\EntityInterface;
+use Smartbox\CoreBundle\Type\EntityInterface;
+use Smartbox\CoreBundle\Type\SerializableInterface;
+use Smartbox\CoreBundle\Type\Traits\HasType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class EntityArray
- * @package Smartbox\CoreBundle\Entity\BasicTypes
+ * Class SerializableArray
+ * @package Smartbox\CoreBundle\Type
  */
-class EntityArray extends Entity
+class SerializableArray implements SerializableInterface
 {
+    use HasType;
+
     /**
      * @var array
-     * @JMS\Type("array<string,Smartbox\CoreBundle\Entity\Entity>")
+     * @JMS\Type("array<string,Smartbox\CoreBundle\Type\Entity>")
      * @JMS\Groups({"logs"})
      * @JMS\XmlMap(inline = true)
      */
@@ -52,12 +55,12 @@ class EntityArray extends Entity
             } elseif (is_double($value)) {
                 $cleanValue = new Double($value);
             }
-        } elseif (is_array($value) && count($value) > 0) {
-            $cleanValue = new EntityArray($value);
-        } elseif (is_object($value) && $value instanceof EntityInterface) {
-            $cleanValue = $value;
         }elseif(is_object($value) && $value instanceof \DateTime){
             $cleanValue = new Date($value);
+        }elseif (is_array($value) && count($value) > 0) {
+            $cleanValue = new SerializableArray($value);
+        } elseif (is_object($value) && $value instanceof SerializableInterface) {
+            $cleanValue = $value;
         }
 
         if ($cleanValue === false) {
@@ -91,7 +94,7 @@ class EntityArray extends Entity
             $res = $this->array[$key];
             if ($res instanceof Basic) {
                 return $res->getValue();
-            } elseif ($res instanceof EntityArray) {
+            } elseif ($res instanceof SerializableArray) {
                 return $res->toArray();
             } else {
                 return $res;
