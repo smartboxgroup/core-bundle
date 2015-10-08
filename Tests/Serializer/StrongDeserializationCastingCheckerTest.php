@@ -97,74 +97,66 @@ class StrongDeserializationCastingCheckerTest extends \PHPUnit_Framework_TestCas
     }
 
     /**
-     * @test
      * @dataProvider validString
      * @param $string
      */
-    public function it_should_check_a_valid_string($string) {
+    public function testItShouldCheckAValidString($string) {
         $this->assertTrue($this->checker->canBeCastedToString($string));
     }
 
     /**
-     * @test
      * @dataProvider invalidString
      * @param $string
      */
-    public function it_should_check_an_invalid_string($string) {
+    public function testItShouldCheckAnInvalidString($string) {
         $this->assertFalse($this->checker->canBeCastedToString($string));
     }
 
     /**
-     * @test
      * @dataProvider validBoolean
      * @param $bool
      */
-    public function it_should_check_a_valid_boolean($bool) {
+    public function testItShouldCheckAValidBoolean($bool) {
         $this->assertTrue($this->checker->canBeCastedToBoolean($bool));
     }
 
     /**
-     * @test
      * @dataProvider invalidBoolean
      * @param $bool
      */
-    public function is_should_check_an_invalid_boolean($bool) {
+    public function testItShouldCheckAnInvalidBoolean($bool) {
         $this->assertFalse($this->checker->canBeCastedToBoolean($bool));
     }
 
     /**
-     * @test
      * @dataProvider validInteger
      * @param $int
      */
-    public function it_should_check_a_valid_integer($int) {
+    public function testItShouldCheckAValidInteger($int) {
         $this->assertTrue($this->checker->canBeCastedToInteger($int));
     }
 
     /**
-     * @test
      * @dataProvider invalidInteger
      * @param $int
      */
-    public function it_should_check_an_invalid_integer($int) {
+    public function testItShouldCheckAnInvalidInteger($int) {
         $this->assertFalse($this->checker->canBeCastedToInteger($int));
     }
 
     /**
-     * @test
      * @dataProvider validDouble
      * @param $double
      */
-    public function it_should_check_a_valid_double($double) {
+    public function testItShouldCheckAValidDouble($double) {
         $this->assertTrue($this->checker->canBeCastedToDouble($double));
     }
 
     /**
-     * @test
      * @dataProvider invalidDouble
      * @param $double
      */
-    public function it_should_check_an_invalid_double($double) {
+    public function testItShouldCheckAnInvalidDouble($double) {
         $this->assertFalse($this->checker->canBeCastedToDouble($double));
     }
 }

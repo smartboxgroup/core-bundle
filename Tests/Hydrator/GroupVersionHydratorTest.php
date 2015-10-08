@@ -24,7 +24,7 @@ class GroupVersionHydratorTest extends BaseTestCase
         $this->hydrator = new GroupVersionHydrator($metadataFactory);
     }
 
-    public function test_it_should_hydrate_an_entity()
+    public function testItShouldHydrateAnEntity()
     {
         $entity = new TestEntity();
         $this->hydrator->hydrate($entity, self::GROUP, self::VERSION);
@@ -33,7 +33,7 @@ class GroupVersionHydratorTest extends BaseTestCase
         $this->assertEquals(self::VERSION, $entity->getVersion(), 'The version was not set correctly');
     }
 
-    public function test_it_should_hydrate_an_array_of_entities()
+    public function testItShouldHydrateAnArrayOfEntities()
     {
         /** @var TestEntity[] $array */
         $array = [
@@ -48,7 +48,7 @@ class GroupVersionHydratorTest extends BaseTestCase
         }
     }
 
-    public function test_it_should_hydrate_an_entity_with_nested_entities()
+    public function testItShouldHydrateAnEntityWithNestedEntities()
     {
         $entity = new TestNestedEntity();
         $entity->setItem(new TestEntity());

@@ -13,42 +13,27 @@ class DeserializationTypeMismatchExceptionTest extends \PHPUnit_Framework_TestCa
         $this->exception = new DeserializationTypeMismatchException('some property', 'some class', 'some value', 'some type', 'original data');
     }
 
-    /**
-     * @test
-     */
-    public function it_should_get_property_name()
+    public function testItShouldGetPropertyName()
     {
         $this->assertEquals('some property', $this->exception->getPropertyName());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_get_class_name()
+    public function testItShouldGetClassName()
     {
         $this->assertEquals('some class', $this->exception->getClassName());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_get_property_value()
+    public function testItShouldGetPropertyValue()
     {
         $this->assertEquals('some value', $this->exception->getPropertyValue());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_get_expected_type()
+    public function testItShouldGetExpectedType()
     {
         $this->assertEquals('some type', $this->exception->getExpectedType());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_get_original_data()
+    public function testItShouldGetOriginalData()
     {
         $this->assertEquals('original data', $this->exception->getOriginalData());
     }

@@ -37,10 +37,7 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         ;
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity()
+    public function testItShouldDeserializeValidEntity()
     {
         $data =
         '<?xml version="1.0" encoding="UTF-8"?>
@@ -56,10 +53,7 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $this->assertEquals('some note', $obj->getNote());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity_with_version()
+    public function testItShouldDeserializeValidEntityWithVersion()
     {
         $data =
             '<?xml version="1.0" encoding="UTF-8"?>
@@ -81,10 +75,7 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $this->assertEquals('some note', $obj->getNote());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity_with_group()
+    public function testItShouldDeserializeValidEntityWithGroup()
     {
         $data =
             '<?xml version="1.0" encoding="UTF-8"?>
@@ -107,11 +98,10 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      * @expectedExceptionMessage Type mismatch in property "description"
      */
-    public function it_should_not_deserialize_an_invalid_entity()
+    public function testItShouldNotDeserializeAnInvalidEntity()
     {
         $data =
             '<?xml version="1.0" encoding="UTF-8"?>

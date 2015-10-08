@@ -37,10 +37,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         ;
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity()
+
+    public function testItShouldDeserializeValidEntity()
     {
         $data =
         '{
@@ -55,10 +53,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $this->assertEquals('some note', $obj->getNote());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity_with_version()
+    public function testItShouldDeserializeValidEntityWithVersion()
     {
         $data =
         '{
@@ -79,10 +74,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $this->assertEquals('some note', $obj->getNote());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_deserialize_valid_entity_with_group()
+    public function testItShouldDeserializeValidEntityWithGroup()
     {
         $data =
         '{
@@ -104,11 +96,10 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      * @expectedExceptionMessage Type mismatch in property "description"
      */
-    public function it_should_not_deserialize_an_invalid_entity()
+    public function testItShouldNotDeserializeAnInvalidEntity()
     {
         $data =
         '{
