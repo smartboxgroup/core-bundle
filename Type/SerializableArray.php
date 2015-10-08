@@ -3,8 +3,6 @@
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Type\EntityInterface;
-use Smartbox\CoreBundle\Type\SerializableInterface;
 use Smartbox\CoreBundle\Type\Traits\HasType;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,11 +61,14 @@ class SerializableArray implements SerializableInterface
             $cleanValue = $value;
         }
 
-        if ($cleanValue === false) {
+        if ($value && $cleanValue === false) {
             throw new \InvalidArgumentException("Invalid value");
+        }elseif(empty($value)){
+            $this->array[(string)$key] = null;
+        }else{
+            $this->array[(string)$key] = $cleanValue;
         }
 
-        $this->array[(string)$key] = $cleanValue;
     }
 
     /**
