@@ -65,10 +65,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator = new DeserializationTypesValidator($this->castingChecker);
     }
 
-    /**
-     * @test
-     */
-    public function it_should_not_check_an_excluded_string()
+    public function testItShouldNotCheckAnExcludedString()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -84,10 +81,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_check_a_valid_string()
+    public function testItShouldCheckAValidString()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -105,10 +99,9 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      */
-    public function it_should_raise_an_exception_when_visiting_an_invalid_string()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidString()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -125,10 +118,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateString(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_not_check_an_excluded_boolean()
+    public function testItShouldNotCheckAnExcludedBoolean()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -144,10 +134,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_check_a_valid_boolean()
+    public function testItShouldCheckAValidBoolean()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -165,10 +152,9 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      */
-    public function it_should_raise_an_exception_when_visiting_an_invalid_boolean()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidBoolean()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -185,10 +171,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateBoolean(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_not_check_an_excluded_integer()
+    public function testItShouldNotCheckAnExcludedInteger()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -204,10 +187,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_check_a_valid_integer()
+    public function testItShouldCheckAValidInteger()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -225,10 +205,9 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      */
-    public function it_should_raise_an_exception_when_visiting_an_invalid_integer()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidInteger()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -245,10 +224,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateInteger('notAnInteger', $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_not_check_an_excluded_double()
+    public function testItShouldNotCheckAnExcludedDouble()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -264,10 +240,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorValidator->validateDouble(22.5, $this->context, $this->visitorMock->getCurrentObject());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_check_a_valid_double()
+    public function testItShouldCheckAValidDouble()
     {
         $this->exclusionStrategy
             ->expects($this->once())
@@ -285,10 +258,9 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
      */
-    public function it_should_raise_an_exception_when_visiting_an_invalid_double()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidDouble()
     {
         $this->exclusionStrategy
             ->expects($this->once())
