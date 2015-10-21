@@ -13,6 +13,7 @@ class Integer extends Basic
     /**
      * @Assert\Type(type="integer")
      * @JMS\Type("integer")
+     * @JMS\Expose
      * @JMS\Groups({"logs"})
      * @var int
      */

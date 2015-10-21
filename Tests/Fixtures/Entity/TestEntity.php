@@ -13,6 +13,7 @@ class TestEntity extends Entity
      * @Assert\NotBlank
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @JMS\Type("string")
+     * @JMS\Expose
      */
     protected $title;
 
@@ -22,6 +23,7 @@ class TestEntity extends Entity
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B, EntityConstants::GROUP_C})
      * @JMS\Since(EntityConstants::VERSION_2)
      * @JMS\Type("string")
+     * @JMS\Expose
      */
     protected $description;
 
@@ -30,6 +32,7 @@ class TestEntity extends Entity
      * @Assert\NotBlank
      * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @JMS\Type("string")
+     * @JMS\Expose
      */
     protected $note;
 

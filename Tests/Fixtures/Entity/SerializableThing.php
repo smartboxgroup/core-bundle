@@ -17,18 +17,21 @@ class SerializableThing implements SerializableInterface
 
     /**
      * @JMS\Type("integer")
+     * @JMS\Expose
      * @var int
      */
     protected $integerValue;
 
     /**
      * @JMS\Type("double")
+     * @JMS\Expose
      * @var double
      */
     protected $doubleValue;
 
     /**
      * @JMS\Type("string")
+     * @JMS\Expose
      * @var string
      */
     protected $stringValue;
@@ -36,35 +39,41 @@ class SerializableThing implements SerializableInterface
     /**
      * @var Entity
      * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
+     * @JMS\Expose
      */
     protected $nestedEntity;
 
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
+     * @JMS\Expose
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
     protected $arrayOfEntities = [];
 
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
+     * @JMS\Expose
      * @var \Smartbox\CoreBundle\Type\Integer[]
      */
     protected $arrayOfIntegers = [];
 
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
+     * @JMS\Expose
      * @var \Smartbox\CoreBundle\Type\String[]
      */
     protected $arrayOfStrings = [];
 
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
+     * @JMS\Expose
      * @var \Smartbox\CoreBundle\Type\Double[]
      */
     protected $arrayOfDoubles = [];
 
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
+     * @JMS\Expose
      * @var \Smartbox\CoreBundle\Type\Date[]
      */
     protected $arrayOfDates = [];

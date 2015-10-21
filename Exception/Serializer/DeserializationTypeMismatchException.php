@@ -7,8 +7,6 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * Class DeserializationTypeMismatchException
  * @package Smartbox\CoreBundle\Exception\Serializer
- *
- * @JMS\ExclusionPolicy("all")
  */
 class DeserializationTypeMismatchException 
     extends \RuntimeException 

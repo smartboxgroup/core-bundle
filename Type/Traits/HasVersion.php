@@ -9,6 +9,7 @@ trait HasVersion
 
     /**
      * @JMS\Type("string")
+     * @JMS\Expose
      * @JMS\Groups({"metadata"})
      * @var  string
      */
