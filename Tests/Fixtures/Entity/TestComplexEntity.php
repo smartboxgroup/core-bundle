@@ -10,6 +10,7 @@ class TestComplexEntity extends Entity
 {
     /**
      * @JMS\Type("integer")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @JMS\Since(EntityConstants::VERSION_2)
      * @Assert\Type(type="integer")
@@ -20,6 +21,7 @@ class TestComplexEntity extends Entity
 
     /**
      * @JMS\Type("double")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @JMS\Since(EntityConstants::VERSION_1)
      * @Assert\Type(type="double")
@@ -30,6 +32,7 @@ class TestComplexEntity extends Entity
 
     /**
      * @JMS\Type("string")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @Assert\Type(type="string")
      * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
@@ -41,6 +44,7 @@ class TestComplexEntity extends Entity
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
+     * @JMS\Expose
      */
     protected $nestedEntity;
 
@@ -48,6 +52,7 @@ class TestComplexEntity extends Entity
      * @Assert\Type(type="array")
      * @Assert\Valid
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_B})
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
@@ -57,6 +62,7 @@ class TestComplexEntity extends Entity
      * @Assert\Type(type="array")
      * @Assert\Valid
      * @JMS\Type("array<integer>")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @var integer[]
      */
@@ -66,6 +72,7 @@ class TestComplexEntity extends Entity
      * @Assert\Type(type="array")
      * @Assert\Valid
      * @JMS\Type("array<string>")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @var string[]
      */
@@ -75,6 +82,7 @@ class TestComplexEntity extends Entity
      * @Assert\Type(type="array")
      * @Assert\Valid
      * @JMS\Type("array<double>")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
      * @var double[]
      */
@@ -84,6 +92,7 @@ class TestComplexEntity extends Entity
      * @Assert\Type(type="array")
      * @Assert\Valid
      * @JMS\Type("array<DateTime>")
+     * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @var \DateTime[]
      */

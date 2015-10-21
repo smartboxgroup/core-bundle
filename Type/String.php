@@ -13,6 +13,7 @@ class String extends Basic
     /**
      * @Assert\Type(type="string")
      * @JMS\Type("string")
+     * @JMS\Expose
      * @JMS\Groups({"logs"})
      * @var string
      */

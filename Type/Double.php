@@ -13,6 +13,7 @@ class Double extends Basic
     /**
      * @Assert\Type(type="double")
      * @JMS\Type("double")
+     * @JMS\Expose
      * @JMS\Groups({"logs"})
      * @var double
      */

@@ -14,6 +14,7 @@ class Date extends Basic
     /**
      * @Assert\DateTime()
      * @JMS\Type("DateTime")
+     * @JMS\Expose
      * @JMS\Groups({"logs"})
      * @var \DateTime
      */
