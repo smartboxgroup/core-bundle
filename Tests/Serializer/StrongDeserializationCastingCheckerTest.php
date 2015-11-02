@@ -41,7 +41,9 @@ class StrongDeserializationCastingCheckerTest extends \PHPUnit_Framework_TestCas
             ['true'],
             ['false'],
             [0],
+            ['0'],
             [1],
+            ['1'],
         ];
     }
 

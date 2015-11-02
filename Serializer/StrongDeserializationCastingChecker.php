@@ -25,8 +25,8 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
             is_null($data) ||
             $data === 'true' ||
             $data === 'false' ||
-            $data === 1 ||
-            $data === 0
+            $data === 1 || $data === '1' ||
+            $data === 0 || $data === '0'
         ;
     }
 
