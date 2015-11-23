@@ -13,12 +13,14 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0",
-        "jms/serializer-bundle": "^0.13.0"
+        "jms/serializer-bundle": "^0.13.0",
+        "doctrine/annotations": "1.2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.7.*",
         "sensio/generator-bundle": "~2.3",
         "digitalnature/php-ref": "dev-master"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable" : true
 }
