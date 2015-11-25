@@ -68,6 +68,21 @@ services:
         tags:
             - { name: jms_serializer.serialization_visitor, format: array }
 
+    smartbox.array_deserialization_visitor_mongo:
+        class: %smartcore.array_deserialization_visitor.class%
+        arguments:
+            - @jms_serializer.naming_strategy
+            - @jms_serializer.object_constructor
+            - @smartcore.deserialization_types_validator
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: mongo_array }
+
+    smartbox.array_serialization_visitor_mongo:
+        class: %smartcore.array_serialization_visitor.class%
+        arguments: [@jms_serializer.naming_strategy]
+        tags:
+            - { name: jms_serializer.serialization_visitor, format: mongo_array }
+
     smartcore.helper.entity_namespace_resolver:
         class: %smartcore.helper.namespace_resolver.class%
         arguments: ['%smartcore.entity.namespaces%']
