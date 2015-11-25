@@ -1,2 +1,3 @@
 Tests/Fixtures/app/cache/
-vendor
+/vendor
+/bin
