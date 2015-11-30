@@ -34,6 +34,30 @@ class SerializableArray implements SerializableInterface
         }
     }
 
+    public static function isSerializable($value){
+        $cleanValue = false;
+
+        if (is_scalar($value)) {
+            if (is_string($value)) {
+                $cleanValue = new String($value);
+            } elseif (is_int($value)) {
+                $cleanValue = new Integer($value);
+            } elseif (is_double($value)) {
+                $cleanValue = new Double($value);
+            } elseif (is_bool($value)){
+                $cleanValue = new Boolean($value);
+            }
+        }elseif(is_object($value) && $value instanceof \DateTime){
+            $cleanValue = new Date($value);
+        }elseif (is_array($value) && count($value) > 0) {
+            $cleanValue = new SerializableArray($value);
+        } elseif (is_object($value) && $value instanceof SerializableInterface) {
+            $cleanValue = $value;
+        }
+
+        return !$value || $cleanValue !== false;
+    }
+
     /**
      * @param string $key
      * @param EntityInterface $value
@@ -53,6 +77,8 @@ class SerializableArray implements SerializableInterface
                 $cleanValue = new Integer($value);
             } elseif (is_double($value)) {
                 $cleanValue = new Double($value);
+            } elseif (is_bool($value)){
+                $cleanValue = new Boolean($value);
             }
         }elseif(is_object($value) && $value instanceof \DateTime){
             $cleanValue = new Date($value);
