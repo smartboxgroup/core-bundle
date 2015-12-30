@@ -72,10 +72,16 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 $this->out->writeln("\n---------------------------------");
             } else {
                 $smokeTestOutput = $smokeTest->run();
-                $content[] = array(
+                $result = array(
                     'description' => 'Running @SmokeTest: ' . $smokeTest->getDescription(),
                     'result' => implode("\n", $smokeTestOutput->getMessages()),
                 );
+
+                if (!$smokeTestOutput->isOK()) {
+                    $result['failed'] = true;
+                }
+
+                $content[] = $result;
             }
 
             if (!$smokeTestOutput->isOK()) {
@@ -83,12 +89,14 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             }
         }
 
-        if ($json && $output) {
+        if ($json) {
             $content = json_encode($content);
-            file_put_contents($output, $content);
-        } elseif ($json && !$silent) {
-            $content = json_encode($content);
-            $this->out->writeln($content);
+
+            if ($output) {
+                file_put_contents($output, $content);
+            } elseif (!$silent) {
+                $this->out->writeln($content);
+            }
         }
 
         return $exitCode;

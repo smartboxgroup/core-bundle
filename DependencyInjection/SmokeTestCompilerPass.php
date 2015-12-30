@@ -2,11 +2,15 @@
 
 namespace Smartbox\CoreBundle\DependencyInjection;
 
-
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Class SmokeTestCompilerPass
+ *
+ * @package Smartbox\CoreBundle\DependencyInjection
+ */
 class SmokeTestCompilerPass implements CompilerPassInterface
 {
     /** @var  ContainerBuilder */
@@ -18,7 +22,7 @@ class SmokeTestCompilerPass implements CompilerPassInterface
 
         $serviceIds = $container->findTaggedServiceIds('smartbox.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
-            $smokeTestCommand->addMethodCall('addTest', array(new Reference($serviceId)));
+            $smokeTestCommand->addMethodCall('addTest', [new Reference($serviceId)]);
         }
     }
 }
