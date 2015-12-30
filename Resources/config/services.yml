@@ -90,3 +90,8 @@ services:
     smartcore.generator.random_fixture:
         class: %smartcore.generator.random_fixture.class%
         arguments: [@jms_serializer.metadata_factory, @smartcore.helper.entity_namespace_resolver]
+
+    smartcore.command.smoke_test:
+        class: Smartbox\CoreBundle\Command\SmokeTestRunCommand
+        tags:
+            -  { name: console.command }
