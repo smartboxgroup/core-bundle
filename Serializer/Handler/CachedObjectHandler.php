@@ -14,9 +14,18 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     use CacheServiceAwareTrait;
 
+    /**
+     * Returns the caching key of the given data or null if it can not be cached
+     * @param $data
+     * @return null|string
+     */
     public static function getDataCacheKey($data)
     {
-        return sha1(serialize($data));
+        try {
+            return sha1(serialize($data));
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public static function getSubscribingMethods()
@@ -51,6 +60,7 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)
     {
-        return $this->getCacheService()->get(self::getDataCacheKey($data));
+        $cached = $this->getCacheService()->get(self::getDataCacheKey($data));
+        return $cached;
     }
 }

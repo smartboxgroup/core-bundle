@@ -22,7 +22,23 @@ class CacheService implements CacheServiceInterface
      */
     public function set($key, $value, $expireTTL = null)
     {
-        return $this->client->set($key, serialize($value), null, $expireTTL);
+        if(!$key){
+            return false;
+        }
+
+        if ($expireTTL) {
+            if (!is_integer($expireTTL)) {
+                throw new \RuntimeException(sprintf('Expire TTL should be integer value. Given: "%s"', $expireTTL));
+            }
+
+            if (! $expireTTL > 0) {
+                throw new \RuntimeException(sprintf('Expire TTL should be higher than 0. Given: "%s"', $expireTTL));
+            }
+
+            return $this->client->set($key, serialize($value), 'EX', $expireTTL);
+        } else {
+            return $this->client->set($key, serialize($value));
+        }
     }
 
     /**
@@ -30,6 +46,9 @@ class CacheService implements CacheServiceInterface
      */
     public function get($key)
     {
+        if(!$key){
+            throw new \InvalidArgumentException("The key should not be null");
+        }
         return unserialize($this->client->get($key));
     }
 
@@ -38,6 +57,10 @@ class CacheService implements CacheServiceInterface
      */
     public function exists($key)
     {
+        if(!$key){
+            return false;
+        }
+
         return $this->client->exists($key);
     }
 }
