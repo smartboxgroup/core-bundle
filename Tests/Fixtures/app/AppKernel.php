@@ -12,6 +12,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Smartbox\CoreBundle\SmartboxCoreBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         );
     }
 

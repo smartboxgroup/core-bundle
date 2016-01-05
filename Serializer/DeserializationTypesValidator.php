@@ -2,13 +2,9 @@
 
 namespace Smartbox\CoreBundle\Serializer;
 
-use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\Context;
-use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
-use JMS\Serializer\VisitorInterface;
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 
 class DeserializationTypesValidator

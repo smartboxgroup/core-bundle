@@ -1,5 +1,5 @@
 <?php
-namespace Smartbox\CoreBundle\SerializationHandler;
+namespace Smartbox\CoreBundle\Serializer\Handler;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
@@ -8,11 +8,10 @@ use Smartbox\CoreBundle\Type\SerializableInterface;
 
 /**
  * Class SerializerEventsSubscriber
- * @package Smartbox\CoreBundle\SerializationHandler
+ * @package Smartbox\CoreBundle\Serializer\Handler
  */
 class SerializerEventsSubscriber implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents()
     {
         return array(
