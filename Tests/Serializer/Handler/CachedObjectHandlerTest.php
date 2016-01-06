@@ -60,9 +60,9 @@ class CachedObjectHandlerTest extends BaseTestCase
         );
 
         $context = new SerializationContext();
-        $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData, $context);
 
         $serializedEntity = $serializer->serialize($entity, 'json', $context);
+        $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData, $context);
         $deserializedEntity = $serializer->deserialize($serializedEntity, SerializerInterface::class, 'json');
 
         $this->assertEquals($entity, $deserializedEntity);
