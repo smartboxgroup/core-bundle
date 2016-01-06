@@ -20,7 +20,7 @@ class CacheService implements CacheServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value, $expireTTL = null)
+    public function set($key, $value, $expireTTL = 1800)
     {
         if(!$key){
             return false;
@@ -61,6 +61,6 @@ class CacheService implements CacheServiceInterface
             return false;
         }
 
-        return $this->client->exists($key);
+        return $this->client->exists($key) && $this->client->ttl($key) > 60;
     }
 }
