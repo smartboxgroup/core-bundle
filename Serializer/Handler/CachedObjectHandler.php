@@ -6,6 +6,7 @@ use JMS\Serializer\Context;
 use JMS\Serializer\GenericSerializationVisitor;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
+use JMS\Serializer\SerializationContext;
 use Smartbox\CoreBundle\Serializer\Cache\CacheServiceAwareTrait;
 
 class CachedObjectHandler implements SubscribingHandlerInterface
@@ -17,10 +18,13 @@ class CachedObjectHandler implements SubscribingHandlerInterface
     /**
      * Returns the caching key of the given data or null if it can not be cached
      * @param $data
+     * @param Context $context
      * @return null|string
      */
-    public static function getDataCacheKey($data)
+    public static function getDataCacheKey($data, Context $context)
     {
+        $data = new CachedObject($data, $context);
+
         try {
             return sha1(serialize($data));
         } catch (\Exception $e) {
@@ -60,7 +64,6 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)
     {
-        $cached = $this->getCacheService()->get(self::getDataCacheKey($data));
-        return $cached;
+        return $this->getCacheService()->get(self::getDataCacheKey($data, $context));
     }
 }

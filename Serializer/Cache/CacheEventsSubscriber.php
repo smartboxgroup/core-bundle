@@ -33,7 +33,7 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     {
         $data = $event->getObject();
         if ($data instanceof SerializerCacheableInterface) {
-            if ($this->getCacheService()->exists(CachedObjectHandler::getDataCacheKey($data))) {
+            if ($this->getCacheService()->exists(CachedObjectHandler::getDataCacheKey($data, $event->getContext()))) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }
@@ -48,7 +48,7 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
         if ($type['name'] !== CachedObjectHandler::TYPE && $object instanceof SerializerCacheableInterface){
             // save to cache
-            $this->cacheService->set(CachedObjectHandler::getDataCacheKey($object), $cacheData);
+            $this->cacheService->set(CachedObjectHandler::getDataCacheKey($object, $event->getContext()), $cacheData);
         }
     }
 

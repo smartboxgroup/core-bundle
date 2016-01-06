@@ -40,7 +40,6 @@ class CachedObjectHandlerTest extends BaseTestCase
             'type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
             'title' => 'title 1',
         ];
-        $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData);
 
         $entity = new SerializableThing();
         $entity->setIntegerValue(10);
@@ -61,6 +60,7 @@ class CachedObjectHandlerTest extends BaseTestCase
         );
 
         $context = new SerializationContext();
+        $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData, $context);
 
         $serializedEntity = $serializer->serialize($entity, 'json', $context);
         $deserializedEntity = $serializer->deserialize($serializedEntity, SerializerInterface::class, 'json');
