@@ -63,6 +63,10 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)
     {
-        return $this->getCacheService()->get(self::getDataCacheKey($data, $context));
+        $result = $this->getCacheService()->get(self::getDataCacheKey($data, $context));
+        if($visitor->getRoot() === null){
+            $visitor->setRoot($result);
+        }
+        return $result;
     }
 }
