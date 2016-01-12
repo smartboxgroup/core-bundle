@@ -6,7 +6,6 @@ use JMS\Serializer\Context;
 use JMS\Serializer\GenericSerializationVisitor;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
-use JMS\Serializer\SerializationContext;
 use Smartbox\CoreBundle\Serializer\Cache\CacheServiceAwareTrait;
 
 class CachedObjectHandler implements SubscribingHandlerInterface
@@ -41,12 +40,12 @@ class CachedObjectHandler implements SubscribingHandlerInterface
                 'type' => self::TYPE,
                 'method' => 'getDataFromCache',
             ),
-            array(
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'xml',
-                'type' => self::TYPE,
-                'method' => 'getDataFromCache',
-            ),
+//            array(
+//                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+//                'format' => 'xml',
+//                'type' => self::TYPE,
+//                'method' => 'getDataFromCache',
+//            ),
             array(
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
                 'format' => 'array',
@@ -64,6 +63,10 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)
     {
-        return $this->getCacheService()->get(self::getDataCacheKey($data, $context));
+        $result = $this->getCacheService()->get(self::getDataCacheKey($data, $context));
+        if($visitor->getRoot() === null){
+            $visitor->setRoot($result);
+        }
+        return $result;
     }
 }
