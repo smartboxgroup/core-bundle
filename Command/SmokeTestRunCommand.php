@@ -30,9 +30,13 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         ;
     }
 
-    public function addTest(SmokeTestInterface $smokeTest)
+    public function addTest($id, SmokeTestInterface $smokeTest)
     {
-        $this->smokeTests[] = $smokeTest;
+        if (array_key_exists($id, $this->smokeTests)) {
+            throw new \RuntimeException(sprintf('Test with id "%s" is already added.', $id));
+        }
+
+        $this->smokeTests[$id] = $smokeTest;
     }
 
     /**
@@ -56,11 +60,12 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         }
 
         $content = array();
-        foreach ($this->smokeTests as $smokeTest) {
+        foreach ($this->smokeTests as $id => $smokeTest) {
             $smokeTestOutput = null;
             if (!$silent && !$json) {
                 $this->out->writeln("\n");
-                $this->out->writeln('Running @SmokeTest: ' . "<info>" . $smokeTest->getDescription() . "</info>");
+                $this->out->writeln('Running @SmokeTest with ID: ' . "<info>" . $id . "</info>");
+                $this->out->writeln('Description: ' . "<info>" . $smokeTest->getDescription() . "</info>");
 
                 $smokeTestOutput = $smokeTest->run();
 
@@ -73,7 +78,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             } else {
                 $smokeTestOutput = $smokeTest->run();
                 $result = array(
-                    'description' => 'Running @SmokeTest: ' . $smokeTest->getDescription(),
+                    'id' => $id,
+                    'description' => $smokeTest->getDescription(),
                     'result' => implode("\n", $smokeTestOutput->getMessages()),
                 );
 

@@ -22,7 +22,7 @@ class SmokeTestCompilerPass implements CompilerPassInterface
 
         $serviceIds = $container->findTaggedServiceIds('smartbox.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
-            $smokeTestCommand->addMethodCall('addTest', [new Reference($serviceId)]);
+            $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId)]);
         }
     }
 }
