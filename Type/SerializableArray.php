@@ -88,11 +88,14 @@ class SerializableArray implements SerializableInterface
             $cleanValue = $value;
         }
 
-        if ($value && $cleanValue === false) {
-            throw new \InvalidArgumentException("Invalid value");
-        }elseif(empty($value)){
-            $this->array[(string)$key] = null;
-        }else{
+        if($cleanValue === false){
+            if ($value) {
+                throw new \InvalidArgumentException("Invalid value");
+            }else{
+                $this->array[(string)$key] = null;
+            }
+        }
+        else{
             $this->array[(string)$key] = $cleanValue;
         }
 
