@@ -8,17 +8,6 @@ sensio_framework_extra:
         auto_convert: false
 
 smartbox_core:
-  fixtures_path: "%kernel.root_dir%/../Json"
-  entities_namespaces:
-    - 'Smartbox\CoreBundle\Tests\Fixtures\Entity'
-
-snc_redis:
-    clients:
-        cache:
-            type: predis
-            alias: cache
-            dsn: redis://localhost
-            options:
-                profile: 2.2
-                connection_timeout: 10
-                read_write_timeout: 30
+    fixtures_path: "%kernel.root_dir%/../Json"
+    entities_namespaces:
+        - 'Smartbox\CoreBundle\Tests\Fixtures\Entity'

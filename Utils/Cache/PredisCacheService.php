@@ -2,7 +2,11 @@
 
 namespace Smartbox\CoreBundle\Utils\Cache;
 
-class CacheService implements CacheServiceInterface
+/**
+ * Class PredisCacheService
+ * @package Smartbox\CoreBundle\Utils\Cache
+ */
+class PredisCacheService implements CacheServiceInterface
 {
     /**
      * @var \Predis\ClientInterface

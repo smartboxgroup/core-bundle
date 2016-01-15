@@ -8,9 +8,6 @@ parameters:
     smartcore.json_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor
     smartcore.array_serialization_visitor.class: Smartbox\CoreBundle\Serializer\ArraySerializationVisitor
     smartcore.array_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\ArrayDeserializationVisitor
-    smartcore.cache_service.class: Smartbox\CoreBundle\Utils\Cache\CacheService
-    smartcore.serializer.subscriber.cache.class: Smartbox\CoreBundle\Serializer\Cache\CacheEventsSubscriber
-    smartcore.serializer.handler.cache.class: Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler
 
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
     smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
@@ -85,24 +82,6 @@ services:
         arguments: [@jms_serializer.naming_strategy]
         tags:
             - { name: jms_serializer.serialization_visitor, format: mongo_array }
-
-    smartcore.cache_service:
-        class: %smartcore.cache_service.class%
-        arguments: [ @snc_redis.cache ]
-
-    smartcore.serializer.subscriber.cache:
-        class: %smartcore.serializer.subscriber.cache.class%
-        calls:
-            - [ setCacheService, [ @smartcore.cache_service ] ]
-        tags:
-            - { name: jms_serializer.event_subscriber }
-
-    smartcore.serializer.handler.cache:
-        class: %smartcore.serializer.handler.cache.class%
-        calls:
-            - [ setCacheService, [ @smartcore.cache_service ] ]
-        tags:
-            - { name: jms_serializer.subscribing_handler }
 
     smartcore.helper.entity_namespace_resolver:
         class: %smartcore.helper.namespace_resolver.class%
