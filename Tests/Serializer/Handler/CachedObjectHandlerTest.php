@@ -3,8 +3,8 @@
 namespace Smartbox\CoreBundle\Tests\Serializer\Handler;
 
 use JMS\Serializer\SerializerInterface;
+use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
-use Smartbox\CoreBundle\Tests\BaseTestCase;
 use JMS\Serializer\SerializationContext;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\CacheableEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
@@ -12,43 +12,65 @@ use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService;
 use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheServiceSpy;
 use Smartbox\CoreBundle\Type\Date;
 use Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CachedObjectHandlerTest extends BaseTestCase
+class CachedObjectHandlerTest extends KernelTestCase
 {
-    /** @var CacheServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
-    private $cacheServiceMock;
-
-    /** @var FakeCacheServiceSpy */
-    private $cacheServiceSpy;
-
-    public function setUp()
+    protected static function getKernelClass()
     {
-        parent::setUp();
-
-        $this->cacheServiceSpy = new FakeCacheServiceSpy();
-        $this->cacheServiceMock = $this->getMock(FakeCacheService::class, null, [$this->cacheServiceSpy]);
-        $this->getContainer()->get('smartcore.serializer.subscriber.cache')->setCacheService($this->cacheServiceMock);
-        $this->getContainer()->get('smartcore.serializer.handler.cache')->setCacheService($this->cacheServiceMock);
+        return \AppKernel::class;
     }
 
-    public function dataProviderForSerializationFormat()
+    private function prepareKernel($env = null)
+    {
+        $options = ['environment' => $env];
+        $kernel = static::createKernel($options);
+        $kernel->boot();
+
+        return $kernel;
+    }
+
+    protected function createCacheableEntity($title)
+    {
+        $testEntity = new CacheableEntity();
+        $testEntity->setTitle($title);
+
+        return $testEntity;
+    }
+
+    public function dataProviderForSerializationFormatWithCache()
     {
         return [
-            ['json'],
-            ['array'],
-            ['mongo_array'],
+            ['json', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
+            ['array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
+            ['mongo_array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
+            ['json', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
+            ['array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
+            ['mongo_array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
         ];
     }
 
     /**
-     * @dataProvider dataProviderForSerializationFormat
+     * @dataProvider dataProviderForSerializationFormatWithCache
      *
      * @param $format
+     * @param $cacheDriver
      */
-    public function testSerializationWithCache($format)
+    public function testSerializationWithCache($format, $cacheDriver)
     {
+        $kernel = $this->prepareKernel($cacheDriver);
+        $container = $kernel->getContainer();
+
+        $cacheServiceSpy = new FakeCacheServiceSpy();
+
+        /** @var CacheServiceInterface|\PHPUnit_Framework_MockObject_MockObject $cacheServiceMock */
+        $cacheServiceMock = $this->getMock(FakeCacheService::class, null, [$cacheServiceSpy]);
+
+        $container->get('smartcore.serializer.subscriber.cache')->setCacheService($cacheServiceMock);
+        $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
+
         /** @var SerializerInterface $serializer */
-        $serializer = $this->getContainer()->get('serializer');
+        $serializer = $container->get('serializer');
         $cacheData = $this->createCacheableEntity('title 1');
         $cacheDataArray = [
             'type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
@@ -112,21 +134,33 @@ class CachedObjectHandlerTest extends BaseTestCase
                 'result' => $cacheDataArray,
             ],
         ];
-        $this->assertEquals($expectedSpyLog, $this->cacheServiceSpy->getLog(), 'Methods of cache service were not executed with proper order or arguments.');
+        $this->assertEquals($expectedSpyLog, $cacheServiceSpy->getLog(), 'Methods of cache service were not executed with proper order or arguments.');
+
+        $kernel->shutdown();
     }
 
-    protected function createCacheableEntity($title)
+    public function dataProviderForSerializationFormatWithoutCache()
     {
-        $testEntity = new CacheableEntity();
-        $testEntity->setTitle($title);
-
-        return $testEntity;
+        return [
+            ['json'],
+            ['array'],
+            ['mongo_array'],
+            ['xml'],
+        ];
     }
 
-    public function testSerializationWithoutCacheForXML()
+    /**
+     * @dataProvider dataProviderForSerializationFormatWithoutCache
+     *
+     * @param $format
+     */
+    public function testSerializationWithoutCacheForXML($format)
     {
+        $kernel = $this->prepareKernel();
+        $container = $kernel->getContainer();
+
         /** @var SerializerInterface $serializer */
-        $serializer = $this->getContainer()->get('serializer');
+        $serializer = $container->get('serializer');
         $cacheData = $this->createCacheableEntity('title 1');
 
         $entity = new SerializableThing();
@@ -149,9 +183,10 @@ class CachedObjectHandlerTest extends BaseTestCase
 
         $context = new SerializationContext();
 
-        $serializedEntity = $serializer->serialize($entity, 'xml', $context);
-        $deserializedEntity = $serializer->deserialize($serializedEntity, SerializerInterface::class, 'xml');
+        $serializedEntity = $serializer->serialize($entity, $format, $context);
+        $deserializedEntity = $serializer->deserialize($serializedEntity, SerializerInterface::class, $format);
 
         $this->assertEquals($entity, $deserializedEntity);
+        $kernel->shutdown();
     }
 }

@@ -14,17 +14,17 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0",
         "jms/serializer-bundle": "^0.13.0",
-        "doctrine/annotations": "1.2.*",
-        "snc/redis-bundle": "^1.1",
-        "predis/predis": "^1.0"
+        "doctrine/annotations": "1.2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.7.*",
         "sensio/generator-bundle": "~2.3",
-        "digitalnature/php-ref": "dev-master"
+        "digitalnature/php-ref": "dev-master",
+        "snc/redis-bundle": "^1.1",
+        "predis/predis": "^1.0"
     },
     "config": {
-	"bin-dir": "bin"
+	    "bin-dir": "bin"
     },
     "minimum-stability": "dev",
     "prefer-stable" : true

@@ -22,10 +22,15 @@ class CachedObjectHandler implements SubscribingHandlerInterface
      */
     public static function getDataCacheKey($data, Context $context)
     {
-        $data = new CachedObject($data, $context);
+        $dataArray = [
+            'data' => $data,
+            'serializationFormat' => $context->getFormat(),
+            'serializationGroups' => $context->attributes->get('groups'),
+            'serializationVersion' => $context->attributes->get('version'),
+        ];
 
         try {
-            return sha1(serialize($data));
+            return sha1(serialize($dataArray));
         } catch (\Exception $e) {
             return null;
         }
