@@ -60,7 +60,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
     /**
      * @param string $key
-     * @param EntityInterface $value
+     * @param EntityInterface|string $value
      */
     public function set($key, $value)
     {
