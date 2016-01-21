@@ -14,6 +14,16 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class SmartboxCoreExtension extends Extension
 {
+    protected $config;
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -21,6 +31,7 @@ class SmartboxCoreExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $this->config = $config;
 
         if(empty($config['fixtures_path'])){
             $config['fixtures_path'] = $container->getParameter('kernel.root_dir').'/Resources/Fixtures';
