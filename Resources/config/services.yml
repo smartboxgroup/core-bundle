@@ -44,15 +44,21 @@ services:
 
     smartcore.xml_deserialization_visitor:
         class: %smartcore.xml_deserialization_visitor.class%
-        parent: jms_serializer.xml_deserialization_visitor
-        arguments: [@smartcore.deserialization_types_validator]
+        arguments:
+          - @jms_serializer.naming_strategy
+          - @jms_serializer.object_constructor
+          - @smartcore.deserialization_types_validator
+        calls:
+          - [setDoctypeWhitelist, [%jms_serializer.xml_deserialization_visitor.doctype_whitelist%]]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: xml }
 
     smartcore.json_deserialization_visitor:
         class: %smartcore.json_deserialization_visitor.class%
-        parent: jms_serializer.json_deserialization_visitor
-        arguments: [@smartcore.deserialization_types_validator]
+        arguments:
+          - @jms_serializer.naming_strategy
+          - @jms_serializer.object_constructor
+          - @smartcore.deserialization_types_validator
         tags:
             - { name: jms_serializer.deserialization_visitor, format: json }
 
