@@ -1,0 +1,18 @@
+imports:
+    - { resource: config.yml }
+
+smartbox_core:
+    serialization_cache:
+        enabled: true
+        cache_driver: predis
+
+snc_redis:
+    clients:
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://localhost
+            options:
+                profile: 2.2
+                connection_timeout: 10
+                read_write_timeout: 30
