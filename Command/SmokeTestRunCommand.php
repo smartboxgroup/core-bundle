@@ -81,11 +81,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     'id' => $id,
                     'description' => $smokeTest->getDescription(),
                     'result' => implode("\n", $smokeTestOutput->getMessages()),
+                    'failed' => !$smokeTestOutput->isOK(),
                 );
-
-                if (!$smokeTestOutput->isOK()) {
-                    $result['failed'] = true;
-                }
 
                 $content[] = $result;
             }
