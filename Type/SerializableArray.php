@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class SerializableArray
  * @package Smartbox\CoreBundle\Type
  */
-class SerializableArray implements SerializableInterface
+class SerializableArray implements SerializableInterface, \ArrayAccess
 {
     use HasType;
 
@@ -60,7 +60,7 @@ class SerializableArray implements SerializableInterface
 
     /**
      * @param string $key
-     * @param EntityInterface $value
+     * @param EntityInterface|string $value
      */
     public function set($key, $value)
     {
@@ -146,5 +146,37 @@ class SerializableArray implements SerializableInterface
         foreach ($array as $key => $value) {
             $this->set($key, $value);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->array[$offset]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetGet($offset)
+    {
+        return @$this->array[$offset];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->array[$offset] = $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->array[$offset]);
     }
 }
