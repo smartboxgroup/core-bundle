@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-
 // File: Tests/App/console
 
 set_time_limit(0);
