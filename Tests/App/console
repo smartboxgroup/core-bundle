@@ -1,5 +1,7 @@
+#!/usr/bin/env php
 <?php
-// File: Tests/app/console.php
+
+// File: Tests/App/console
 
 set_time_limit(0);
 
@@ -7,6 +9,6 @@ require_once __DIR__.'/autoload.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-$kernel = new AppKernel('dev', true);
+$kernel = new AppKernel('test', true);
 $application = new Application($kernel);
 $application->run();
