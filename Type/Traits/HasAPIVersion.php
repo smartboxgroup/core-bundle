@@ -4,12 +4,13 @@ namespace Smartbox\CoreBundle\Type\Traits;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-trait HasVersion
+trait HasAPIVersion
 {
 
     /**
      * @JMS\Type("string")
      * @JMS\Expose
+     * @JMS\SerializedName("_apiVersion")
      * @JMS\Groups({"metadata"})
      * @var  string
      */
@@ -18,7 +19,7 @@ trait HasVersion
     /**
      * @return string
      */
-    public function getVersion()
+    public function getAPIVersion()
     {
         return $this->version;
     }
@@ -26,7 +27,7 @@ trait HasVersion
     /**
      * @param string $version
      */
-    public function setVersion($version)
+    public function setAPIVersion($version)
     {
         if (!empty($version) && !is_string($version)) {
             throw new \InvalidArgumentException("Expected null or string in method setVersion");

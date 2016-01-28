@@ -26,11 +26,11 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 
         $isArray = is_array($data) || (($data instanceof \SimpleXMLElement) && ($data->children()->count() > 0));
 
-        if ($isArray && array_key_exists('type', $data)) {
+        if ($isArray && array_key_exists('_type', $data)) {
             if ($data instanceof \SimpleXMLElement) {
-                $type = (string)$data->{'type'};
+                $type = (string)$data->{'_type'};
             } else {
-                $type = $data['type'];
+                $type = $data['_type'];
             }
 
             if (!empty($type) && is_a($type, SerializableInterface::class, true)) {
@@ -44,7 +44,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
         $entity = $event->getObject();
 
         if (is_object($entity) && $entity instanceof SerializableInterface) {
-            $event->setType($entity->getType());
+            $event->setType($entity->getInternalType());
         }
 
         if(strpos(get_class($entity),'Mock') !== FALSE){

@@ -86,7 +86,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $path = $this->getCleanDefaultPathForFixture($name);
 
-        $context = ContextFactory::createSerializationContextForFixtures($entity->getGroup(), $entity->getVersion());
+        $context = ContextFactory::createSerializationContextForFixtures($entity->getEntityGroup(), $entity->getAPIVersion());
 
         $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
 
@@ -125,14 +125,14 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         /** @var EntityInterface $entity */
         $entity = new $class();
-        $entity->setVersion($this->version);
-        $entity->setGroup($group);
+        $entity->setAPIVersion($this->version);
+        $entity->setEntityGroup($group);
 
         $propertyAccessor = new PropertyAccessor();
         $metadata = $this->getEntityMetadata($class);
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, array('group', 'version', 'type'))
+            if (!in_array($property, array('_group', '_apiVersion', '_type'))
                 && $propertyAccessor->isWritable($entity,$property)
                 && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata,$context))
                 && !$versionExclusion->shouldSkipProperty($propertyMetadata,$context)

@@ -45,8 +45,8 @@ class RandomFixtureGenerator
 
         /** @var Entity $entity */
         $entity = new $entityNamespace();
-        $entity->setGroup($group);
-        $entity->setVersion($version);
+        $entity->setEntityGroup($group);
+        $entity->setAPIVersion($version);
 
         $this->fillEntityWithRandomData($entity);
 
@@ -55,8 +55,8 @@ class RandomFixtureGenerator
 
     protected function fillEntityWithRandomData(EntityInterface $entity)
     {
-        $version = $entity->getVersion();
-        $group = $entity->getGroup();
+        $version = $entity->getAPIVersion();
+        $group = $entity->getEntityGroup();
         $versionExclusion = new VersionExclusionStrategy($version);
         $groupExclusion = new GroupsExclusionStrategy(array($group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC));
         $propertyAccessor = new PropertyAccessor();
@@ -65,7 +65,7 @@ class RandomFixtureGenerator
         $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, array('group', 'version', 'type'))
+            if (!in_array($property, array('_group', '_apiVersion', '_type'))
                 && $propertyAccessor->isWritable($entity, $property)
                 && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context))
                 && (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))

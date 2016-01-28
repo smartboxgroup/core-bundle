@@ -3,7 +3,7 @@
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
-use Smartbox\CoreBundle\Type\Traits\HasType;
+use Smartbox\CoreBundle\Type\Traits\HasInternalType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class SerializableArray implements SerializableInterface, \ArrayAccess
 {
-    use HasType;
+    use HasInternalType;
 
     /**
      * @var array

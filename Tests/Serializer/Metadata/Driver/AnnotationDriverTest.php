@@ -40,19 +40,19 @@ class AnnotationDriverTest extends KernelTestCase
     {
         $data = [];
 
-        // should serialize only "type"
+        // should serialize only "_type"
         $object1 = new SerializableWithoutExclusionPolicy();
         $object1->setIntegerValue(4);
         $object1->setDoubleValue(0.08);
         $object1->setStringValue('test 1');
-        $data[] = [$object1, ['type' => SerializableWithoutExclusionPolicy::class]];
+        $data[] = [$object1, ['_type' => SerializableWithoutExclusionPolicy::class]];
 
         // should be the same as SerializableWithoutExclusionPolicy
         $object2 = new SerializableWithExclusionPolicyAll();
         $object2->setIntegerValue(4);
         $object2->setDoubleValue(0.08);
         $object2->setStringValue('test 2');
-        $data[] = [$object2, ['type' => SerializableWithExclusionPolicyAll::class]];
+        $data[] = [$object2, ['_type' => SerializableWithExclusionPolicyAll::class]];
 
         // should serialize everything
         $object3 = new SerializableWithExclusionPolicyNone();
@@ -62,7 +62,7 @@ class AnnotationDriverTest extends KernelTestCase
         $data[] = [
             $object3,
             [
-                'type' => SerializableWithExclusionPolicyNone::class,
+                '_type' => SerializableWithExclusionPolicyNone::class,
                 'integer_value' => 5,
                 'double_value' => 0.03,
                 'string_value' => 'test 3',
@@ -77,7 +77,7 @@ class AnnotationDriverTest extends KernelTestCase
         $data[] = [
             $object4,
             [
-                'type' => SerializableWithExclusionPolicyAllAndFewPropertiesExposed::class,
+                '_type' => SerializableWithExclusionPolicyAllAndFewPropertiesExposed::class,
                 'integer_value' => 5,
                 'string_value' => 'test 4',
             ]
@@ -91,7 +91,7 @@ class AnnotationDriverTest extends KernelTestCase
         $data[] = [
             $object5,
             [
-                'type' => SerializableWithExclusionPolicyNoneAndFewPropertiesExcluded::class,
+                '_type' => SerializableWithExclusionPolicyNoneAndFewPropertiesExcluded::class,
                 'double_value' => 0.03,
             ]
         ];

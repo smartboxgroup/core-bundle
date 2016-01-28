@@ -46,7 +46,7 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $arrayData = $this->serializer->serialize($data, 'array');
         $this->assertEquals(
             [
-                'type' => TestEntity::class,
+                '_type' => TestEntity::class,
                 'title' => 'some title',
                 'description' => 'some description',
                 'note' => 'some note',
@@ -71,7 +71,7 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $arrayData = $this->serializer->serialize($data, 'array', $context);
         $this->assertEquals(
             [
-                'type' => TestEntity::class,
+                '_type' => TestEntity::class,
                 'title' => 'some title',
                 'note' => 'some note',
             ],
