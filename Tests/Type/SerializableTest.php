@@ -10,7 +10,7 @@ use Smartbox\CoreBundle\Type\String;
 use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
 use Smartbox\CoreBundle\Type\SerializableInterface;
-use Smartbox\CoreBundle\Tests\BaseTestCase;
+use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
@@ -18,7 +18,7 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
  * Class EntityTest
  * @package Smartbox\CoreBundle\Tests\Entity
  */
-class SerializableTest extends BaseTestCase
+class SerializableTest extends BaseKernelTestCase
 {
     public function validAndInvalidStringsDataProvider()
     {

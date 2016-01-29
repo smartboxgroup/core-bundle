@@ -3,11 +3,11 @@
 namespace Smartbox\CoreBundle\Tests\Hydrator;
 
 use Smartbox\CoreBundle\Hydrator\GroupVersionHydrator;
-use Smartbox\CoreBundle\Tests\BaseTestCase;
+use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestNestedEntity;
 
-class GroupVersionHydratorTest extends BaseTestCase
+class GroupVersionHydratorTest extends BaseKernelTestCase
 {
     const GROUP = 'testGroup';
     const VERSION = 'v17';
