@@ -13,20 +13,20 @@ interface EntityInterface extends SerializableInterface
     /**
      * @return string
      */
-    public function getVersion();
+    public function getAPIVersion();
 
     /**
      * @param string $version
      */
-    public function setVersion($version);
+    public function setAPIVersion($version);
 
     /**
      * @return string
      */
-    public function getGroup();
+    public function getEntityGroup();
 
     /**
      * @param string $group
      */
-    public function setGroup($group);
+    public function setEntityGroup($group);
 }

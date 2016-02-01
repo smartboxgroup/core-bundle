@@ -4,11 +4,11 @@ namespace Smartbox\CoreBundle\Type;
 
 
 use Smartbox\CoreBundle\Type\SerializableInterface;
-use Smartbox\CoreBundle\Type\Traits\HasType;
+use Smartbox\CoreBundle\Type\Traits\HasInternalType;
 
 abstract class Basic implements SerializableInterface
 {
-    use HasType;
+    use HasInternalType;
 
     abstract public function setValue($value);
 

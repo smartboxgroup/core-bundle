@@ -85,8 +85,8 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
         $this->validator->setMetadataFactory($jmsMetadata);
         $this->metadataFactory->addMetadata($metadata);
 
-        $entity->setGroup($group);
-        $entity->setVersion($version);
+        $entity->setEntityGroup($group);
+        $entity->setAPIVersion($version);
         $errors = $this->validator->validate($entity);
         $this->assertEquals($expectedErrorCount,count($errors));
     }

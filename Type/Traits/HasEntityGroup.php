@@ -4,33 +4,34 @@ namespace Smartbox\CoreBundle\Type\Traits;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
-trait HasGroup
+trait HasEntityGroup
 {
     /**
      * @JMS\Type("string")
      * @JMS\Expose
+     * @JMS\SerializedName("_group")
      * @JMS\Groups({"metadata"})
      * @var  string
      */
-    protected $group;
+    protected $entityGroup;
 
     /**
      * @return string
      */
-    public function getGroup()
+    public function getEntityGroup()
     {
-        return $this->group;
+        return $this->entityGroup;
     }
 
     /**
      * @param string $group
      */
-    public function setGroup($group)
+    public function setEntityGroup($group)
     {
         if (!empty($group) && !is_string($group)) {
             throw new \InvalidArgumentException("Expected null or string in method setGroup");
         }
 
-        $this->group = $group;
+        $this->entityGroup = $group;
     }
 }

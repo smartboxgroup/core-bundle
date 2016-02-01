@@ -73,7 +73,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $serializer = $container->get('serializer');
         $cacheData = $this->createCacheableEntity('title 1');
         $cacheDataArray = [
-            'type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
+            '_type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
             'title' => 'title 1',
         ];
 

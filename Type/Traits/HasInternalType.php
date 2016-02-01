@@ -5,16 +5,16 @@ namespace Smartbox\CoreBundle\Type\Traits;
 use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Type\EntityInterface;
 
-trait HasType
+trait HasInternalType
 {
     /**
      * @JMS\VirtualProperty
-     * @JMS\SerializedName("type")
+     * @JMS\SerializedName("_type")
      * @JMS\Type("string")
      * @JMS\Groups({EntityInterface::GROUP_METADATA})
      * @return string
      */
-    public function getType()
+    public function getInternalType()
     {
         return get_class($this);
     }

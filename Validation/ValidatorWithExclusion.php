@@ -73,10 +73,10 @@ class ValidatorWithExclusion extends ValidatorDecorator
     public function shouldSkipObjectProperty($object, $propertySubPath)
     {
         if ($object instanceof EntityInterface) {
-            $version = $object->getVersion();
+            $version = $object->getAPIVersion();
             $groups = null;
-            if ($object->getGroup()) {
-                $groups = array($object->getGroup());
+            if ($object->getEntityGroup()) {
+                $groups = array($object->getEntityGroup());
             }
 
             $className = get_class($object);
@@ -115,8 +115,8 @@ class ValidatorWithExclusion extends ValidatorDecorator
     public function validate($value, $constraints = null, $groups = null)
     {
         if (is_object($value) && $value instanceof EntityInterface) {
-            if (!$groups && $value->getGroup()) {
-                $groups = array($value->getGroup(), EntityInterface::GROUP_DEFAULT);
+            if (!$groups && $value->getEntityGroup()) {
+                $groups = array($value->getEntityGroup(), EntityInterface::GROUP_DEFAULT);
             }
         }
 

@@ -78,8 +78,8 @@ class GroupVersionHydrator
      */
     private function hydrateEntity(EntityInterface $entity, $group, $version)
     {
-        $entity->setGroup($group);
-        $entity->setVersion($version);
+        $entity->setEntityGroup($group);
+        $entity->setAPIVersion($version);
 
         // hydrate all the sub-fields recursively using JMS to extract them and identify their type
         $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));

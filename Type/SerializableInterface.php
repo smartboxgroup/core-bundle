@@ -12,5 +12,5 @@ interface SerializableInterface
     /**
      * @return string
      */
-    public function getType();
+    public function getInternalType();
 }
