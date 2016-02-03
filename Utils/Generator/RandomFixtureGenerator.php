@@ -65,7 +65,7 @@ class RandomFixtureGenerator
         $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, array('_group', '_apiVersion', '_type'))
+            if (!in_array($property, array('entityGroup', 'version', '_type'))
                 && $propertyAccessor->isWritable($entity, $property)
                 && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context))
                 && (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))
