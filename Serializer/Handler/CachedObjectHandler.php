@@ -57,12 +57,12 @@ class CachedObjectHandler implements SubscribingHandlerInterface
                 'type' => self::TYPE,
                 'method' => 'getDataFromCache',
             ),
-            array(
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'mongo_array',
-                'type' => self::TYPE,
-                'method' => 'getDataFromCache',
-            ),
+//            array(
+//                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+//                'format' => 'mongo_array',
+//                'type' => self::TYPE,
+//                'method' => 'getDataFromCache',
+//            ),
         );
     }
 
