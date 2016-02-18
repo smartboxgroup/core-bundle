@@ -102,38 +102,42 @@ class CachedObjectHandlerTest extends KernelTestCase
         $deserializedEntity = $serializer->deserialize($serializedEntity, SerializerInterface::class, $format);
 
         $this->assertEquals($entity, $deserializedEntity);
-        $expectedSpyLog = [
-            [
-                'method' => 'exists',
-                'arguments' =>[$cacheKey],
-                'result' => false,
-            ],
-            [
-                'method' => 'set',
-                'arguments' => [$cacheKey, $cacheDataArray, null],
-                'result' => true,
-            ],
-            [
-                'method' => 'exists',
-                'arguments' => [$cacheKey],
-                'result' => true,
-            ],
-            [
-                'method' => 'get',
-                'arguments'=> [$cacheKey],
-                'result' => $cacheDataArray,
-            ],
-            [
-                'method' => 'exists',
-                'arguments' => [$cacheKey],
-                'result' => true,
-            ],
-            [
-                'method' => 'get',
-                'arguments' => [$cacheKey],
-                'result' => $cacheDataArray,
-            ],
-        ];
+
+        $expectedSpyLog = [];
+        if (in_array($format, ['json', 'array'])) {
+            $expectedSpyLog = [
+                [
+                    'method' => 'exists',
+                    'arguments' => [$cacheKey],
+                    'result' => false,
+                ],
+                [
+                    'method' => 'set',
+                    'arguments' => [$cacheKey, $cacheDataArray, null],
+                    'result' => true,
+                ],
+                [
+                    'method' => 'exists',
+                    'arguments' => [$cacheKey],
+                    'result' => true,
+                ],
+                [
+                    'method' => 'get',
+                    'arguments' => [$cacheKey],
+                    'result' => $cacheDataArray,
+                ],
+                [
+                    'method' => 'exists',
+                    'arguments' => [$cacheKey],
+                    'result' => true,
+                ],
+                [
+                    'method' => 'get',
+                    'arguments' => [$cacheKey],
+                    'result' => $cacheDataArray,
+                ],
+            ];
+        }
         $this->assertEquals($expectedSpyLog, $cacheServiceSpy->getLog(), 'Methods of cache service were not executed with proper order or arguments.');
 
         $kernel->shutdown();
