@@ -23,17 +23,23 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'),
-            array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize'),
-        );
+        $formats = ['json', 'array'];
+
+        $config = [];
+        foreach ($formats as $format) {
+            $config[] = array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize', 'format' => $format);
+            $config[] = array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize', 'format' => $format);
+        }
+
+        return $config;
     }
 
     public function onPreSerialize(PreSerializeEvent $event)
     {
         $data = $event->getObject();
         if ($data instanceof SerializerCacheableInterface && $event->getVisitor() instanceof GenericSerializationVisitor) {
-            if ($this->getCacheService()->exists(CachedObjectHandler::getDataCacheKey($data, $event->getContext()))) {
+            $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
+            if ($key !== null && $this->getCacheService()->exists($key)) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }
@@ -48,7 +54,11 @@ class CacheEventsSubscriber implements EventSubscriberInterface
         if ($type['name'] !== CachedObjectHandler::TYPE && $object instanceof SerializerCacheableInterface && $visitor instanceof GenericSerializationVisitor){
             // save to cache
             $cacheData = $this->getDataFromVisitor($visitor);
-            $this->cacheService->set(CachedObjectHandler::getDataCacheKey($object, $event->getContext()), $cacheData);
+            $key = CachedObjectHandler::getDataCacheKey($object, $event->getContext());
+
+            if($key !== null){
+                $this->cacheService->set($key, $cacheData);
+            }
         }
     }
 
