@@ -87,7 +87,7 @@ class GroupVersionHydrator
         foreach ($metadata->propertyMetadata as $property) {
             if ($property->type['name'] === 'array') {
                 $array = $property->getValue($entity);
-                if (is_array($array)) {
+                if (is_array($array) && !empty($array) && (is_object($array[0]) || is_array($array[0]))) {
                     $this->hydrateArray($array, $group, $version);
                 }
             } elseif (($object = $property->getValue($entity)) instanceof EntityInterface) {
