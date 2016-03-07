@@ -116,6 +116,10 @@ class RandomFixtureGenerator
                 $result = substr(md5(rand()), 0, rand(2, 10));
                 break;
 
+            case 'boolean':
+                $result = (rand(0,1) % 2 == 0);
+                break;
+
             case 'array':
                 $numberOfTypeParams = count($typeParams);
 
