@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\DependencyInjection;
 
+use Smartbox\CoreBundle\Utils\SmokeTest\Generic\ConnectivityCheckSmokeTest;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class SmokeTestCompilerPass implements CompilerPassInterface
 {
-    /** @var  ContainerBuilder */
+    /** @var ContainerBuilder */
     protected $container;
 
     public function process(ContainerBuilder $container)
@@ -23,6 +24,13 @@ class SmokeTestCompilerPass implements CompilerPassInterface
         $serviceIds = $container->findTaggedServiceIds('smartbox.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
             $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId)]);
+        }
+
+        // initialize smartcore.smoke_test.generic.connectivity_check with items which needs to check connectivity
+        $connectivityCheckSmokeTestDef = $container->getDefinition('smartcore.smoke_test.generic.connectivity_check');
+        $connectivityCheckSmokeTestItems = $container->findTaggedServiceIds(ConnectivityCheckSmokeTest::TAG_ITEM);
+        foreach ($connectivityCheckSmokeTestItems as $serviceName => $tags) {
+            $connectivityCheckSmokeTestDef->addMethodCall('addItem', array($serviceName, new Reference($serviceName)));
         }
     }
 }
