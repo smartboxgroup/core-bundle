@@ -50,7 +50,10 @@ class PredisCacheService implements CacheServiceInterface
                 return $this->client->set($key, serialize($value));
             }
         } catch (ConnectionException $e) {
-            $this->logger->error('Redis service is down.', ['exception' => $e]);
+            // currently we can't log anything here because serializer runned by smartbox.monolog.formatter.json
+            // fails on recursive calls, pull request to fix it is still opened
+            // https://github.com/schmittjoh/serializer/pull/341
+            // $this->logger->error('Redis service is down.', ['message' => $e->getMessage()]);
 
             return false;
         }
@@ -80,7 +83,10 @@ class PredisCacheService implements CacheServiceInterface
         try {
             return $this->client->exists($key) && $this->client->ttl($key) > 60;
         } catch (ConnectionException $e) {
-            $this->logger->error('Redis service is down.', ['exception' => $e]);
+            // currently we can't log anything here because serializer runned by smartbox.monolog.formatter.json
+            // fails on recursive calls, pull request to fix it is still opened
+            // https://github.com/schmittjoh/serializer/pull/341
+            // $this->logger->error('Redis service is down.', ['message' => $e->getMessage()]);
 
             return false;
         }
