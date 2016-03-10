@@ -3,7 +3,6 @@
 namespace Smartbox\CoreBundle\Utils\Cache;
 
 use Predis\Connection\ConnectionException;
-use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class PredisCacheService
@@ -11,8 +10,6 @@ use Psr\Log\LoggerAwareTrait;
  */
 class PredisCacheService implements CacheServiceInterface
 {
-    use LoggerAwareTrait;
-
     /**
      * @var \Predis\ClientInterface
      */
