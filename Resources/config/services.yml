@@ -16,9 +16,6 @@ parameters:
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver
     jms_serializer.array_collection_handler.class: Smartbox\CoreBundle\Serializer\Handler\DateHandler
 
-    # SMOKE TESTS
-    smartcore.smoke_test.generic.connectivity_check.class: Smartbox\CoreBundle\Utils\SmokeTest\Generic\ConnectivityCheckSmokeTest
-
 services:
     smartcore.serialization.subscriber:
         class:  %smartcore.serialization.subscriber.class%
@@ -107,9 +104,3 @@ services:
         class: Smartbox\CoreBundle\Command\SmokeTestRunCommand
         tags:
             -  { name: console.command }
-
-    # GENERIC SMOKE TESTS
-    smartcore.smoke_test.generic.connectivity_check:
-        class: %smartcore.smoke_test.generic.connectivity_check.class%
-        tags:
-            - { name: smartbox.smoke_test }
