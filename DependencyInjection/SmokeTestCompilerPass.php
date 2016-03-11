@@ -28,6 +28,9 @@ class SmokeTestCompilerPass implements CompilerPassInterface
 
                 if(array_key_exists('method',$attr)){
                     $runMethod = $attr['runMethod'];
+                }
+
+                if(array_key_exists('descriptionMethod',$attr)){
                     $descriptionMethod = $attr['descriptionMethod'];
                 }
 
