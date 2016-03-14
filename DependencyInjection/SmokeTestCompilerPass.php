@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class SmokeTestCompilerPass implements CompilerPassInterface
 {
-    /** @var  ContainerBuilder */
+    /** @var ContainerBuilder */
     protected $container;
 
     public function process(ContainerBuilder $container)
@@ -22,7 +22,20 @@ class SmokeTestCompilerPass implements CompilerPassInterface
 
         $serviceIds = $container->findTaggedServiceIds('smartbox.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
-            $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId)]);
+            foreach($tags as $tag => $attr){
+                $runMethod = 'run';
+                $descriptionMethod = 'getDescription';
+
+                if(array_key_exists('method',$attr)){
+                    $runMethod = $attr['runMethod'];
+                }
+
+                if(array_key_exists('descriptionMethod',$attr)){
+                    $descriptionMethod = $attr['descriptionMethod'];
+                }
+
+                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId),$runMethod, $descriptionMethod]);
+            }
         }
     }
 }

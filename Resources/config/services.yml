@@ -16,7 +16,6 @@ parameters:
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver
     jms_serializer.array_collection_handler.class: Smartbox\CoreBundle\Serializer\Handler\DateHandler
 
-
 services:
     smartcore.serialization.subscriber:
         class:  %smartcore.serialization.subscriber.class%
@@ -99,6 +98,8 @@ services:
         class: %smartcore.generator.random_fixture.class%
         arguments: [@jms_serializer.metadata_factory, @smartcore.helper.entity_namespace_resolver]
 
+    ## SMOKE TESTS ##
+    # COMMAND
     smartcore.command.smoke_test:
         class: Smartbox\CoreBundle\Command\SmokeTestRunCommand
         tags:

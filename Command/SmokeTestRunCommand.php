@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\Command;
 
+use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputInterface;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,13 +31,19 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         ;
     }
 
-    public function addTest($id, SmokeTestInterface $smokeTest)
+    public function addTest($id, SmokeTestInterface $smokeTest, $runMethod = 'run', $descriptionMethod = 'getDescription')
     {
-        if (array_key_exists($id, $this->smokeTests)) {
+        $key = $id.'_'.$runMethod;
+        if (array_key_exists($key, $this->smokeTests)) {
             throw new \RuntimeException(sprintf('Test with id "%s" is already added.', $id));
         }
 
-        $this->smokeTests[$id] = $smokeTest;
+        $this->smokeTests[$key] = [
+            'service' => $smokeTest,
+            'id' => $id,
+            'runMethod' => $runMethod,
+            'descriptionMethod' => $descriptionMethod
+            ];
     }
 
     /**
@@ -60,14 +67,24 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         }
 
         $content = array();
-        foreach ($this->smokeTests as $id => $smokeTest) {
+        foreach ($this->smokeTests as $key => $smokeTestInfo) {
+            $smokeTest = $smokeTestInfo['service'];
+            $id = $smokeTestInfo['id'];
+            $runMethod = $smokeTestInfo['runMethod'];
+            $descriptionMethod = $smokeTestInfo['descriptionMethod'];
+
             $smokeTestOutput = null;
             if (!$silent && !$json) {
                 $this->out->writeln("\n");
-                $this->out->writeln('Running @SmokeTest with ID: ' . "<info>" . $id . "</info>");
-                $this->out->writeln('Description: ' . "<info>" . $smokeTest->getDescription() . "</info>");
+                $this->out->writeln('Running @SmokeTest with ID: ' . "<info>" . $id . "</info> and method: <info>".$runMethod."</info>");
+                $this->out->writeln('Description: ' . "<info>" . $smokeTest->$descriptionMethod() . "</info>");
 
-                $smokeTestOutput = $smokeTest->run();
+                /** @var SmokeTestOutputInterface $smokeTestOutput */
+                $smokeTestOutput = $smokeTest->$runMethod();
+
+                if(!$smokeTestOutput instanceof SmokeTestOutputInterface){
+                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                }
 
                 $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK()? '<info>Success</info>' : '<error>Failure</error>'));
                 $this->out->writeln('MESSAGE:');
@@ -76,10 +93,16 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 }
                 $this->out->writeln("\n---------------------------------");
             } else {
-                $smokeTestOutput = $smokeTest->run();
+                /** @var SmokeTestOutputInterface $smokeTestOutput */
+                $smokeTestOutput = $smokeTest->$runMethod();
+
+                if(!$smokeTestOutput instanceof SmokeTestOutputInterface){
+                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                }
                 $result = array(
                     'id' => $id,
-                    'description' => $smokeTest->getDescription(),
+                    'method' => $runMethod,
+                    'description' => $smokeTest->$descriptionMethod(),
                     'result' => implode("\n", $smokeTestOutput->getMessages()),
                     'failed' => !$smokeTestOutput->isOK(),
                 );
