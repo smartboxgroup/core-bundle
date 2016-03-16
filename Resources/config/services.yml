@@ -9,6 +9,8 @@ parameters:
     smartcore.array_serialization_visitor.class: Smartbox\CoreBundle\Serializer\ArraySerializationVisitor
     smartcore.array_deserialization_visitor.class: Smartbox\CoreBundle\Serializer\ArrayDeserializationVisitor
 
+    smartcore.monolog.formatter.json.class: Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter
+
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
     smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
 
@@ -89,6 +91,11 @@ services:
         arguments: [@jms_serializer.naming_strategy]
         tags:
             - { name: jms_serializer.serialization_visitor, format: mongo_array }
+
+    smartcore.monolog.formatter.json:
+        class: %smartcore.monolog.formatter.json.class%
+        calls:
+            - [setSerializer, [@serializer]]
 
     smartcore.helper.entity_namespace_resolver:
         class: %smartcore.helper.namespace_resolver.class%

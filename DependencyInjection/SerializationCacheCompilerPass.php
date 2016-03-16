@@ -35,9 +35,11 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
 
             switch($driverOption) {
                 case self::CACHE_SERVICE_DRIVER_PREDIS:
+                    $cacheServiceDef = new Definition(PredisCacheService::class, [new Reference('snc_redis.cache')]);
+                    $cacheServiceDef->addMethodCall('setLogger', [new Reference('monolog.logger')]);
                     $container->setDefinition(
                         self::CACHE_SERVICE_ID,
-                        new Definition(PredisCacheService::class, [new Reference('snc_redis.cache')])
+                        $cacheServiceDef
                     );
                     break;
                 case self::CACHE_SERVICE_DRIVER_CUSTOM:
