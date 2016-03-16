@@ -9,6 +9,7 @@ class EntityConstants
     const GROUP_DEFAULT = Entity::GROUP_DEFAULT;
     const GROUP_PUBLIC = Entity::GROUP_PUBLIC;
     const GROUP_METADATA = Entity::GROUP_METADATA;
+    const GROUP_LOGS = 'logs';
 
     const GROUP_A = 'A';
     const GROUP_B = 'B';

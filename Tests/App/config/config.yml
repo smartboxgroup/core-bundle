@@ -7,6 +7,19 @@ sensio_framework_extra:
         converters: true
         auto_convert: false
 
+monolog:
+    channels: [tracking]
+    handlers:
+        syslog:
+            type: syslog
+            level: error
+            formatter: smartcore.monolog.formatter.json
+        syslog_tracking:
+            type: syslog
+            level: debug
+            formatter: smartcore.monolog.formatter.json
+            channels: [tracking]
+
 smartbox_core:
     fixtures_path: "%kernel.root_dir%/../Json"
     entities_namespaces:
