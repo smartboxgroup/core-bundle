@@ -2,18 +2,12 @@
 
 namespace Smartbox\CoreBundle\Utils\Cache;
 
-use Predis\Connection\ConnectionException;
-use Psr\Log\LoggerAwareTrait;
-use Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter;
-
 /**
  * Class PredisCacheService
  * @package Smartbox\CoreBundle\Utils\Cache
  */
 class PredisCacheService implements CacheServiceInterface
 {
-    use LoggerAwareTrait;
-
     /**
      * @var \Predis\ClientInterface
      */
@@ -50,9 +44,8 @@ class PredisCacheService implements CacheServiceInterface
             } else {
                 return $this->client->set($key, serialize($value));
             }
-        } catch (ConnectionException $e) {
+        } catch (\Exception $e) {
             $this->logException($e);
-
             return false;
         }
     }
@@ -66,7 +59,12 @@ class PredisCacheService implements CacheServiceInterface
             throw new \InvalidArgumentException("The key should not be null");
         }
 
-        return unserialize($this->client->get($key));
+        try{
+            return unserialize($this->client->get($key));
+        }catch (\Exception $ex){
+            $this->logException($ex);
+            return null;
+        }
     }
 
     /**
@@ -80,18 +78,21 @@ class PredisCacheService implements CacheServiceInterface
 
         try {
             return $this->client->exists($key) && $this->client->ttl($key) > 60;
-        } catch (ConnectionException $e) {
-            $this->logException($e);
-
+        } catch (\Exception $ex) {
+            $this->logException($ex);
             return false;
         }
     }
 
     /**
-     * @param \Exception $e
+     * Errors with redis should be logged but should not interrupt the execution. On the other hand Redis is a service
+     * which might be used anywhere, even by the logger. Therefore, to prevent bigger problems to log this error with use
+     * the simple native php function error_log with a simple message.
+     *
+     * @param \Exception $ex
      */
-    protected function logException(\Exception $e)
+    protected function logException(\Exception $ex)
     {
-        $this->logger->error('Redis service is down.', ['message' => $e->getMessage(), JMSSerializerFormatter::_USE_JSON_ENCODE => true]);
+        error_log("Error: Redis service is down: ".$ex->getMessage());
     }
 }
