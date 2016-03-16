@@ -11,6 +11,7 @@ class AppKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Smartbox\CoreBundle\SmartboxCoreBundle(),
         );
