@@ -24,7 +24,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
     {
         $this
             ->setName('smartbox:smoke-test')
-            ->setDescription('Run all services tagged with "smartbox.smoke_test"')
+            ->setDescription('Run all services tagged with "smartcore.smoke_test"')
             ->addOption('silent', null, InputOption::VALUE_NONE, 'If in silent mode this command will return only exit code (0 or 1)')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Show output in JSON format.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'File path to write')

@@ -77,7 +77,7 @@ services:
         tags:
             - { name: jms_serializer.serialization_visitor, format: array }
 
-    smartbox.array_deserialization_visitor_mongo:
+    smartcore.array_deserialization_visitor_mongo:
         class: %smartcore.array_deserialization_visitor.class%
         arguments:
             - @jms_serializer.naming_strategy
@@ -86,7 +86,7 @@ services:
         tags:
             - { name: jms_serializer.deserialization_visitor, format: mongo_array }
 
-    smartbox.array_serialization_visitor_mongo:
+    smartcore.array_serialization_visitor_mongo:
         class: %smartcore.array_serialization_visitor.class%
         arguments: [@jms_serializer.naming_strategy]
         tags:

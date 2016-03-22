@@ -20,7 +20,7 @@ class SmokeTestCompilerPass implements CompilerPassInterface
     {
         $smokeTestCommand = $container->getDefinition('smartcore.command.smoke_test');
 
-        $serviceIds = $container->findTaggedServiceIds('smartbox.smoke_test');
+        $serviceIds = $container->findTaggedServiceIds('smartcore.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
             foreach($tags as $tag => $attr){
                 $runMethod = 'run';
