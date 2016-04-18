@@ -1,5 +1,6 @@
 {
     "name": "smartbox/core-bundle",
+    "description": "Smartbox Core Bundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "autoload": {
