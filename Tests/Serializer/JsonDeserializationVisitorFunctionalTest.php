@@ -32,11 +32,10 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
             ->build()
         ;
     }
-
 
     public function testItShouldDeserializeValidEntity()
     {

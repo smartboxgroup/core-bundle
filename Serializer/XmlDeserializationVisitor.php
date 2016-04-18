@@ -7,8 +7,7 @@ use JMS\Serializer\Context;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 /**
- * Class XmlDeserializationVisitor
- * @package Smartbox\CoreBundle\Serializer
+ * Class XmlDeserializationVisitor.
  */
 class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisitor
 {
@@ -19,8 +18,8 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
     /**
      * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationTypesValidator $visitorValidator
+     * @param ObjectConstructorInterface      $objectConstructor
+     * @param DeserializationTypesValidator   $visitorValidator
      */
     public function __construct(PropertyNamingStrategyInterface $namingStrategy,
                                 ObjectConstructorInterface $objectConstructor,
@@ -70,9 +69,11 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
     /**
      * @param $data
+     *
      * @return string
      */
-    private function fixXmlNode($data) {
+    private function fixXmlNode($data)
+    {
         if ($data instanceof \SimpleXMLElement) {
             if (in_array(dom_import_simplexml($data)->firstChild->nodeType, [XML_CDATA_SECTION_NODE, XML_TEXT_NODE])) {
                 $data = $data->__toString();

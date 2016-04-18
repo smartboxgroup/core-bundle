@@ -12,8 +12,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class SerializationCacheCompilerPass
- * @package Smartbox\CoreBundle\DependencyInjection
+ * Class SerializationCacheCompilerPass.
  */
 class SerializationCacheCompilerPass implements CompilerPassInterface
 {
@@ -33,7 +32,7 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
         if ($config['serialization_cache']['enabled']) {
             $driverOption = $config['serialization_cache']['cache_driver'];
 
-            switch($driverOption) {
+            switch ($driverOption) {
                 case self::CACHE_SERVICE_DRIVER_PREDIS:
                     $cacheServiceDef = new Definition(PredisCacheService::class, [new Reference('snc_redis.cache')]);
                     $container->setDefinition(
@@ -98,8 +97,8 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
     public static function getSupportedDrivers()
     {
         return [
-            SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS,
-            SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM
+            self::CACHE_SERVICE_DRIVER_PREDIS,
+            self::CACHE_SERVICE_DRIVER_CUSTOM,
         ];
     }
 }

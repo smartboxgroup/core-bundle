@@ -52,10 +52,10 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $in
+     * @param InputInterface  $in
      * @param OutputInterface $out
+     *
      * @throws \InvalidArgumentException
-     * @return void
      */
     protected function execute(InputInterface $in, OutputInterface $out)
     {
@@ -69,10 +69,10 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
         $rawOutput = $this->in->getOption('raw-output');
 
         if (!$rawOutput) {
-            $this->out->writeln("<info>####################################</info>");
-            $this->out->writeln("<info>##    Random Fixture generator    ##</info>");
-            $this->out->writeln("<info>####################################</info>");
-            $this->out->writeln("");
+            $this->out->writeln('<info>####################################</info>');
+            $this->out->writeln('<info>##    Random Fixture generator    ##</info>');
+            $this->out->writeln('<info>####################################</info>');
+            $this->out->writeln('');
         }
 
         $entityNamespace = $namespaceResolver->resolveNamespaceForClass($entityClass);
@@ -83,9 +83,9 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
 
         $result = $serializer->serialize($entity, 'json', $context);
         if (!$rawOutput) {
-            $this->out->writeln("");
-            $this->out->writeln("<info>Random fixture successfully generated.</info>");
-            $this->out->writeln("");
+            $this->out->writeln('');
+            $this->out->writeln('<info>Random fixture successfully generated.</info>');
+            $this->out->writeln('');
         }
 
         $this->out->writeln($result);

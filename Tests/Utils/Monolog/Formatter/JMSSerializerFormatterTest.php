@@ -8,8 +8,7 @@ use Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class JMSSerializerFormatterTest
- * @package Smartbox\CoreBundle\Tests\Utils\Monolog\Formatter
+ * Class JMSSerializerFormatterTest.
  *
  * @coversDefaultClass Smartbox\CoreBundle\Tests\Utils\Monolog\Formatter\JMSSerializerFormatter
  */
@@ -28,7 +27,8 @@ class JMSSerializerFormatterTest extends WebTestCase
         $this->serializer = $container->get('serializer');
     }
 
-    public function tearDown(){
+    public function tearDown()
+    {
         parent::tearDown();
         self::$class = null;
     }
@@ -36,12 +36,13 @@ class JMSSerializerFormatterTest extends WebTestCase
     public function dataProviderForFormatter()
     {
         $data = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $data[] = [
                 sprintf('[{"title":"title_%s","description":"description_%s","note":"note_%s"}]', $i, $i, $i),
-                (new TestEntity(10))->setTitle('title_' . $i)->setDescription('description_' . $i)->setNote('note_' . $i)
+                (new TestEntity(10))->setTitle('title_' . $i)->setDescription('description_' . $i)->setNote('note_' . $i),
             ];
         }
+
         return $data;
     }
 
@@ -52,6 +53,7 @@ class JMSSerializerFormatterTest extends WebTestCase
      *
      * @param $expected
      * @param $entity
+     *
      * @return string
      */
     public function testFormat($expected, TestEntity $entity)

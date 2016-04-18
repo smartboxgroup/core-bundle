@@ -7,8 +7,7 @@ use JMS\Serializer\SerializerInterface;
 use Monolog\Formatter\JsonFormatter;
 
 /**
- * Class JMSSerializerFormatter
- * @package Smartbox\CoreBundle\Utils\Monolog\Formatter
+ * Class JMSSerializerFormatter.
  */
 class JMSSerializerFormatter extends JsonFormatter
 {

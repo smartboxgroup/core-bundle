@@ -34,18 +34,17 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
             ->build()
         ;
     }
-
 
     public function testItShouldDeserializeValidEntity()
     {
         $data = [
             'title' => 'some title',
             'description' => 'some description',
-            'note' => 'some note'
+            'note' => 'some note',
         ];
 
         $obj = $this->serializer->deserialize($data, TestEntity::class, 'array');
@@ -59,7 +58,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
         $data = [
             'title' => 'some title',
             'description' => 22,
-            'note' => 'some note'
+            'note' => 'some note',
         ];
 
         // description is not valid but it's introduced in V2 of the entity
@@ -79,7 +78,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
         $data = [
             'title' => 11,
             'description' => 'some description',
-            'note' => 33
+            'note' => 33,
         ];
 
         // Title and note are not valid valid but they are not available in the group B so the error
@@ -101,7 +100,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
         $data = [
             'title' => 'some title',
             'description' => [],
-            'note' => 'some note'
+            'note' => 'some note',
         ];
 
         $this->serializer->deserialize($data, TestEntity::class, 'array');

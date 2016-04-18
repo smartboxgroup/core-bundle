@@ -32,6 +32,6 @@ class AppKernel extends Kernel
             $config = 'config_' . $this->getEnvironment();
         }
 
-        $loader->load($this->getRootDir().'/config/'.$config.'.yml');
+        $loader->load($this->getRootDir() . '/config/' . $config . '.yml');
     }
 }

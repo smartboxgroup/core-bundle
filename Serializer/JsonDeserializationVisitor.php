@@ -7,8 +7,7 @@ use JMS\Serializer\Context;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 /**
- * Class JsonDeserializationVisitor
- * @package Smartbox\CoreBundle\Serializer
+ * Class JsonDeserializationVisitor.
  */
 class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisitor
 {
@@ -19,8 +18,8 @@ class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisi
 
     /**
      * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationTypesValidator $visitorValidator
+     * @param ObjectConstructorInterface      $objectConstructor
+     * @param DeserializationTypesValidator   $visitorValidator
      */
     public function __construct(PropertyNamingStrategyInterface $namingStrategy,
                                 ObjectConstructorInterface $objectConstructor,
@@ -50,7 +49,8 @@ class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisi
     {
         $this->visitorValidator->validateDouble($data, $context, $this->getCurrentObject());
 
-        return parent::visitDouble($data, $type, $context);    }
+        return parent::visitDouble($data, $type, $context);
+    }
 
     public function visitInteger($data, array $type, Context $context)
     {

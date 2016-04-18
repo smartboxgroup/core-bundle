@@ -16,6 +16,7 @@ class NamespaceResolver
 
     /**
      * @param $class
+     *
      * @return string
      */
     public function resolveNamespaceForClass($class)
@@ -24,8 +25,8 @@ class NamespaceResolver
             return $class;
         } else {
             foreach ($this->namespaces as $namespace) {
-                if (class_exists($namespace.'\\'.$class)) {
-                    return $namespace.'\\'.$class;
+                if (class_exists($namespace . '\\' . $class)) {
+                    return $namespace . '\\' . $class;
                 }
             }
         }

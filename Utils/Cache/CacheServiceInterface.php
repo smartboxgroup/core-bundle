@@ -7,20 +7,23 @@ interface CacheServiceInterface
     /**
      * @param $key
      * @param mixed $value
-     * @param null $expireTTL
-     * @return boolean
+     * @param null  $expireTTL
+     *
+     * @return bool
      */
     public function set($key, $value, $expireTTL = null);
 
     /**
      * @param $key
+     *
      * @return string
      */
     public function get($key);
 
     /**
      * @param $key
-     * @return boolean
+     *
+     * @return bool
      */
     public function exists($key);
 }

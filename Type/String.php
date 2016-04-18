@@ -1,12 +1,12 @@
 <?php
+
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class String
- * @package Smartbox\CoreBundle\Type
+ * Class String.
  */
 class String extends Basic
 {
@@ -15,14 +15,15 @@ class String extends Basic
      * @JMS\Type("string")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
+     *
      * @var string
      */
-    protected $value = "";
+    protected $value = '';
 
     /***
      * @param string $value
      */
-    public function __construct($value = "")
+    public function __construct($value = '')
     {
         $this->value = $value;
     }
@@ -32,7 +33,7 @@ class String extends Basic
      */
     public function getValue()
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     /***
@@ -43,11 +44,10 @@ class String extends Basic
     {
         if (is_string($value)) {
             $this->value = $value;
-        } elseif (is_object($value) && $value instanceof String) {
+        } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {
-            throw new \InvalidArgumentException("Expected string");
+            throw new \InvalidArgumentException('Expected string');
         }
     }
-
 }

@@ -19,5 +19,4 @@ class BaseKernelTestCase extends KernelTestCase
     {
         $this->bootKernel();
     }
-
 }

@@ -2,15 +2,12 @@
 
 namespace Smartbox\CoreBundle\Tests\Services\Validation;
 
-
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\Metadata\Driver\AnnotationDriver;
 use Metadata\MetadataFactory;
-use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Validation\ValidatorWithExclusion;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintValidatorFactory;
@@ -27,7 +24,8 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
 
     /**
      * @param MetadataFactoryInterface $metadataFactory
-     * @param array $objectInitializers
+     * @param array                    $objectInitializers
+     *
      * @return ValidatorWithExclusion
      */
     protected function createValidator(MetadataFactoryInterface $metadataFactory, array $objectInitializers = array())
@@ -54,30 +52,32 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
     /**
      * @return array
      */
-    public function exclusionCombinationsProvider(){
+    public function exclusionCombinationsProvider()
+    {
         // Group, Version, Errors
         return array(
-            array(null,null,3),
-            array(EntityConstants::GROUP_A,null,3),
-            array(EntityConstants::GROUP_B,null,2),
-            array("XXX",null,0),
-            array(null,EntityConstants::VERSION_2,3),
-            array(null,EntityConstants::VERSION_1,2),
-            array(EntityConstants::GROUP_A,EntityConstants::VERSION_2,3),
-            array(EntityConstants::GROUP_A,EntityConstants::VERSION_1,2),
+            array(null, null, 3),
+            array(EntityConstants::GROUP_A, null, 3),
+            array(EntityConstants::GROUP_B, null, 2),
+            array('XXX', null, 0),
+            array(null, EntityConstants::VERSION_2, 3),
+            array(null, EntityConstants::VERSION_1, 2),
+            array(EntityConstants::GROUP_A, EntityConstants::VERSION_2, 3),
+            array(EntityConstants::GROUP_A, EntityConstants::VERSION_1, 2),
         );
     }
 
     /**
      * @dataProvider exclusionCombinationsProvider
      */
-    public function testExclusion($group, $version, $expectedErrorCount){
+    public function testExclusion($group, $version, $expectedErrorCount)
+    {
         $entity = new TestEntity();
 
         $metadata = new ClassMetadata(TestEntity::class);
-        $metadata->addPropertyConstraint('title',new NotBlank());
-        $metadata->addPropertyConstraint('description',new NotBlank());
-        $metadata->addPropertyConstraint('note',new NotBlank());
+        $metadata->addPropertyConstraint('title', new NotBlank());
+        $metadata->addPropertyConstraint('description', new NotBlank());
+        $metadata->addPropertyConstraint('note', new NotBlank());
 
         $driver = new AnnotationDriver(new AnnotationReader());
         $jmsMetadata = new MetadataFactory($driver);
@@ -88,6 +88,6 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
         $entity->setEntityGroup($group);
         $entity->setAPIVersion($version);
         $errors = $this->validator->validate($entity);
-        $this->assertEquals($expectedErrorCount,count($errors));
+        $this->assertEquals($expectedErrorCount, count($errors));
     }
 }

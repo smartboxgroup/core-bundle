@@ -30,11 +30,10 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
                     $objectConstructor
                 )
             )
-            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
             ->build()
         ;
     }
-
 
     public function testItShouldSerializeValidEntity()
     {

@@ -2,7 +2,6 @@
 
 namespace Smartbox\CoreBundle\Type;
 
-use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Serializer\Cache\SerializerCacheableInterface;
 use Smartbox\CoreBundle\Type\Traits\HasEntityGroup;
 use Smartbox\CoreBundle\Type\Traits\HasInternalType;

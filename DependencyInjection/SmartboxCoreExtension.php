@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
@@ -33,19 +33,19 @@ class SmartboxCoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $this->config = $config;
 
-        if(empty($config['fixtures_path'])){
-            $config['fixtures_path'] = $container->getParameter('kernel.root_dir').'/Resources/Fixtures';
+        if (empty($config['fixtures_path'])) {
+            $config['fixtures_path'] = $container->getParameter('kernel.root_dir') . '/Resources/Fixtures';
         }
 
-        if(empty($config['entities_namespaces'])){
+        if (empty($config['entities_namespaces'])) {
             $config['entities_namespaces'] = array();
         }
         $config['entities_namespaces'][] = 'Smartbox\CoreBundle\Type';
 
-        $container->setParameter('smartcore.fixtures_path',$config['fixtures_path']);
-        $container->setParameter('smartcore.entity.namespaces',$config['entities_namespaces']);
+        $container->setParameter('smartcore.fixtures_path', $config['fixtures_path']);
+        $container->setParameter('smartcore.entity.namespaces', $config['entities_namespaces']);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }
 }

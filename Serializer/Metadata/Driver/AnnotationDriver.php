@@ -42,7 +42,7 @@ use JMS\Serializer\Annotation\MaxDepth;
 class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
 {
     /**
-     * @var Reader $reader
+     * @var Reader
      */
     protected $reader;
 
@@ -190,7 +190,7 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                                 throw new InvalidArgumentException(sprintf(
                                     'Invalid group name "%s" on "%s", did you mean to create multiple groups?',
                                     implode(', ', $propertyMetadata->groups),
-                                    $propertyMetadata->class.'->'.$propertyMetadata->name
+                                    $propertyMetadata->class . '->' . $propertyMetadata->name
                                 ));
                             }
                         }

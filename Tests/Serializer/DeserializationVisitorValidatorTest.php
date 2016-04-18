@@ -2,7 +2,6 @@
 
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
-use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\GenericDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 

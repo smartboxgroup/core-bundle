@@ -5,11 +5,10 @@ namespace Smartbox\CoreBundle\Exception\Serializer;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Class DeserializationTypeMismatchException
- * @package Smartbox\CoreBundle\Exception\Serializer
+ * Class DeserializationTypeMismatchException.
  */
-class DeserializationTypeMismatchException 
-    extends \RuntimeException 
+class DeserializationTypeMismatchException
+    extends \RuntimeException
     implements \JMS\Serializer\Exception\Exception
 {
     /**
@@ -41,13 +40,13 @@ class DeserializationTypeMismatchException
     private $originalData;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $propertyName
      * @param string $className
-     * @param mixed $propertyValue
+     * @param mixed  $propertyValue
      * @param string $expectedType
-     * @param mixed $originalData
+     * @param mixed  $originalData
      */
     public function __construct($propertyName, $className, $propertyValue, $expectedType, $originalData)
     {
@@ -111,6 +110,7 @@ class DeserializationTypeMismatchException
 
     /**
      * @param mixed $data
+     *
      * @return string
      */
     private function getTypeOrClass($data)
@@ -123,7 +123,7 @@ class DeserializationTypeMismatchException
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {

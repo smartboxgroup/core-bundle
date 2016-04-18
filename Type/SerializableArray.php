@@ -4,11 +4,9 @@ namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Smartbox\CoreBundle\Type\Traits\HasInternalType;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class SerializableArray
- * @package Smartbox\CoreBundle\Type
+ * Class SerializableArray.
  */
 class SerializableArray implements SerializableInterface, \ArrayAccess
 {
@@ -34,7 +32,8 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
         }
     }
 
-    public static function isSerializable($value){
+    public static function isSerializable($value)
+    {
         $cleanValue = false;
 
         if (is_scalar($value)) {
@@ -44,13 +43,13 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
                 $cleanValue = new Integer($value);
             } elseif (is_double($value)) {
                 $cleanValue = new Double($value);
-            } elseif (is_bool($value)){
+            } elseif (is_bool($value)) {
                 $cleanValue = new Boolean($value);
             }
-        }elseif(is_object($value) && $value instanceof \DateTime){
+        } elseif (is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
-        }elseif (is_array($value) && count($value) > 0) {
-            $cleanValue = new SerializableArray($value);
+        } elseif (is_array($value) && count($value) > 0) {
+            $cleanValue = new self($value);
         } elseif (is_object($value) && $value instanceof SerializableInterface) {
             $cleanValue = $value;
         }
@@ -59,13 +58,13 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * @param string $key
-     * @param SerializableInterface|\DateTime|bool|integer|string $value
+     * @param string                                          $key
+     * @param SerializableInterface|\DateTime|bool|int|string $value
      */
     public function set($key, $value)
     {
         if (!is_string($key) && !is_numeric($key)) {
-            throw new \InvalidArgumentException("Invalid key");
+            throw new \InvalidArgumentException('Invalid key');
         }
 
         $cleanValue = false;
@@ -77,28 +76,26 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
                 $cleanValue = new Integer($value);
             } elseif (is_double($value)) {
                 $cleanValue = new Double($value);
-            } elseif (is_bool($value)){
+            } elseif (is_bool($value)) {
                 $cleanValue = new Boolean($value);
             }
-        }elseif(is_object($value) && $value instanceof \DateTime){
+        } elseif (is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
-        }elseif (is_array($value) && count($value) > 0) {
-            $cleanValue = new SerializableArray($value);
+        } elseif (is_array($value) && count($value) > 0) {
+            $cleanValue = new self($value);
         } elseif (is_object($value) && $value instanceof SerializableInterface) {
             $cleanValue = $value;
         }
 
-        if($cleanValue === false){
+        if ($cleanValue === false) {
             if ($value) {
-                throw new \InvalidArgumentException("Invalid value");
-            }else{
-                $this->array[(string)$key] = null;
+                throw new \InvalidArgumentException('Invalid value');
+            } else {
+                $this->array[(string) $key] = null;
             }
+        } else {
+            $this->array[(string) $key] = $cleanValue;
         }
-        else{
-            $this->array[(string)$key] = $cleanValue;
-        }
-
     }
 
     /**
@@ -117,6 +114,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
     /**
      * @param string $key
+     *
      * @return array|null
      */
     public function get($key)
@@ -125,22 +123,23 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
             $res = $this->array[$key];
             if ($res instanceof Basic) {
                 return $res->getValue();
-            } elseif ($res instanceof SerializableArray) {
+            } elseif ($res instanceof self) {
                 return $res->toArray();
             } else {
                 return $res;
             }
         } else {
-            return null;
+            return;
         }
     }
 
     /**
      * @param $array
      */
-    public function setArray($array){
-        if(!is_array($array)){
-            throw new \InvalidArgumentException("Expected array");
+    public function setArray($array)
+    {
+        if (!is_array($array)) {
+            throw new \InvalidArgumentException('Expected array');
         }
 
         foreach ($array as $key => $value) {
@@ -149,7 +148,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetExists($offset)
     {
@@ -157,7 +156,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
@@ -165,7 +164,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -173,7 +172,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetUnset($offset)
     {

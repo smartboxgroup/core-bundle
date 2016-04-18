@@ -8,15 +8,13 @@ use Smartbox\CoreBundle\Type\SerializableArray;
 use Smartbox\CoreBundle\Type\Integer;
 use Smartbox\CoreBundle\Type\String;
 use Smartbox\CoreBundle\Type\Entity;
-use Smartbox\CoreBundle\Type\EntityInterface;
 use Smartbox\CoreBundle\Type\SerializableInterface;
 use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
 /**
- * Class EntityTest
- * @package Smartbox\CoreBundle\Tests\Entity
+ * Class EntityTest.
  */
 class SerializableTest extends BaseKernelTestCase
 {
@@ -27,27 +25,27 @@ class SerializableTest extends BaseKernelTestCase
         return array(
             array('xxx', null),
             array(null, null),
-            array("", null),
+            array('', null),
             array(-1, $exceptClass),
             array(234, $exceptClass),
-            array(12.32, $exceptClass)
+            array(12.32, $exceptClass),
         );
     }
 
     public function objectsToSerializeProvider()
     {
         $arrEntityA = new SerializableArray();
-        $arrEntityA->set('AAAA', new String("XXXXXXX"));
+        $arrEntityA->set('AAAA', new String('XXXXXXX'));
 
         $arrEntity = new SerializableArray();
         $arrEntity->set('response', $arrEntityA);
         $arrEntity->set('response2', $arrEntityA);
         $arrEntity->set('number', new Integer(2));
-        $arrEntity->set('string', new String("Lorem ipsum"));
+        $arrEntity->set('string', new String('Lorem ipsum'));
         $arrEntity->set('other', $arrEntityA);
 
         return array(
-            array($arrEntity)
+            array($arrEntity),
         );
     }
 
@@ -63,7 +61,6 @@ class SerializableTest extends BaseKernelTestCase
         $entityAfterJson = $serializer->deserialize($json, Entity::class, 'json');
         $this->assertEquals($object, $entityAfterJson);
 
-
         $xml = $serializer->serialize($object, 'xml');
         $entityAfterXml = $serializer->deserialize($xml, Entity::class, 'xml');
         $this->assertEquals($object, $entityAfterXml);
@@ -76,14 +73,14 @@ class SerializableTest extends BaseKernelTestCase
         $thing->setIntegerValue(17);
         $thing->setDoubleValue(17.17);
         $thing->setArrayOfDates([
-            new Date()
+            new Date(),
         ]);
         $thing->setArrayOfEntities([
-            new TestEntity()
+            new TestEntity(),
         ]);
 
         return [
-            [$thing]
+            [$thing],
         ];
     }
 
@@ -99,7 +96,6 @@ class SerializableTest extends BaseKernelTestCase
 
         $entityAfterJson = $serializer->deserialize($json, SerializableInterface::class, 'json');
         $this->assertEquals($serializable, $entityAfterJson);
-
 
         $xml = $serializer->serialize($serializable, 'xml');
         $entityAfterXml = $serializer->deserialize($xml, SerializableInterface::class, 'xml');

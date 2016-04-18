@@ -10,13 +10,12 @@ use JMS\Serializer\XmlDeserializationVisitor;
 use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\VisitorInterface;
 use JMS\Serializer\GraphNavigator;
+
 /**
  * Based on JMS\Serializer\Handler\DateHandler
  * It was not possible to extend the original class due to private fields
- * Class DateHandler
- * @package Smartbox\CoreBundle\Serializer\Handler
+ * Class DateHandler.
  */
-
 class DateHandler implements SubscribingHandlerInterface
 {
     /** @var  \JMS\Serializer\Handler\DateHandler */
@@ -46,7 +45,7 @@ class DateHandler implements SubscribingHandlerInterface
                     'type' => $type,
                     'format' => $format,
                     'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                    'method' => 'serialize'.$type,
+                    'method' => 'serialize' . $type,
                 );
             }
         }
@@ -59,12 +58,12 @@ class DateHandler implements SubscribingHandlerInterface
         $this->defaultFormat = $defaultFormat;
         $this->defaultTimezone = new \DateTimeZone($defaultTimezone);
         $this->xmlCData = $xmlCData;
-        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat,$defaultTimezone,$xmlCData);
+        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone, $xmlCData);
     }
 
     public function serializeDateTime(VisitorInterface $visitor, \DateTime $date, array $type, Context $context)
     {
-        return $this->decoratedDateHandler->serializeDateTime($visitor,$date,$type,$context);
+        return $this->decoratedDateHandler->serializeDateTime($visitor, $date, $type, $context);
     }
 
     public function serializeDateInterval(VisitorInterface $visitor, \DateInterval $date, array $type, Context $context)
@@ -74,12 +73,12 @@ class DateHandler implements SubscribingHandlerInterface
 
     public function deserializeDateTimeFromXml(XmlDeserializationVisitor $visitor, $data, array $type)
     {
-        return $this->decoratedDateHandler->deserializeDateTimeFromXml($visitor,$data,$type);
+        return $this->decoratedDateHandler->deserializeDateTimeFromXml($visitor, $data, $type);
     }
 
     public function deserializeDateTimeFromJson(JsonDeserializationVisitor $visitor, $data, array $type)
     {
-        return $this->decoratedDateHandler->deserializeDateTimeFromJson($visitor,$data,$type);
+        return $this->decoratedDateHandler->deserializeDateTimeFromJson($visitor, $data, $type);
     }
 
     private function parseDateTime($data, array $type)
@@ -97,7 +96,7 @@ class DateHandler implements SubscribingHandlerInterface
     public function deserializeDateTimeFromArray(GenericDeserializationVisitor $visitor, $data, array $type)
     {
         if (null === $data) {
-            return null;
+            return;
         }
 
         return $this->parseDateTime($data, $type);
@@ -105,6 +104,7 @@ class DateHandler implements SubscribingHandlerInterface
 
     /**
      * @return string
+     *
      * @param array $type
      */
     private function getFormat(array $type)

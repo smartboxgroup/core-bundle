@@ -8,8 +8,7 @@ use JMS\Serializer\GenericDeserializationVisitor;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 
 /**
- * Class ArrayDeserializationVisitor
- * @package Smartbox\CoreBundle\Serializer
+ * Class ArrayDeserializationVisitor.
  */
 class ArrayDeserializationVisitor extends GenericDeserializationVisitor
 {
@@ -20,8 +19,8 @@ class ArrayDeserializationVisitor extends GenericDeserializationVisitor
 
     /**
      * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationTypesValidator $visitorValidator
+     * @param ObjectConstructorInterface      $objectConstructor
+     * @param DeserializationTypesValidator   $visitorValidator
      */
     public function __construct(
         PropertyNamingStrategyInterface $namingStrategy,

@@ -66,7 +66,7 @@ class AnnotationDriverTest extends KernelTestCase
                 'integer_value' => 5,
                 'double_value' => 0.03,
                 'string_value' => 'test 3',
-            ]
+            ],
         ];
 
         // should serialize only EXPOSED properties
@@ -80,7 +80,7 @@ class AnnotationDriverTest extends KernelTestCase
                 '_type' => SerializableWithExclusionPolicyAllAndFewPropertiesExposed::class,
                 'integer_value' => 5,
                 'string_value' => 'test 4',
-            ]
+            ],
         ];
 
         // should serialize only NOT EXCLUDED properties
@@ -93,7 +93,7 @@ class AnnotationDriverTest extends KernelTestCase
             [
                 '_type' => SerializableWithExclusionPolicyNoneAndFewPropertiesExcluded::class,
                 'double_value' => 0.03,
-            ]
+            ],
         ];
 
         return $data;
@@ -101,8 +101,9 @@ class AnnotationDriverTest extends KernelTestCase
 
     /**
      * @dataProvider dataProviderForSerializables
+     *
      * @param SerializableInterface $data
-     * @param array $expectedSerializedData
+     * @param array                 $expectedSerializedData
      */
     public function testSerialization(SerializableInterface $data, array $expectedSerializedData)
     {

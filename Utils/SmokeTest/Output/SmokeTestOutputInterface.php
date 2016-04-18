@@ -5,7 +5,7 @@ namespace Smartbox\CoreBundle\Utils\SmokeTest\Output;
 interface SmokeTestOutputInterface
 {
     /**
-     * @return boolean
+     * @return bool
      */
     public function isOK();
 

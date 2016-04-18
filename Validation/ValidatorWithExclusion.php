@@ -7,7 +7,6 @@ use JMS\Serializer\Exclusion\GroupsExclusionStrategy;
 use JMS\Serializer\Exclusion\VersionExclusionStrategy;
 use JMS\Serializer\SerializationContext;
 use Metadata\MetadataFactoryInterface;
-use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -15,9 +14,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ValidatorWithExclusion extends ValidatorDecorator
 {
-
     /**
-     * @var MetadataFactoryInterface  JMS Metadata factory
+     * @var MetadataFactoryInterface JMS Metadata factory
      */
     protected $metadataFactory;
 
@@ -38,10 +36,11 @@ class ValidatorWithExclusion extends ValidatorDecorator
     }
 
     /**
-     * Returns true if a property of a given object should be ignored in the validation
+     * Returns true if a property of a given object should be ignored in the validation.
      *
      * @param $object
      * @param $propertyPath
+     *
      * @return bool
      */
     protected function shouldSkip($object, $propertyPath)
@@ -82,7 +81,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
             $className = get_class($object);
             $meta = $this->metadataFactory->getMetadataForClass($className);
 
-            $fieldName = preg_replace('/\[[0-9]+\]/','',$propertySubPath);
+            $fieldName = preg_replace('/\[[0-9]+\]/', '', $propertySubPath);
 
             if (array_key_exists($fieldName, $meta->propertyMetadata)) {
                 $propertyMeta = $meta->propertyMetadata[$fieldName];
@@ -136,10 +135,10 @@ class ValidatorWithExclusion extends ValidatorDecorator
     {
         $result = array();
         $parts = explode('.', $propertyPath);
-        $parentPath = "";
+        $parentPath = '';
         foreach ($parts as $child) {
             if (!empty($parentPath)) {
-                $childPath = $parentPath.".".$child;
+                $childPath = $parentPath . '.' . $child;
                 $result[] = array($parentPath, $childPath);
                 $parentPath = $childPath;
             } else {
@@ -158,6 +157,4 @@ class ValidatorWithExclusion extends ValidatorDecorator
 
         return parent::validateProperty($object, $propertyName, $groups);
     }
-
-
 }

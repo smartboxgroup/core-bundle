@@ -6,8 +6,7 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Date
- * @package Smartbox\CoreBundle\Type
+ * Class Date.
  */
 class Date extends Basic
 {
@@ -16,6 +15,7 @@ class Date extends Basic
      * @JMS\Type("DateTime")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
+     *
      * @var \DateTime
      */
     protected $value = null;

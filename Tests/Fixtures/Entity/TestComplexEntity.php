@@ -15,6 +15,7 @@ class TestComplexEntity extends Entity
      * @JMS\Since(EntityConstants::VERSION_2)
      * @Assert\Type(type="integer")
      * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     *
      * @var int
      */
     protected $integerValue;
@@ -26,7 +27,8 @@ class TestComplexEntity extends Entity
      * @JMS\Since(EntityConstants::VERSION_1)
      * @Assert\Type(type="double")
      * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
-     * @var double
+     *
+     * @var float
      */
     protected $doubleValue;
 
@@ -36,6 +38,7 @@ class TestComplexEntity extends Entity
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
      * @Assert\Type(type="string")
      * @Assert\NotBlank(groups={EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     *
      * @var string
      */
     protected $stringValue;
@@ -54,6 +57,7 @@ class TestComplexEntity extends Entity
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_B})
+     *
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
     protected $arrayOfEntities = [];
@@ -64,7 +68,8 @@ class TestComplexEntity extends Entity
      * @JMS\Type("array<integer>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var integer[]
+     *
+     * @var int[]
      */
     protected $arrayOfIntegers = [];
 
@@ -74,6 +79,7 @@ class TestComplexEntity extends Entity
      * @JMS\Type("array<string>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     *
      * @var string[]
      */
     protected $arrayOfStrings = [];
@@ -84,7 +90,8 @@ class TestComplexEntity extends Entity
      * @JMS\Type("array<double>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @var double[]
+     *
+     * @var float[]
      */
     protected $arrayOfDoubles = [];
 
@@ -94,6 +101,7 @@ class TestComplexEntity extends Entity
      * @JMS\Type("array<DateTime>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     *
      * @var \DateTime[]
      */
     protected $arrayOfDates = [];

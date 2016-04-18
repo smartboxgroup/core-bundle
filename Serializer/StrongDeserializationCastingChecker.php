@@ -3,21 +3,20 @@
 namespace Smartbox\CoreBundle\Serializer;
 
 /**
- * Class StrongDeserializationCastingChecker
- * @package Smartbox\CoreBundle\Serializer
+ * Class StrongDeserializationCastingChecker.
  */
 class StrongDeserializationCastingChecker implements DeserializationCastingCheckerInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function canBeCastedToString($data)
     {
-        return !is_object($data) && !is_array($data) ;
+        return !is_object($data) && !is_array($data);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function canBeCastedToBoolean($data)
     {
@@ -31,7 +30,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function canBeCastedToInteger($data)
     {
@@ -40,7 +39,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function canBeCastedToDouble($data)
     {

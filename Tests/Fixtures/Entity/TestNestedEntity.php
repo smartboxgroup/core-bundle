@@ -2,7 +2,6 @@
 
 namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
-
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Smartbox\CoreBundle\Type\Entity;
@@ -128,6 +127,4 @@ class TestNestedEntity extends Entity
     {
         $this->generic_items = $generic_items;
     }
-
-    
 }

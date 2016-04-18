@@ -46,6 +46,7 @@ class TestEntity extends Entity
 
     /**
      * @param $title
+     *
      * @return $this
      */
     public function setTitle($title)
@@ -65,6 +66,7 @@ class TestEntity extends Entity
 
     /**
      * @param $description
+     *
      * @return $this
      */
     public function setDescription($description)
@@ -84,6 +86,7 @@ class TestEntity extends Entity
 
     /**
      * @param $note
+     *
      * @return $this
      */
     public function setNote($note)
@@ -92,6 +95,4 @@ class TestEntity extends Entity
 
         return $this;
     }
-
-
 }

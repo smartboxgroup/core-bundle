@@ -3,8 +3,7 @@
 namespace Smartbox\CoreBundle\Utils\Cache;
 
 /**
- * Class PredisCacheService
- * @package Smartbox\CoreBundle\Utils\Cache
+ * Class PredisCacheService.
  */
 class PredisCacheService implements CacheServiceInterface
 {
@@ -26,7 +25,7 @@ class PredisCacheService implements CacheServiceInterface
      */
     public function set($key, $value, $expireTTL = 1800)
     {
-        if(!$key){
+        if (!$key) {
             return false;
         }
 
@@ -36,7 +35,7 @@ class PredisCacheService implements CacheServiceInterface
                     throw new \RuntimeException(sprintf('Expire TTL should be integer value. Given: "%s"', $expireTTL));
                 }
 
-                if (! $expireTTL > 0) {
+                if (!$expireTTL > 0) {
                     throw new \RuntimeException(sprintf('Expire TTL should be higher than 0. Given: "%s"', $expireTTL));
                 }
 
@@ -46,6 +45,7 @@ class PredisCacheService implements CacheServiceInterface
             }
         } catch (\Exception $e) {
             $this->logException($e);
+
             return false;
         }
     }
@@ -55,15 +55,16 @@ class PredisCacheService implements CacheServiceInterface
      */
     public function get($key)
     {
-        if(!$key){
-            throw new \InvalidArgumentException("The key should not be null");
+        if (!$key) {
+            throw new \InvalidArgumentException('The key should not be null');
         }
 
-        try{
+        try {
             return unserialize($this->client->get($key));
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
             $this->logException($ex);
-            return null;
+
+            return;
         }
     }
 
@@ -72,7 +73,7 @@ class PredisCacheService implements CacheServiceInterface
      */
     public function exists($key)
     {
-        if(!$key){
+        if (!$key) {
             return false;
         }
 
@@ -80,6 +81,7 @@ class PredisCacheService implements CacheServiceInterface
             return $this->client->exists($key) && $this->client->ttl($key) > 60;
         } catch (\Exception $ex) {
             $this->logException($ex);
+
             return false;
         }
     }
@@ -93,6 +95,6 @@ class PredisCacheService implements CacheServiceInterface
      */
     protected function logException(\Exception $ex)
     {
-        error_log("Error: Redis service is down: ".$ex->getMessage());
+        error_log('Error: Redis service is down: ' . $ex->getMessage());
     }
 }

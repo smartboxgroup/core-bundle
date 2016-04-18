@@ -1,4 +1,5 @@
 <?php
+
 namespace Smartbox\CoreBundle\Serializer\Handler;
 
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
@@ -7,8 +8,7 @@ use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 use Smartbox\CoreBundle\Type\SerializableInterface;
 
 /**
- * Class SerializerEventsSubscriber
- * @package Smartbox\CoreBundle\Serializer\Handler
+ * Class SerializerEventsSubscriber.
  */
 class SerializerEventsSubscriber implements EventSubscriberInterface
 {
@@ -28,7 +28,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 
         if ($isArray && array_key_exists('_type', $data)) {
             if ($data instanceof \SimpleXMLElement) {
-                $type = (string)$data->{'_type'};
+                $type = (string) $data->{'_type'};
             } else {
                 $type = $data['_type'];
             }
@@ -47,7 +47,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
             $event->setType($entity->getInternalType());
         }
 
-        if(strpos(get_class($entity),'Mock') !== FALSE){
+        if (strpos(get_class($entity), 'Mock') !== false) {
             $event->setType(get_parent_class($entity));
         }
     }

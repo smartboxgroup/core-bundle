@@ -1,12 +1,12 @@
 <?php
+
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Integer
- * @package Smartbox\CoreBundle\Type
+ * Class Integer.
  */
 class Integer extends Basic
 {
@@ -15,6 +15,7 @@ class Integer extends Basic
      * @JMS\Type("integer")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
+     *
      * @var int
      */
     protected $value;
@@ -32,7 +33,7 @@ class Integer extends Basic
      */
     public function getValue()
     {
-        return (int)$this->value;
+        return (int) $this->value;
     }
 
     /***
@@ -42,11 +43,11 @@ class Integer extends Basic
     public function setValue($value)
     {
         if ((is_scalar($value) && is_numeric($value))) {
-            $this->value = (int)$value;
-        } elseif (is_object($value) && $value instanceof Integer) {
+            $this->value = (int) $value;
+        } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {
-            throw new \InvalidArgumentException("Expected integer");
+            throw new \InvalidArgumentException('Expected integer');
         }
     }
 }

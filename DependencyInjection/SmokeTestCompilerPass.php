@@ -7,9 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class SmokeTestCompilerPass
- *
- * @package Smartbox\CoreBundle\DependencyInjection
+ * Class SmokeTestCompilerPass.
  */
 class SmokeTestCompilerPass implements CompilerPassInterface
 {
@@ -22,19 +20,19 @@ class SmokeTestCompilerPass implements CompilerPassInterface
 
         $serviceIds = $container->findTaggedServiceIds('smartcore.smoke_test');
         foreach ($serviceIds as $serviceId => $tags) {
-            foreach($tags as $tag => $attr){
+            foreach ($tags as $tag => $attr) {
                 $runMethod = 'run';
                 $descriptionMethod = 'getDescription';
 
-                if(array_key_exists('method',$attr)){
+                if (array_key_exists('method', $attr)) {
                     $runMethod = $attr['runMethod'];
                 }
 
-                if(array_key_exists('descriptionMethod',$attr)){
+                if (array_key_exists('descriptionMethod', $attr)) {
                     $descriptionMethod = $attr['descriptionMethod'];
                 }
 
-                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId),$runMethod, $descriptionMethod]);
+                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId), $runMethod, $descriptionMethod]);
             }
         }
     }

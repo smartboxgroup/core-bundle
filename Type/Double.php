@@ -1,12 +1,12 @@
 <?php
+
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Double
- * @package Smartbox\CoreBundle\Type
+ * Class Double.
  */
 class Double extends Basic
 {
@@ -15,12 +15,13 @@ class Double extends Basic
      * @JMS\Type("double")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
-     * @var double
+     *
+     * @var float
      */
     protected $value = 0.0;
 
     /**
-     * @param double $value
+     * @param float $value
      */
     public function __construct($value = 0.0)
     {
@@ -28,11 +29,11 @@ class Double extends Basic
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getValue()
     {
-        return (double)$this->value;
+        return (double) $this->value;
     }
 
     /***
@@ -42,11 +43,11 @@ class Double extends Basic
     public function setValue($value)
     {
         if ((is_scalar($value) && is_numeric($value))) {
-            $this->value = (double)$value;
-        } elseif (is_object($value) && $value instanceof Double) {
+            $this->value = (double) $value;
+        } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {
-            throw new \InvalidArgumentException("Expected double");
+            throw new \InvalidArgumentException('Expected double');
         }
     }
 }

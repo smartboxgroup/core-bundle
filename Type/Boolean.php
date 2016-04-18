@@ -1,12 +1,12 @@
 <?php
+
 namespace Smartbox\CoreBundle\Type;
 
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Boolean
- * @package Smartbox\CoreBundle\Type
+ * Class Boolean.
  */
 class Boolean extends Basic
 {
@@ -15,7 +15,8 @@ class Boolean extends Basic
      * @JMS\Type("boolean")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
-     * @var boolean
+     *
+     * @var bool
      */
     protected $value;
 
@@ -32,7 +33,7 @@ class Boolean extends Basic
      */
     public function getValue()
     {
-        return (bool)$this->value;
+        return (bool) $this->value;
     }
 
     /***
@@ -42,11 +43,11 @@ class Boolean extends Basic
     public function setValue($value)
     {
         if ((is_bool($value))) {
-            $this->value = (bool)$value;
-        } elseif (is_object($value) && $value instanceof Boolean) {
+            $this->value = (bool) $value;
+        } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {
-            throw new \InvalidArgumentException("Expected boolean");
+            throw new \InvalidArgumentException('Expected boolean');
         }
     }
 }

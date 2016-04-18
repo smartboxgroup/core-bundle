@@ -12,6 +12,7 @@ trait HasInternalType
      * @JMS\SerializedName("_type")
      * @JMS\Type("string")
      * @JMS\Groups({EntityInterface::GROUP_METADATA})
+     *
      * @return string
      */
     public function getInternalType()

@@ -11,8 +11,9 @@ class ContextFactory
 {
     /**
      * @param Context $context
-     * @param string $group
-     * @param string $version
+     * @param string  $group
+     * @param string  $version
+     *
      * @return Context
      */
     protected static function prepareContextForFixtures(Context $context, $group, $version)
@@ -31,6 +32,7 @@ class ContextFactory
     /**
      * @param $group
      * @param $version
+     *
      * @return SerializationContext
      */
     public static function createSerializationContextForFixtures($group, $version)
@@ -41,6 +43,7 @@ class ContextFactory
     /**
      * @param $group
      * @param $version
+     *
      * @return DeserializationContext
      */
     public static function createDeserializationContextForFixtures($group, $version)

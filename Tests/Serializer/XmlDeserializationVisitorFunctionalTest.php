@@ -32,7 +32,7 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
             ->build()
         ;
     }

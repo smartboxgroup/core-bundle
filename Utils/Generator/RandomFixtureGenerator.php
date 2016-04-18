@@ -29,6 +29,7 @@ class RandomFixtureGenerator
      * @param $entityNamespace
      * @param null $group
      * @param null $version
+     *
      * @return EntityInterface
      */
     public function generate($entityNamespace, $group = null, $version = null)
@@ -91,8 +92,9 @@ class RandomFixtureGenerator
     /**
      * @param $typeName
      * @param array|null $typeParams
-     * @param null $group
-     * @param null $version
+     * @param null       $group
+     * @param null       $version
+     *
      * @return float|int|string|array|\DateTime|EntityInterface
      */
     protected function generateRandomData($typeName, array $typeParams = null, $group = null, $version = null)
@@ -109,7 +111,7 @@ class RandomFixtureGenerator
                 break;
 
             case 'double':
-                $result = doubleval(rand(0, 1000)/1000);
+                $result = doubleval(rand(0, 1000) / 1000);
                 break;
 
             case 'string':
@@ -117,7 +119,7 @@ class RandomFixtureGenerator
                 break;
 
             case 'boolean':
-                $result = (rand(0,1) % 2 == 0);
+                $result = (rand(0, 1) % 2 == 0);
                 break;
 
             case 'array':

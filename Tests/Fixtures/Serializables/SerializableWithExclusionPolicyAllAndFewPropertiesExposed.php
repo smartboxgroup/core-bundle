@@ -5,8 +5,7 @@ namespace Smartbox\CoreBundle\Tests\Fixtures\Serializables;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Class SerializableWithExclusionPolicyAllAndFewPropertiesExposed
- * @package Smartbox\CoreBundle\Tests\Fixtures\Serializables
+ * Class SerializableWithExclusionPolicyAllAndFewPropertiesExposed.
  *
  * @JMS\ExclusionPolicy("ALL")
  */
@@ -15,19 +14,22 @@ class SerializableWithExclusionPolicyAllAndFewPropertiesExposed extends Serializ
     /**
      * @JMS\Type("integer")
      * @JMS\Expose
+     *
      * @var int
      */
     protected $integerValue;
 
     /**
      * @JMS\Type("double")
-     * @var double
+     *
+     * @var float
      */
     protected $doubleValue;
 
     /**
      * @JMS\Type("string")
      * @JMS\Expose
+     *
      * @var string
      */
     protected $stringValue;

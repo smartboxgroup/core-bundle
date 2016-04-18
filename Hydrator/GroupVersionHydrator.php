@@ -7,10 +7,7 @@ use Metadata\MetadataFactoryInterface;
 use Smartbox\CoreBundle\Type\EntityInterface;
 
 /**
- * Class GroupVersionHydrator
- * @package Smartbox\CoreBundle\Hydrator
- *
- * Hydrate an entity (or an array of entities) by propagating it's current version and group to any eventual sub-entity
+ * Class GroupVersionHydrator.
  */
 class GroupVersionHydrator
 {
@@ -20,7 +17,7 @@ class GroupVersionHydrator
     private $metadataFactory;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param MetadataFactoryInterface $metadataFactory
      */
@@ -31,11 +28,12 @@ class GroupVersionHydrator
 
     /**
      * Hydrates an object (it expected to be an entity or an array of entities) by setting a given group and a given
-     * version to it and to all its sub-fields/sub-entities recursively
+     * version to it and to all its sub-fields/sub-entities recursively.
      *
      * @param array|EntityInterface $object
-     * @param string $group
-     * @param string $version
+     * @param string                $group
+     * @param string                $version
+     *
      * @return array|EntityInterface
      */
     public function hydrate($object, $group, $version)
@@ -52,11 +50,12 @@ class GroupVersionHydrator
     }
 
     /**
-     * Hydrate an array
+     * Hydrate an array.
      *
-     * @param array $array
+     * @param array  $array
      * @param string $group
      * @param string $version
+     *
      * @return array
      */
     private function hydrateArray($array, $group, $version)
@@ -69,11 +68,12 @@ class GroupVersionHydrator
     }
 
     /**
-     * Hydrate an entity
+     * Hydrate an entity.
      *
      * @param EntityInterface $entity
-     * @param string $group
-     * @param string $version
+     * @param string          $group
+     * @param string          $version
+     *
      * @return EntityInterface
      */
     private function hydrateEntity(EntityInterface $entity, $group, $version)
@@ -87,10 +87,10 @@ class GroupVersionHydrator
         foreach ($metadata->propertyMetadata as $property) {
             if ($property->type['name'] === 'array') {
                 $array = $property->getValue($entity);
-                if (is_array($array) && count($array) > 0){
+                if (is_array($array) && count($array) > 0) {
                     $first = array_values($array)[0];
 
-                    if((is_object($first) || is_array($first))) {
+                    if ((is_object($first) || is_array($first))) {
                         $this->hydrateArray($array, $group, $version);
                     }
                 }

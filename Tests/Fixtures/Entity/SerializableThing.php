@@ -8,8 +8,7 @@ use Smartbox\CoreBundle\Type\SerializableInterface;
 use Smartbox\CoreBundle\Type\Traits\HasInternalType;
 
 /**
- * Class SerializableThing
- * @package Smartbox\CoreBundle\Tests\Fixtures\Entity
+ * Class SerializableThing.
  */
 class SerializableThing implements SerializableInterface
 {
@@ -18,6 +17,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("integer")
      * @JMS\Expose
+     *
      * @var int
      */
     protected $integerValue;
@@ -25,13 +25,15 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("double")
      * @JMS\Expose
-     * @var double
+     *
+     * @var float
      */
     protected $doubleValue;
 
     /**
      * @JMS\Type("string")
      * @JMS\Expose
+     *
      * @var string
      */
     protected $stringValue;
@@ -46,6 +48,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
+     *
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[]
      */
     protected $arrayOfEntities = [];
@@ -53,6 +56,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Integer>")
      * @JMS\Expose
+     *
      * @var \Smartbox\CoreBundle\Type\Integer[]
      */
     protected $arrayOfIntegers = [];
@@ -60,6 +64,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\String>")
      * @JMS\Expose
+     *
      * @var \Smartbox\CoreBundle\Type\String[]
      */
     protected $arrayOfStrings = [];
@@ -67,6 +72,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Double>")
      * @JMS\Expose
+     *
      * @var \Smartbox\CoreBundle\Type\Double[]
      */
     protected $arrayOfDoubles = [];
@@ -74,6 +80,7 @@ class SerializableThing implements SerializableInterface
     /**
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Date>")
      * @JMS\Expose
+     *
      * @var \Smartbox\CoreBundle\Type\Date[]
      */
     protected $arrayOfDates = [];

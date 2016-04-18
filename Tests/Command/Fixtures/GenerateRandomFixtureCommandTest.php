@@ -13,8 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class GenerateRandomFixtureCommandTest
- * @package Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand
+ * Class GenerateRandomFixtureCommandTest.
  *
  * @coversDefaultClass
  */
@@ -39,7 +38,8 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
         $this->container = $kernel->getContainer();
     }
 
-    public static function getKernelClass(){
+    public static function getKernelClass()
+    {
         return \AppKernel::class;
     }
 
@@ -89,7 +89,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
             array_merge(
                 array(
                     'command' => $command->getName(),
-                    'entity'  => 'TestComplexEntity',
+                    'entity' => 'TestComplexEntity',
                 ),
                 $commandConfiguration
             )

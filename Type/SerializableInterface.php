@@ -3,12 +3,10 @@
 namespace Smartbox\CoreBundle\Type;
 
 /**
- * Interface SerializableInterface
- * @package Smartbox\CoreBundle\Type
+ * Interface SerializableInterface.
  */
 interface SerializableInterface
 {
-
     /**
      * @return string
      */

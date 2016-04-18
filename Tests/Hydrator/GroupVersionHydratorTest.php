@@ -38,13 +38,13 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
         /** @var TestEntity[] $array */
         $array = [
             new TestEntity(),
-            new TestEntity()
+            new TestEntity(),
         ];
 
         $this->hydrator->hydrate($array, self::GROUP, self::VERSION);
-        foreach($array as $index => $entity) {
-            $this->assertEquals(self::GROUP, $entity->getEntityGroup(), 'The group was not set correctly on entity #'. $index);
-            $this->assertEquals(self::VERSION, $entity->getAPIVersion(), 'The version was not set correctly on entity #'. $index);
+        foreach ($array as $index => $entity) {
+            $this->assertEquals(self::GROUP, $entity->getEntityGroup(), 'The group was not set correctly on entity #' . $index);
+            $this->assertEquals(self::VERSION, $entity->getAPIVersion(), 'The version was not set correctly on entity #' . $index);
         }
     }
 
@@ -54,11 +54,11 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
         $entity->setItem(new TestEntity());
         $entity->setGenericItems([
             new TestEntity(),
-            new TestEntity()
+            new TestEntity(),
         ]);
         $entity->setAssocItems([
             'key1' => new TestEntity(),
-            'key2' => new TestEntity()
+            'key2' => new TestEntity(),
         ]);
 
         $this->hydrator->hydrate($entity, self::GROUP, self::VERSION);
@@ -68,15 +68,15 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
         $this->assertEquals(self::VERSION, $entity->getItem()->getAPIVersion(), 'The version was not set correctly on the simple sub-entity');
 
         //test sub collection of entities
-        foreach($entity->getGenericItems() as $index => $subEntity) {
-            $this->assertEquals(self::GROUP, $subEntity->getEntityGroup(), 'The group was not set correctly on the sub-collection at index #'. $index);
-            $this->assertEquals(self::VERSION, $subEntity->getAPIVersion(), 'The version was not set correctly on the sub-collection at index #'. $index);
+        foreach ($entity->getGenericItems() as $index => $subEntity) {
+            $this->assertEquals(self::GROUP, $subEntity->getEntityGroup(), 'The group was not set correctly on the sub-collection at index #' . $index);
+            $this->assertEquals(self::VERSION, $subEntity->getAPIVersion(), 'The version was not set correctly on the sub-collection at index #' . $index);
         }
 
         //test sub collection (associative) of entities
-        foreach($entity->getAssocItems() as $key => $subEntity) {
-            $this->assertEquals(self::GROUP, $subEntity->getEntityGroup(), 'The group was not set correctly on the sub-collection (associative) at item with key '. $key);
-            $this->assertEquals(self::VERSION, $subEntity->getAPIVersion(), 'The version was not set correctly on the sub-collection (associative) at item with key '. $key);
+        foreach ($entity->getAssocItems() as $key => $subEntity) {
+            $this->assertEquals(self::GROUP, $subEntity->getEntityGroup(), 'The group was not set correctly on the sub-collection (associative) at item with key ' . $key);
+            $this->assertEquals(self::VERSION, $subEntity->getAPIVersion(), 'The version was not set correctly on the sub-collection (associative) at item with key ' . $key);
         }
     }
 }

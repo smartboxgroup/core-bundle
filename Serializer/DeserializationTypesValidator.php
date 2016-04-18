@@ -40,7 +40,6 @@ class DeserializationTypesValidator
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
-
             if (!$this->castingChecker->canBeCastedToString($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -56,7 +55,6 @@ class DeserializationTypesValidator
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
-
             if (!$this->castingChecker->canBeCastedToBoolean($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -72,7 +70,6 @@ class DeserializationTypesValidator
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
-
             if (!$this->castingChecker->canBeCastedToDouble($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -88,7 +85,6 @@ class DeserializationTypesValidator
         if (null === $context->getExclusionStrategy() ||
             !$context->getExclusionStrategy()
                 ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
-
             if (!$this->castingChecker->canBeCastedToInteger($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -101,6 +97,7 @@ class DeserializationTypesValidator
 
     /**
      * @param Context $context
+     *
      * @return \JMS\Serializer\Metadata\PropertyMetadata
      */
     private function getCurrentPropertyMetadata(Context $context)
@@ -110,6 +107,7 @@ class DeserializationTypesValidator
 
     /**
      * @param Context $context
+     *
      * @return string|null
      */
     private function getCurrentPropertyName(Context $context)
@@ -127,6 +125,7 @@ class DeserializationTypesValidator
 
     /**
      * @param Context $context
+     *
      * @return string|null
      */
     private function getCurrentClassName(Context $context)
