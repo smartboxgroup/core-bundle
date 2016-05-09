@@ -6,9 +6,9 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Double.
+ * Class DoubleType.
  */
-class Double extends Basic
+class DoubleType extends Basic
 {
     /**
      * @Assert\Type(type="double")

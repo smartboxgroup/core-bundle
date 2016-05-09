@@ -6,9 +6,9 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class String.
+ * Class StringType.
  */
-class String extends Basic
+class StringType extends Basic
 {
     /**
      * @Assert\Type(type="string")

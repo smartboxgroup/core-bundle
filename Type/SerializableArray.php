@@ -38,13 +38,13 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
         if (is_scalar($value)) {
             if (is_string($value)) {
-                $cleanValue = new String($value);
+                $cleanValue = new StringType($value);
             } elseif (is_int($value)) {
-                $cleanValue = new Integer($value);
+                $cleanValue = new IntegerType($value);
             } elseif (is_double($value)) {
-                $cleanValue = new Double($value);
+                $cleanValue = new DoubleType($value);
             } elseif (is_bool($value)) {
-                $cleanValue = new Boolean($value);
+                $cleanValue = new BooleanType($value);
             }
         } elseif (is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
@@ -71,13 +71,13 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
         if (is_scalar($value)) {
             if (is_string($value)) {
-                $cleanValue = new String($value);
+                $cleanValue = new StringType($value);
             } elseif (is_int($value)) {
-                $cleanValue = new Integer($value);
+                $cleanValue = new IntegerType($value);
             } elseif (is_double($value)) {
-                $cleanValue = new Double($value);
+                $cleanValue = new DoubleType($value);
             } elseif (is_bool($value)) {
-                $cleanValue = new Boolean($value);
+                $cleanValue = new BooleanType($value);
             }
         } elseif (is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
