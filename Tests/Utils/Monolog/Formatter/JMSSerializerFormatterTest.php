@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class JMSSerializerFormatterTest.
  *
- * @coversDefaultClass Smartbox\CoreBundle\Tests\Utils\Monolog\Formatter\JMSSerializerFormatter
+ * @coversDefaultClass Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter
  */
 class JMSSerializerFormatterTest extends WebTestCase
 {
@@ -48,8 +48,7 @@ class JMSSerializerFormatterTest extends WebTestCase
 
     /**
      * @dataProvider dataProviderForFormatter
-     * @covers ::format
-     * @covers  Smartbox\Integration\PlatformBundle\Logging\SerializationListener::onPostSerialize
+     * @covers Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter::format
      *
      * @param $expected
      * @param $entity
