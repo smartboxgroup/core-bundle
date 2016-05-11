@@ -39,7 +39,7 @@ class CacheEventsSubscriber implements EventSubscriberInterface
         $data = $event->getObject();
         if ($data instanceof SerializerCacheableInterface && $event->getVisitor() instanceof GenericSerializationVisitor) {
             $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
-            if ($key !== null && $this->getCacheService()->exists($key)) {
+            if ($key !== null && $this->getCacheService()->exists($key, 60)) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }

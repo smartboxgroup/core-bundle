@@ -22,8 +22,9 @@ interface CacheServiceInterface
 
     /**
      * @param $key
+     * @param $ttlLimit
      *
      * @return bool
      */
-    public function exists($key);
+    public function exists($key, $ttlLimit = null);
 }
