@@ -17,7 +17,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     /** @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $client;
 
-    public function setup()
+    public function setUp()
     {
         $this->client = $this->getMockBuilder(ClientInterface::class)->getMock();
         $this->service = new PredisCacheService($this->client);
@@ -45,7 +45,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param mixed $key
-     * @dataProvider falsyValuesForKey
+     * @dataProvider falsyValuesForKeyProvider
      */
     public function testItShouldThrowAnExceptionWhenUsingFalsyKey($key)
     {
@@ -103,7 +103,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param mixed $key
-     * @dataProvider falsyValuesForKey
+     * @dataProvider falsyValuesForKeyProvider
      */
     public function testItShouldThrowAnExceptionWhenUsingGetWithFalsyKey($key)
     {
@@ -113,7 +113,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param mixed $key
-     * @dataProvider falsyValuesForKey
+     * @dataProvider falsyValuesForKeyProvider
      */
     public function testItShouldThrowAnExceptionWhenUsingExistsWithFalsyKey($key)
     {
@@ -121,45 +121,30 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->exists($key);
     }
 
-    public function testItShouldLogExceptionInCaseOfConnectionIssues()
+    /**
+     * @dataProvider connectionIssuesCasesProvider
+     */
+    public function testItShouldLogExceptionInCaseOfConnectionIssues($method, $methodArgs, $expectsArgs, $assert)
     {
         // temporarily logs to a file
-        $errorLogFile = __DIR__.'/../../Fixtures/stderr.log';
+        $errorLogFile = __DIR__ . sprintf('/../../Fixtures/stderr_%s.log', $method);
         $oldErrorLog = ini_get("error_log");
         ini_set("error_log", $errorLogFile);
 
         // SET
         $this->client->expects($this->any())
             ->method('__call')
-            ->with('set', ['foo', serialize('bar')])
-            ->willThrowException(new ServerException('when calling "set"'))
+            ->with($method, $expectsArgs)
+            ->willThrowException(new ServerException(sprintf('when calling "%s"', $method)))
         ;
-        $this->assertFalse($this->service->set('foo', 'bar', null));
-
-        // GET
-        $this->client->expects($this->any())
-            ->method('__call')
-            ->with('get', ['foo'])
-            ->willThrowException(new ServerException('when calling "get"'))
-        ;
-        $this->assertNull($this->service->get('foo'));
-
-        // EXISTS
-        $this->client->expects($this->any())
-            ->method('__call')
-            ->with('exists', ['foo'])
-            ->willThrowException(new ServerException('when calling "exists"'))
-        ;
-        $this->assertFalse($this->service->exists('foo'));
+        $this->assertEquals($assert, call_user_func_array([$this->service, $method], $methodArgs));
 
         // restores error logging
         ini_set("error_log", $oldErrorLog);
 
         // checks logged message and deletes temp file
         $loggedMessage = file_get_contents($errorLogFile);
-        $this->assertContains('Error: Redis service is down: when calling "set"', $loggedMessage);
-        $this->assertContains('Error: Redis service is down: when calling "get"', $loggedMessage);
-        $this->assertContains('Error: Redis service is down: when calling "exists"', $loggedMessage);
+        $this->assertContains(sprintf('Error: Redis service is down: when calling "%s"', $method), $loggedMessage);
         unlink($errorLogFile);
     }
 
@@ -174,7 +159,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function falsyValuesForKey()
+    public function falsyValuesForKeyProvider()
     {
         return [
             [''],
@@ -182,6 +167,30 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
             [0],
             [null],
             [[]]
+        ];
+    }
+
+    public function connectionIssuesCasesProvider()
+    {
+        return [
+            [
+                'method' => 'set',
+                'methodArgs' => ['foo', 'bar', null],
+                'expectsArgs' => ['foo', serialize('bar')],
+                'assert' => false,
+            ],
+            [
+                'method' => 'get',
+                'methodArgs' => ['foo'],
+                'expectsArgs' => ['foo'],
+                'assert' => null,
+            ],
+            [
+                'method' => 'exists',
+                'methodArgs' => ['foo'],
+                'expectsArgs' => ['foo'],
+                'assert' => false,
+            ],
         ];
     }
 }

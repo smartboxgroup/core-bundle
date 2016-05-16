@@ -12,6 +12,8 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 {
     use CacheServiceAwareTrait;
 
+    const KEY_EXISTS_TIMEOUT = 60;
+
     /** @var \ReflectionProperty */
     private $dataProperty;
 
@@ -39,7 +41,7 @@ class CacheEventsSubscriber implements EventSubscriberInterface
         $data = $event->getObject();
         if ($data instanceof SerializerCacheableInterface && $event->getVisitor() instanceof GenericSerializationVisitor) {
             $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
-            if ($key !== null && $this->getCacheService()->exists($key, 60)) {
+            if ($key !== null && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }
