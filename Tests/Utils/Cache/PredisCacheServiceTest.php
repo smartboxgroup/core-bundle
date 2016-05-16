@@ -131,12 +131,14 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
         $oldErrorLog = ini_get("error_log");
         ini_set("error_log", $errorLogFile);
 
-        // SET
+        // mocking the specific call to throw an exception
         $this->client->expects($this->any())
             ->method('__call')
             ->with($method, $expectsArgs)
             ->willThrowException(new ServerException(sprintf('when calling "%s"', $method)))
         ;
+        
+        // checking the return type from the method call
         $this->assertEquals($assert, call_user_func_array([$this->service, $method], $methodArgs));
 
         // restores error logging
