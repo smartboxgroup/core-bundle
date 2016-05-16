@@ -2,6 +2,8 @@
 
 namespace Smartbox\CoreBundle\Utils\Cache;
 
+use Predis\PredisException;
+
 /**
  * Class PredisCacheService.
  */
@@ -26,24 +28,24 @@ class PredisCacheService implements CacheServiceInterface
     public function set($key, $value, $expireTTL = 1800)
     {
         if (!$key) {
-            return false;
+            throw new \InvalidArgumentException('The key should not be null');
         }
 
         try {
             if ($expireTTL) {
                 if (!is_integer($expireTTL)) {
-                    throw new \RuntimeException(sprintf('Expire TTL should be integer value. Given: "%s"', $expireTTL));
+                    throw new \InvalidArgumentException(sprintf('Expire TTL should be integer value. Given: %s', json_encode($expireTTL)));
                 }
 
-                if (!$expireTTL > 0) {
-                    throw new \RuntimeException(sprintf('Expire TTL should be higher than 0. Given: "%s"', $expireTTL));
+                if (!($expireTTL > 0)) {
+                    throw new \InvalidArgumentException(sprintf('Expire TTL should be higher than 0. Given: %s', $expireTTL));
                 }
 
                 return $this->client->set($key, serialize($value), 'EX', $expireTTL);
             } else {
                 return $this->client->set($key, serialize($value));
             }
-        } catch (\Exception $e) {
+        } catch (PredisException $e) {
             $this->logException($e);
 
             return false;
@@ -61,25 +63,32 @@ class PredisCacheService implements CacheServiceInterface
 
         try {
             return unserialize($this->client->get($key));
-        } catch (\Exception $ex) {
+        } catch (PredisException $ex) {
             $this->logException($ex);
 
-            return;
+            return null;
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function exists($key)
+    public function exists($key, $ttlLimit = null)
     {
         if (!$key) {
-            return false;
+            throw new \InvalidArgumentException('The key should not be null');
         }
 
         try {
-            return $this->client->exists($key) && $this->client->ttl($key) > 60;
-        } catch (\Exception $ex) {
+            if ($this->client->exists($key)) {
+                if (!is_null($ttlLimit)) {
+                    return $this->client->ttl($key) >= $ttlLimit;
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        } catch (PredisException $ex) {
             $this->logException($ex);
 
             return false;
@@ -91,9 +100,9 @@ class PredisCacheService implements CacheServiceInterface
      * which might be used anywhere, even by the logger. Therefore, to prevent bigger problems to log this error with use
      * the simple native php function error_log with a simple message.
      *
-     * @param \Exception $ex
+     * @param PredisException $ex
      */
-    protected function logException(\Exception $ex)
+    protected function logException(PredisException $ex)
     {
         error_log('Error: Redis service is down: ' . $ex->getMessage());
     }

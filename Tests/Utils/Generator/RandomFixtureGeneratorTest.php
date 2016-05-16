@@ -60,8 +60,8 @@ class RandomFixtureGeneratorTest extends KernelTestCase
     /**
      * @dataProvider dataProviderForGroupsAndVersions
      * @covers ::generate
-     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::prepareSerializationContext
-     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::prepareDeserializationContext
+     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createSerializationContextForFixtures
+     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createDeserializationContextForFixtures
      *
      * @param $group
      * @param $version
