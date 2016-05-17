@@ -58,7 +58,7 @@ class FakeCacheService implements CacheServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function exists($key)
+    public function exists($key, $ttlLimit = null)
     {
         $result = array_key_exists($key, $this->cache);
 

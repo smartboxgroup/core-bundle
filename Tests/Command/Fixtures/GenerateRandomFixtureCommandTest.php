@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class GenerateRandomFixtureCommandTest.
  *
- * @coversDefaultClass
+ * @coversDefaultClass Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand
  */
 class GenerateRandomFixtureCommandTest extends KernelTestCase
 {
