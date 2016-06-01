@@ -18,7 +18,15 @@ class Date extends Basic
      *
      * @var \DateTime
      */
-    protected $value = null;
+    protected $value;
+
+    /**
+     * @param \DateTime $value
+     */
+    public function __construct(\DateTime $value = null)
+    {
+        $this->setValue($value);
+    }
 
     public function setValue($value)
     {

@@ -19,12 +19,10 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      * @JMS\Groups({"logs"})
      * @JMS\XmlMap(inline = true)
      */
-    protected $array;
+    protected $array = [];
 
     public function __construct($input = array())
     {
-        $this->array = array();
-
         if (is_array($input)) {
             $this->setArray($input);
         } else {
