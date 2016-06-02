@@ -64,7 +64,11 @@ class CachedObjectHandlerTest extends KernelTestCase
         $cacheServiceSpy = new FakeCacheServiceSpy();
 
         /** @var CacheServiceInterface|\PHPUnit_Framework_MockObject_MockObject $cacheServiceMock */
-        $cacheServiceMock = $this->getMock(FakeCacheService::class, null, [$cacheServiceSpy]);
+        $cacheServiceMock = $this->getMockBuilder(FakeCacheService::class)
+            ->setConstructorArgs([$cacheServiceSpy])
+            ->setMethods(null)
+            ->getMock()
+        ;
 
         $container->get('smartcore.serializer.subscriber.cache')->setCacheService($cacheServiceMock);
         $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);

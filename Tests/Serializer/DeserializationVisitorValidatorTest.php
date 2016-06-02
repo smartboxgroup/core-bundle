@@ -50,8 +50,6 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
         $this->metadataStack->method('top')->will($this->returnValue($this->currentPropertyMetadata));
-        $this->currentPropertyMetadata->method('getName')->will($this->returnValue('property'));
-        $this->currentPropertyMetadata->method('getClass')->will($this->returnValue('className'));
 
         $this->context->method('getMetadataStack')->will($this->returnValue($this->metadataStack));
         $this->context->method('getExclusionStrategy')->willReturn($this->exclusionStrategy);

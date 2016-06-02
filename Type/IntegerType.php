@@ -6,48 +6,48 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Boolean.
+ * Class IntegerType.
  */
-class Boolean extends Basic
+class IntegerType extends Basic
 {
     /**
-     * @Assert\Type(type="boolean")
-     * @JMS\Type("boolean")
+     * @Assert\Type(type="integer")
+     * @JMS\Type("integer")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
      *
-     * @var bool
+     * @var int
      */
     protected $value;
 
     /**
-     * @param bool $value
+     * @param int $value
      */
-    public function __construct($value = false)
+    public function __construct($value = 0)
     {
-        $this->setValue($value);
+        $this->value = $value;
     }
 
     /**
-     * @return bool
+     * @return int
      */
     public function getValue()
     {
-        return (bool) $this->value;
+        return (int) $this->value;
     }
 
     /***
-     * @param bool $value
+     * @param int $value
      * @throws \InvalidArgumentException
      */
     public function setValue($value)
     {
-        if ((is_bool($value))) {
-            $this->value = (bool) $value;
+        if ((is_scalar($value) && is_numeric($value))) {
+            $this->value = (int) $value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {
-            throw new \InvalidArgumentException('Expected boolean');
+            throw new \InvalidArgumentException('Expected integer');
         }
     }
 }

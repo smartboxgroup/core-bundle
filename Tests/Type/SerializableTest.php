@@ -5,8 +5,8 @@ namespace Smartbox\CoreBundle\Tests\Entity;
 use JMS\Serializer\Serializer;
 use Smartbox\CoreBundle\Type\Date;
 use Smartbox\CoreBundle\Type\SerializableArray;
-use Smartbox\CoreBundle\Type\Integer;
-use Smartbox\CoreBundle\Type\String;
+use Smartbox\CoreBundle\Type\IntegerType;
+use Smartbox\CoreBundle\Type\StringType;
 use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\SerializableInterface;
 use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
@@ -35,13 +35,13 @@ class SerializableTest extends BaseKernelTestCase
     public function objectsToSerializeProvider()
     {
         $arrEntityA = new SerializableArray();
-        $arrEntityA->set('AAAA', new String('XXXXXXX'));
+        $arrEntityA->set('AAAA', new StringType('XXXXXXX'));
 
         $arrEntity = new SerializableArray();
         $arrEntity->set('response', $arrEntityA);
         $arrEntity->set('response2', $arrEntityA);
-        $arrEntity->set('number', new Integer(2));
-        $arrEntity->set('string', new String('Lorem ipsum'));
+        $arrEntity->set('number', new IntegerType(2));
+        $arrEntity->set('string', new StringType('Lorem ipsum'));
         $arrEntity->set('other', $arrEntityA);
 
         return array(

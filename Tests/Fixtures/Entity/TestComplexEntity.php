@@ -192,7 +192,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Type\Integer[]
+     * @return \Smartbox\CoreBundle\Type\IntegerType[]
      */
     public function getArrayOfIntegers()
     {
@@ -200,7 +200,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Type\Integer[] $arrayOfIntegers
+     * @param \Smartbox\CoreBundle\Type\IntegerType[] $arrayOfIntegers
      */
     public function setArrayOfIntegers($arrayOfIntegers)
     {
@@ -208,7 +208,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Type\String[]
+     * @return \Smartbox\CoreBundle\Type\StringType[]
      */
     public function getArrayOfStrings()
     {
@@ -216,7 +216,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Type\String[] $arrayOfStrings
+     * @param \Smartbox\CoreBundle\Type\StringType[] $arrayOfStrings
      */
     public function setArrayOfStrings($arrayOfStrings)
     {
@@ -224,7 +224,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @return \Smartbox\CoreBundle\Type\Double[]
+     * @return \Smartbox\CoreBundle\Type\DoubleType[]
      */
     public function getArrayOfDoubles()
     {
@@ -232,7 +232,7 @@ class TestComplexEntity extends Entity
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Type\Double[] $arrayOfDoubles
+     * @param \Smartbox\CoreBundle\Type\DoubleType[] $arrayOfDoubles
      */
     public function setArrayOfDoubles($arrayOfDoubles)
     {
