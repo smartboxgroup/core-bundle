@@ -45,12 +45,14 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
             'title' => 'some title',
             'description' => 'some description',
             'note' => 'some note',
+            'enabled' => true,
         ];
 
         $obj = $this->serializer->deserialize($data, TestEntity::class, 'array');
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
+        $this->assertTrue($obj->isEnabled());
     }
 
     public function testItShouldDeserializeValidEntityWithVersion()

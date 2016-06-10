@@ -43,13 +43,15 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         '{
             "title": "some title",
             "description": "some description",
-            "note": "some note"
+            "note": "some note",
+            "enabled": true
         }';
 
         $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json');
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
+        $this->assertTrue($obj->isEnabled());
     }
 
     public function testItShouldDeserializeValidEntityWithVersion()
@@ -58,7 +60,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         '{
             "title": "some title",
             "description": 22,
-            "note": "some note"
+            "note": "some note",
+            "enabled": false
         }';
 
         // description is not valid but it's introduced in V2 of the entity, we will deserialize for V1 so the error
@@ -71,6 +74,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertNull($obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
+        $this->assertFalse($obj->isEnabled());
     }
 
     public function testItShouldDeserializeValidEntityWithGroup()
@@ -79,7 +83,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         '{
             "title": 11,
             "description": "some description",
-            "note": 33
+            "note": 33,
+            "enabled": true
         }';
 
         // Title and note are not valid valid but they are not available in the group B so the error
@@ -92,6 +97,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $this->assertNull($obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertNull($obj->getNote());
+        $this->assertFalse($obj->isEnabled());
     }
 
     /**
@@ -104,7 +110,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         '{
             "title": "some title",
             "description": {},
-            "note": "some note"
+            "note": "some note",
+            "enabled": true
         }';
 
         $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json');

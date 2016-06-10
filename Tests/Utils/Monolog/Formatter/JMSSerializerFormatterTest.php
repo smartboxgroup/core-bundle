@@ -38,8 +38,12 @@ class JMSSerializerFormatterTest extends WebTestCase
         $data = [];
         for ($i = 0; $i < 3; ++$i) {
             $data[] = [
-                sprintf('[{"title":"title_%s","description":"description_%s","note":"note_%s"}]', $i, $i, $i),
-                (new TestEntity(10))->setTitle('title_' . $i)->setDescription('description_' . $i)->setNote('note_' . $i),
+                sprintf('[{"title":"title_%s","description":"description_%s","note":"note_%s","enabled":%s}]', $i, $i, $i, (($i % 2)? 'true' : 'false')),
+                (new TestEntity())
+                    ->setTitle('title_' . $i)
+                    ->setDescription('description_' . $i)
+                    ->setNote('note_' . $i)
+                    ->setEnabled(($i % 2) ? true : false)
             ];
         }
 
