@@ -37,6 +37,15 @@ class TestEntity extends Entity
     protected $note;
 
     /**
+     * @Assert\Type(type="boolean")
+     * @Assert\NotBlank
+     * @JMS\Groups({EntityConstants::GROUP_LOGS, EntityConstants::GROUP_A, EntityConstants::GROUP_B})
+     * @JMS\Type("boolean")
+     * @JMS\Expose
+     */
+    protected $enabled;
+
+    /**
      * @return mixed
      */
     public function getTitle()
@@ -92,6 +101,26 @@ class TestEntity extends Entity
     public function setNote($note)
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return (bool) $this->enabled;
+    }
+
+    /**
+     * @param boolean $enabled
+     *
+     * @return $this
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

@@ -15,10 +15,10 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
 class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var SerializerInterface $serializer */
+    /** @var SerializerInterface */
     private $serializer;
 
-    public function setup()
+    protected function setUp()
     {
         $builder = new SerializerBuilder();
 
@@ -39,18 +39,25 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
         ;
     }
 
+    protected function tearDown()
+    {
+        $this->serializer = null;
+    }
+
     public function testItShouldDeserializeValidEntity()
     {
         $data = [
             'title' => 'some title',
             'description' => 'some description',
             'note' => 'some note',
+            'enabled' => true,
         ];
 
         $obj = $this->serializer->deserialize($data, TestEntity::class, 'array');
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
+        $this->assertTrue($obj->isEnabled());
     }
 
     public function testItShouldDeserializeValidEntityWithVersion()
