@@ -13,10 +13,10 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 
 class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var SerializerInterface $serializer */
+    /** @var SerializerInterface */
     private $serializer;
 
-    public function setup()
+    protected function setUp()
     {
         $builder = new SerializerBuilder();
 
@@ -35,6 +35,11 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
             ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
             ->build()
         ;
+    }
+
+    protected function tearDown()
+    {
+        $this->serializer = null;
     }
 
     public function testItShouldDeserializeValidEntity()

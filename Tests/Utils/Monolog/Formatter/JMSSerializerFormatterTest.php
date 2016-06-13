@@ -14,12 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JMSSerializerFormatterTest extends WebTestCase
 {
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
+    /** @var SerializerInterface */
+    private $serializer;
 
-    public function setUp()
+    protected function setUp()
     {
         self::$class = null;
         static::bootKernel();
@@ -27,10 +25,11 @@ class JMSSerializerFormatterTest extends WebTestCase
         $this->serializer = $container->get('serializer');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
         self::$class = null;
+        $this->serializer = null;
     }
 
     public function dataProviderForFormatter()
@@ -38,7 +37,10 @@ class JMSSerializerFormatterTest extends WebTestCase
         $data = [];
         for ($i = 0; $i < 3; ++$i) {
             $data[] = [
-                sprintf('[{"title":"title_%s","description":"description_%s","note":"note_%s","enabled":%s}]', $i, $i, $i, (($i % 2)? 'true' : 'false')),
+                sprintf(
+                    '[{"title":"title_%s","description":"description_%s","note":"note_%s","enabled":%s}]',
+                    $i, $i, $i, (($i % 2) ? 'true' : 'false')
+                ),
                 (new TestEntity())
                     ->setTitle('title_' . $i)
                     ->setDescription('description_' . $i)
