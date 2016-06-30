@@ -13,6 +13,7 @@ parameters:
 
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
     smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
+    smartcore.cache_service.class: Smartbox\CoreBundle\Utils\Cache\PredisCacheService
 
     # OVERRIDING JMS
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver
@@ -20,41 +21,41 @@ parameters:
 
 services:
     smartcore.serialization.subscriber:
-        class:  %smartcore.serialization.subscriber.class%
+        class:  "%smartcore.serialization.subscriber.class%"
         tags:
             - { name: jms_serializer.event_subscriber }
 
     smartcore.validation.validator:
-        class: %smartcore.validation.validator.class%
+        class: "%smartcore.validation.validator.class%"
         decorates: validator
         calls:
             - [ setDecoratedValidator, ["@smartcore.validation.validator.inner"] ]
             - [ setMetadataFactory, ["@jms_serializer.metadata_factory"] ]
 
     smartcore.hydrator.group_version:
-        class: %smartcore.hydrator.group_version.class%
+        class: "%smartcore.hydrator.group_version.class%"
         arguments: ["@jms_serializer.metadata_factory"]
 
     smartcore.deserialization_casting_checker:
-        class: %smartcore.deserialization_casting_checker.class%
+        class: "%smartcore.deserialization_casting_checker.class%"
 
     smartcore.deserialization_types_validator:
-        class: %smartcore.deserialization_types_validator.class%
+        class: "%smartcore.deserialization_types_validator.class%"
         arguments: ["@smartcore.deserialization_casting_checker"]
 
     smartcore.xml_deserialization_visitor:
-        class: %smartcore.xml_deserialization_visitor.class%
+        class: "%smartcore.xml_deserialization_visitor.class%"
         arguments:
           - "@jms_serializer.naming_strategy"
           - "@jms_serializer.object_constructor"
           - "@smartcore.deserialization_types_validator"
         calls:
-          - [setDoctypeWhitelist, [%jms_serializer.xml_deserialization_visitor.doctype_whitelist%]]
+          - [setDoctypeWhitelist, ["%jms_serializer.xml_deserialization_visitor.doctype_whitelist%"]]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: xml }
 
     smartcore.json_deserialization_visitor:
-        class: %smartcore.json_deserialization_visitor.class%
+        class: "%smartcore.json_deserialization_visitor.class%"
         arguments:
           - "@jms_serializer.naming_strategy"
           - "@jms_serializer.object_constructor"
@@ -63,7 +64,7 @@ services:
             - { name: jms_serializer.deserialization_visitor, format: json }
 
     smartcore.array_deserialization_visitor:
-        class: %smartcore.array_deserialization_visitor.class%
+        class: "%smartcore.array_deserialization_visitor.class%"
         arguments:
             - "@jms_serializer.naming_strategy"
             - "@jms_serializer.object_constructor"
@@ -72,13 +73,13 @@ services:
             - { name: jms_serializer.deserialization_visitor, format: array }
 
     smartcore.array_serialization_visitor:
-        class: %smartcore.array_serialization_visitor.class%
+        class: "%smartcore.array_serialization_visitor.class%"
         arguments: ["@jms_serializer.naming_strategy"]
         tags:
             - { name: jms_serializer.serialization_visitor, format: array }
 
     smartcore.array_deserialization_visitor_mongo:
-        class: %smartcore.array_deserialization_visitor.class%
+        class: "%smartcore.array_deserialization_visitor.class%"
         arguments:
             - "@jms_serializer.naming_strategy"
             - "@jms_serializer.object_constructor"
@@ -87,23 +88,27 @@ services:
             - { name: jms_serializer.deserialization_visitor, format: mongo_array }
 
     smartcore.array_serialization_visitor_mongo:
-        class: %smartcore.array_serialization_visitor.class%
+        class: "%smartcore.array_serialization_visitor.class%"
         arguments: ["@jms_serializer.naming_strategy"]
         tags:
             - { name: jms_serializer.serialization_visitor, format: mongo_array }
 
     smartcore.monolog.formatter.json:
-        class: %smartcore.monolog.formatter.json.class%
+        class: "%smartcore.monolog.formatter.json.class%"
         calls:
             - [setSerializer, ["@serializer"]]
 
     smartcore.helper.entity_namespace_resolver:
-        class: %smartcore.helper.namespace_resolver.class%
-        arguments: ['%smartcore.entity.namespaces%']
+        class: "%smartcore.helper.namespace_resolver.class%"
+        arguments: ["%smartcore.entity.namespaces%"]
 
     smartcore.generator.random_fixture:
-        class: %smartcore.generator.random_fixture.class%
+        class: "%smartcore.generator.random_fixture.class%"
         arguments: ["@jms_serializer.metadata_factory", "@smartcore.helper.entity_namespace_resolver"]
+
+    smartcore.cache_service:
+        class: "%smartcore.cache_service.class%"
+        arguments: ["@snc_redis.cache"]
 
     ## SMOKE TESTS ##
     # COMMAND
