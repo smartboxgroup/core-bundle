@@ -41,12 +41,12 @@ class CachedObjectHandlerTest extends KernelTestCase
     public function dataProviderForSerializationFormatWithCache()
     {
         return [
-            ['json', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
-            ['array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
-            ['mongo_array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_CUSTOM],
-            ['json', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
-            ['array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
-            ['mongo_array', SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS],
+            ['json', 'custom'],
+            ['array', 'custom'],
+            ['mongo_array', 'custom'],
+            ['json', 'predis'],
+            ['array', 'predis'],
+            ['mongo_array', 'predis'],
         ];
     }
 

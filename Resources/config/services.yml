@@ -13,7 +13,6 @@ parameters:
 
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
     smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
-    smartcore.cache_service.class: Smartbox\CoreBundle\Utils\Cache\PredisCacheService
 
     # OVERRIDING JMS
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver
@@ -105,10 +104,6 @@ services:
     smartcore.generator.random_fixture:
         class: "%smartcore.generator.random_fixture.class%"
         arguments: ["@jms_serializer.metadata_factory", "@smartcore.helper.entity_namespace_resolver"]
-
-    smartcore.cache_service:
-        class: "%smartcore.cache_service.class%"
-        arguments: ["@snc_redis.cache"]
 
     ## SMOKE TESTS ##
     # COMMAND
