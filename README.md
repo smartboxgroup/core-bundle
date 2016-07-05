@@ -60,7 +60,7 @@ To install the bundle, you just need to:
     #                     predis:
     #                         service: ~
     #
-    #         - you can access this driver by service reference @smartcore.cache_driver..predis
+    #         - you can access this driver by service reference @smartcore.cache_driver.predis
     #
     #     2) custom driver with any name
     #         - create your own cache service which implements Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface
@@ -79,7 +79,7 @@ To install the bundle, you just need to:
     #                     my_cache_driver:
     #                         service: "@my_cache_driver_service_id"
     #
-    #         - you can access this driver by service reference @smartcore.cache_driver..my_cache_driver
+    #         - you can access this driver by service reference @smartcore.cache_driver.my_cache_driver
     #
     cache_drivers:
 

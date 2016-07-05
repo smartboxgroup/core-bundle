@@ -70,7 +70,7 @@ class Configuration implements ConfigurationInterface
                     predis:
                         service: ~
         
-        - you can access this driver by service reference @{$cacheDriverServicePrefix}.predis
+        - you can access this driver by service reference @{$cacheDriverServicePrefix}predis
     
     2) custom driver with any name
         - create your own cache service which implements Smartbox\\CoreBundle\\Utils\\Cache\\CacheServiceInterface
@@ -89,7 +89,7 @@ class Configuration implements ConfigurationInterface
                     my_cache_driver:
                         service: \"@my_cache_driver_service_id\"
         
-        - you can access this driver by service reference @{$cacheDriverServicePrefix}.my_cache_driver
+        - you can access this driver by service reference @{$cacheDriverServicePrefix}my_cache_driver
         "
         )
         ->requiresAtLeastOneElement()
