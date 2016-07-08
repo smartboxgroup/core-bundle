@@ -1,15 +1,19 @@
 imports:
     - { resource: config.yml }
 
-smartbox_core:
-    serialization_cache:
-        enabled: true
-        cache_driver: custom
-
 services:
     smartcore.cache_service.fake_cache_service_spy:
         class: Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheServiceSpy
 
-    smartcore.cache_service:
+    smartcore.custom_cache_service_id:
         class: Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService
-        arguments: [ @smartcore.cache_service.fake_cache_service_spy ]
+        arguments: [ "@smartcore.cache_service.fake_cache_service_spy" ]
+
+smartbox_core:
+    cache_drivers:
+        custom:
+            service: "@smartcore.custom_cache_service_id"
+
+    serialization_cache:
+        enabled: true
+        cache_driver: custom

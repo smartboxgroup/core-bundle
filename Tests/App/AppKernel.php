@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
+use Smartbox\CoreBundle\DependencyInjection\CacheDriversCompilerPass;
 
 class AppKernel extends Kernel
 {
@@ -17,7 +17,7 @@ class AppKernel extends Kernel
         );
 
         switch ($this->getEnvironment()) {
-            case SerializationCacheCompilerPass::CACHE_SERVICE_DRIVER_PREDIS :
+            case CacheDriversCompilerPass::PREDEFINED_CACHE_DRIVER_PREDIS:
                 $bundles[] = new Snc\RedisBundle\SncRedisBundle();
                 break;
         }
@@ -28,7 +28,7 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $config = 'config';
-        if (in_array($this->getEnvironment(), SerializationCacheCompilerPass::getSupportedDrivers())) {
+        if ($this->getEnvironment() !== 'test') {
             $config = 'config_' . $this->getEnvironment();
         }
 

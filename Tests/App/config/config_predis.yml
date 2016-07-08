@@ -1,11 +1,6 @@
 imports:
     - { resource: config.yml }
 
-smartbox_core:
-    serialization_cache:
-        enabled: true
-        cache_driver: predis
-
 snc_redis:
     clients:
         cache:
@@ -16,3 +11,12 @@ snc_redis:
                 profile: 2.2
                 connection_timeout: 10
                 read_write_timeout: 30
+
+smartbox_core:
+    cache_drivers:
+        predis:
+            service: ~
+
+    serialization_cache:
+        enabled: true
+        cache_driver: predis
