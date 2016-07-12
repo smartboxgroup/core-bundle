@@ -79,39 +79,58 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 $this->out->writeln('Running @SmokeTest with ID: ' . '<info>' . $id . '</info> and method: <info>' . $runMethod . '</info>');
                 $this->out->writeln('Description: ' . '<info>' . $smokeTest->$descriptionMethod() . '</info>');
 
-                /** @var SmokeTestOutputInterface $smokeTestOutput */
-                $smokeTestOutput = $smokeTest->$runMethod();
+                try {
+                    /** @var SmokeTestOutputInterface $smokeTestOutput */
+                    $smokeTestOutput = $smokeTest->$runMethod();
 
-                if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
-                }
+                    if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
+                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                    }
 
-                $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<info>Success</info>' : '<error>Failure</error>'));
-                $this->out->writeln('MESSAGE:');
-                foreach ($smokeTestOutput->getMessages() as $message) {
-                    $this->out->writeln("\t" . ' - ' . $message);
+                    $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<info>Success</info>' : '<error>Failure</error>'));
+                    $this->out->writeln('MESSAGE:');
+                    foreach ($smokeTestOutput->getMessages() as $message) {
+                        $this->out->writeln("\t" . ' - ' . $message);
+                    }
+
+                    if (!$smokeTestOutput->isOK()) {
+                        $exitCode = 1;
+                    }
+                } catch (\Exception $e) {
+                    $this->out->writeln('STATUS: <error>Failure</error>');
+                    $this->out->writeln('MESSAGE:');
+                    $this->out->writeln("\t" . sprintf(' - [%s] %s', get_class($e), $e->getMessage()));
+
+                    $exitCode = 1;
                 }
                 $this->out->writeln("\n---------------------------------");
             } else {
-                /** @var SmokeTestOutputInterface $smokeTestOutput */
-                $smokeTestOutput = $smokeTest->$runMethod();
-
-                if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
-                }
-                $result = array(
+                $result = [
                     'id' => $id,
                     'method' => $runMethod,
                     'description' => $smokeTest->$descriptionMethod(),
-                    'result' => implode("\n", $smokeTestOutput->getMessages()),
-                    'failed' => !$smokeTestOutput->isOK(),
-                );
+                ];
 
+                try {
+                    /** @var SmokeTestOutputInterface $smokeTestOutput */
+                    $smokeTestOutput = $smokeTest->$runMethod();
+
+                    if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
+                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                    }
+                    $result['result'] = implode("\n", $smokeTestOutput->getMessages());
+                    $result['failed'] = !$smokeTestOutput->isOK();
+
+                    if (!$smokeTestOutput->isOK()) {
+                        $exitCode = 1;
+                    }
+                } catch(\Exception $e) {
+                    $result['result'] = sprintf('[%s] %s', get_class($e), $e->getMessage());
+                    $result['failed'] = true;
+
+                    $exitCode = 1;
+                }
                 $content[] = $result;
-            }
-
-            if (!$smokeTestOutput->isOK()) {
-                $exitCode = 1;
             }
         }
 
