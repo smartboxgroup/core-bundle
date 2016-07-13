@@ -10,7 +10,7 @@ interface SmokeTestOutputInterface
     public function isOK();
 
     /**
-     * @return array
+     * @return SmokeTestOutputMessage[]
      */
     public function getMessages();
 }
