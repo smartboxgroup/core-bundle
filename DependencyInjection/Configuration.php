@@ -92,6 +92,7 @@ class Configuration implements ConfigurationInterface
         - you can access this driver by service reference @{$cacheDriverServicePrefix}my_cache_driver
         "
         )
+        ->isRequired()
         ->requiresAtLeastOneElement()
         ->useAttributeAsKey('driver_name')
         ->prototype('array')

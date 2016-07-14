@@ -2,9 +2,8 @@
 
 namespace Smartbox\CoreBundle\DependencyInjection;
 
-use Smartbox\CoreBundle\Serializer\Cache\CacheEventsSubscriber;
-use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface;
+use Smartbox\CoreBundle\Utils\Cache\NullCacheService;
 use Smartbox\CoreBundle\Utils\Cache\PredisCacheService;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,6 +20,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
     const DEFAULT_CACHE_DRIVER_SERVICE_ID = 'smartcore.cache_service';
     const PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX = 'smartcore.predefined_cache_driver.';
     const PREDEFINED_CACHE_DRIVER_PREDIS = 'predis';
+    const PREDEFINED_CACHE_DRIVER_NULL = 'predefined_null';
 
     /** @var  ContainerBuilder */
     protected $container;
@@ -98,9 +98,18 @@ class CacheDriversCompilerPass implements CompilerPassInterface
     {
         $cacheDriverServiceId = null;
 
-        if (in_array($cacheDriverName, [self::PREDEFINED_CACHE_DRIVER_PREDIS]) && is_null($cacheDriverConf['service'])) {
+        if (in_array($cacheDriverName, $this->getPredefinedCacheDriversNames()) && is_null($cacheDriverConf['service'])) {
             // is predefined driver
             switch($cacheDriverName) {
+                case self::PREDEFINED_CACHE_DRIVER_NULL: // register predefined cache driver - null
+                    $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName;
+
+                    $cacheDriverServiceDef = new Definition(NullCacheService::class);
+                    $this->container->setDefinition(
+                        $cacheDriverServiceId,
+                        $cacheDriverServiceDef
+                    );
+                    break;
                 case self::PREDEFINED_CACHE_DRIVER_PREDIS: // register predefined cache driver - predis
                     $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName;
 
@@ -116,5 +125,16 @@ class CacheDriversCompilerPass implements CompilerPassInterface
         }
 
         return $cacheDriverServiceId;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getPredefinedCacheDriversNames()
+    {
+        return [
+            self::PREDEFINED_CACHE_DRIVER_PREDIS,
+            self::PREDEFINED_CACHE_DRIVER_NULL
+        ];
     }
 }
