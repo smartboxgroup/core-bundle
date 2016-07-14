@@ -72,7 +72,16 @@ class Configuration implements ConfigurationInterface
         
         - you can access this driver by service reference @{$cacheDriverServicePrefix}predis
     
-    2) custom driver with any name
+    2) null (predefined driver just to simulate the cache - nothing is stored in cache)
+        - add configuration to your config.yml:
+            {$configRoot}:
+                {$configNode}:
+                    null:
+                        service: ~
+        
+        - you can access this driver by service reference @{$cacheDriverServicePrefix}null
+    
+    3) custom driver with any name
         - create your own cache service which implements Smartbox\\CoreBundle\\Utils\\Cache\\CacheServiceInterface
             class MyCacheService implements Smartbox\\CoreBundle\\Utils\\Cache\\CacheServiceInterface
             {

@@ -25,5 +25,5 @@ smartbox_core:
     entities_namespaces:
         - 'Smartbox\CoreBundle\Tests\Fixtures\Entity'
     cache_drivers:
-        predefined_null:
+        null:
             service: ~

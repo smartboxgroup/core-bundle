@@ -20,7 +20,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
     const DEFAULT_CACHE_DRIVER_SERVICE_ID = 'smartcore.cache_service';
     const PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX = 'smartcore.predefined_cache_driver.';
     const PREDEFINED_CACHE_DRIVER_PREDIS = 'predis';
-    const PREDEFINED_CACHE_DRIVER_NULL = 'predefined_null';
+    const PREDEFINED_CACHE_DRIVER_NULL = 'null';
 
     /** @var  ContainerBuilder */
     protected $container;
@@ -40,6 +40,9 @@ class CacheDriversCompilerPass implements CompilerPassInterface
             $defaultCacheDriver = null;
             
             foreach ($cacheDrivers as $cacheDriverName => $cacheDriverConf) {
+                if ('' === $cacheDriverName) {
+                    $cacheDriverName = 'null';
+                }
                 $cacheDriverServiceId = $this->getCacheDriverServiceId($cacheDriverName, $cacheDriverConf);
 
                 // check if service exists
