@@ -3,8 +3,10 @@
 namespace Smartbox\CoreBundle\Command;
 
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputInterface;
+use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputMessage;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,7 +45,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             'id' => $id,
             'runMethod' => $runMethod,
             'descriptionMethod' => $descriptionMethod,
-            ];
+        ];
     }
 
     /**
@@ -75,43 +77,88 @@ class SmokeTestRunCommand extends ContainerAwareCommand
 
             $smokeTestOutput = null;
             if (!$silent && !$json) {
+                $this->applyOutputStyles();
+                
                 $this->out->writeln("\n");
                 $this->out->writeln('Running @SmokeTest with ID: ' . '<info>' . $id . '</info> and method: <info>' . $runMethod . '</info>');
                 $this->out->writeln('Description: ' . '<info>' . $smokeTest->$descriptionMethod() . '</info>');
 
-                /** @var SmokeTestOutputInterface $smokeTestOutput */
-                $smokeTestOutput = $smokeTest->$runMethod();
+                try {
+                    /** @var SmokeTestOutputInterface $smokeTestOutput */
+                    $smokeTestOutput = $smokeTest->$runMethod();
 
-                if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
-                }
+                    if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
+                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                    }
 
-                $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<info>Success</info>' : '<error>Failure</error>'));
-                $this->out->writeln('MESSAGE:');
-                foreach ($smokeTestOutput->getMessages() as $message) {
-                    $this->out->writeln("\t" . ' - ' . $message);
+                    $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<success>Success</success>' : '<failure>Failure</failure>'));
+                    $this->out->writeln('MESSAGE:');
+                    foreach ($smokeTestOutput->getMessages() as $message) {
+                        $this->out->writeln("\t" .
+                            sprintf(
+                                ' - <%1$s>%2$s</%1$s>',
+                                $message->getType(),
+                                $message->getValue()
+                            )
+                        );
+                    }
+
+                    if (!$smokeTestOutput->isOK()) {
+                        $exitCode = 1;
+                    }
+                } catch (\Exception $e) {
+                    $this->out->writeln('STATUS: <failure>Failure</failure>');
+                    $this->out->writeln('MESSAGE:');
+                    $this->out->writeln("\t" .
+                        sprintf(
+                            ' - <%1$s>[%2$s] %3$s</%1$s>',
+                            SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
+                            get_class($e),
+                            $e->getMessage()
+                        )
+                    );
+
+                    $exitCode = 1;
                 }
                 $this->out->writeln("\n---------------------------------");
             } else {
-                /** @var SmokeTestOutputInterface $smokeTestOutput */
-                $smokeTestOutput = $smokeTest->$runMethod();
-
-                if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                    throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
-                }
-                $result = array(
+                $result = [
                     'id' => $id,
                     'method' => $runMethod,
                     'description' => $smokeTest->$descriptionMethod(),
-                    'result' => implode("\n", $smokeTestOutput->getMessages()),
-                    'failed' => !$smokeTestOutput->isOK(),
-                );
+                ];
 
+                try {
+                    /** @var SmokeTestOutputInterface $smokeTestOutput */
+                    $smokeTestOutput = $smokeTest->$runMethod();
+
+                    if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
+                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                    }
+                    $messages = $smokeTestOutput->getMessages();
+                    $result['result'] = [];
+                    foreach ($messages as $message) {
+                        $result['result'][] = [
+                            'type' => $message->getType(),
+                            'value' => $message->getValue()
+                        ];
+                    }
+
+                    $result['failed'] = !$smokeTestOutput->isOK();
+
+                    if (!$smokeTestOutput->isOK()) {
+                        $exitCode = 1;
+                    }
+                } catch(\Exception $e) {
+                    $result['result'][] = [
+                        'type' => SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
+                        'value' => sprintf('[%s] %s', get_class($e), $e->getMessage())
+                    ];
+                    $result['failed'] = true;
+
+                    $exitCode = 1;
+                }
                 $content[] = $result;
-            }
-
-            if (!$smokeTestOutput->isOK()) {
-                $exitCode = 1;
             }
         }
 
@@ -126,5 +173,21 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         }
 
         return $exitCode;
+    }
+
+    protected function applyOutputStyles()
+    {
+        $this->out->getFormatter()->setStyle(
+            SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_INFO,
+            new OutputFormatterStyle('white')
+        );
+        $this->out->getFormatter()->setStyle(
+            SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_SUCCESS,
+            new OutputFormatterStyle('green')
+        );
+        $this->out->getFormatter()->setStyle(
+            SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
+            new OutputFormatterStyle('red')
+        );
     }
 }
