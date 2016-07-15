@@ -147,6 +147,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     'id' => $id,
                     'method' => $runMethod,
                     'description' => $smokeTest->$descriptionMethod(),
+                    'labels' => $smokeTestInfo['labels'],
                 ];
 
                 try {
@@ -185,6 +186,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
 
         if ($showSkipped && !empty($skipped)) {
             foreach ($skipped as $name => $smokeTestInfo) {
+                $descriptionMethod = $smokeTestInfo['descriptionMethod'];
                 if (!$silent && !$json) {
                     $this->out->writeln("\n");
                     $this->out->writeln('@SmokeTest with ID: ' . '<info>' . $smokeTestInfo['id'] . '</info> and method: <info>' . $smokeTestInfo['runMethod'] . '</info>');
@@ -197,6 +199,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                         'id' => $smokeTestInfo['id'],
                         'method' => $smokeTestInfo['runMethod'],
                         'description' => $smokeTestInfo['service']->$descriptionMethod(),
+                        'labels' => $smokeTestInfo['labels'],
                         'failed' => false,
                         'result' => [],
                         'skipped' => true,
