@@ -23,6 +23,7 @@ class SmokeTestCompilerPass implements CompilerPassInterface
             foreach ($tags as $tag => $attr) {
                 $runMethod = 'run';
                 $descriptionMethod = 'getDescription';
+                $labels = [];
 
                 if (array_key_exists('method', $attr)) {
                     $runMethod = $attr['runMethod'];
@@ -32,7 +33,11 @@ class SmokeTestCompilerPass implements CompilerPassInterface
                     $descriptionMethod = $attr['descriptionMethod'];
                 }
 
-                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId), $runMethod, $descriptionMethod]);
+                if (array_key_exists('labels', $attr)) {
+                    $labels = explode(',', $attr['labels']);
+                }
+
+                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId), $runMethod, $descriptionMethod, $labels]);
             }
         }
     }

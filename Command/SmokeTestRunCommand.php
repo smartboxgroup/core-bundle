@@ -27,13 +27,15 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $this
             ->setName('smartbox:smoke-test')
             ->setDescription('Run all services tagged with "smartcore.smoke_test"')
+            ->addOption('label', 'l', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'A set of label that will be used to filter the tests', [])
+            ->addOption('showSkipped', null, InputOption::VALUE_NONE, 'If set will show the list of skipped tests')
             ->addOption('silent', null, InputOption::VALUE_NONE, 'If in silent mode this command will return only exit code (0 or 1)')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Show output in JSON format.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'File path to write')
         ;
     }
 
-    public function addTest($id, SmokeTestInterface $smokeTest, $runMethod = 'run', $descriptionMethod = 'getDescription')
+    public function addTest($id, SmokeTestInterface $smokeTest, $runMethod = 'run', $descriptionMethod = 'getDescription', $labels = [])
     {
         $key = $id . '_' . $runMethod;
         if (array_key_exists($key, $this->smokeTests)) {
@@ -45,6 +47,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             'id' => $id,
             'runMethod' => $runMethod,
             'descriptionMethod' => $descriptionMethod,
+            'labels' => $labels
         ];
     }
 
@@ -56,6 +59,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $this->in = $in;
         $this->out = $out;
 
+        $labels = $in->getOption('label');
+        $showSkipped = $in->getOption('showSkipped');
         $silent = $in->getOption('silent');
         $json = $in->getOption('json');
         $output = $in->getOption('output');
@@ -68,8 +73,23 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             $this->out->writeln('<info>###################################</info>');
         }
 
-        $content = array();
-        foreach ($this->smokeTests as $key => $smokeTestInfo) {
+        $skipped = [];
+        $smokeTests = $this->smokeTests;
+
+        if (!empty($labels)) {
+            $smokeTests = [];
+
+            foreach ($this->smokeTests as $key => $smokeTestInfo) {
+                if (!empty(array_intersect($labels, $smokeTestInfo['labels']))) {
+                    $smokeTests[$key] = $smokeTestInfo;
+                } else {
+                    $skipped[$key] = $smokeTestInfo;
+                }
+            }
+        }
+
+        $content = [];
+        foreach ($smokeTests as $key => $smokeTestInfo) {
             $smokeTest = $smokeTestInfo['service'];
             $id = $smokeTestInfo['id'];
             $runMethod = $smokeTestInfo['runMethod'];
@@ -92,6 +112,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     }
 
                     $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<success>Success</success>' : '<failure>Failure</failure>'));
+                    $this->out->writeln('LABELS: ' . json_encode($smokeTestInfo['labels']));
                     $this->out->writeln('MESSAGE:');
                     foreach ($smokeTestOutput->getMessages() as $message) {
                         $this->out->writeln("\t" .
@@ -126,6 +147,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     'id' => $id,
                     'method' => $runMethod,
                     'description' => $smokeTest->$descriptionMethod(),
+                    'labels' => $smokeTestInfo['labels'],
                 ];
 
                 try {
@@ -162,6 +184,30 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             }
         }
 
+        if ($showSkipped && !empty($skipped)) {
+            foreach ($skipped as $name => $smokeTestInfo) {
+                $descriptionMethod = $smokeTestInfo['descriptionMethod'];
+                if (!$silent && !$json) {
+                    $this->out->writeln("\n");
+                    $this->out->writeln('@SmokeTest with ID: ' . '<info>' . $smokeTestInfo['id'] . '</info> and method: <info>' . $smokeTestInfo['runMethod'] . '</info>');
+                    $this->out->writeln('Description: ' . '<info>' . $smokeTestInfo['service']->$descriptionMethod() . '</info>');
+                    $this->out->writeln('STATUS: <skipped>Skipped</skipped>');
+                    $this->out->writeln('LABELS: ' . json_encode($smokeTestInfo['labels']));
+                    $this->out->writeln("\n---------------------------------");
+                } else {
+                    $content[] = [
+                        'id' => $smokeTestInfo['id'],
+                        'method' => $smokeTestInfo['runMethod'],
+                        'description' => $smokeTestInfo['service']->$descriptionMethod(),
+                        'labels' => $smokeTestInfo['labels'],
+                        'failed' => false,
+                        'result' => [],
+                        'skipped' => true,
+                    ];
+                }
+            }
+        }
+
         if ($json) {
             $content = json_encode($content);
 
@@ -188,6 +234,10 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $this->out->getFormatter()->setStyle(
             SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
             new OutputFormatterStyle('red')
+        );
+        $this->out->getFormatter()->setStyle(
+            SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_SKIPPED,
+            new OutputFormatterStyle('yellow')
         );
     }
 }
