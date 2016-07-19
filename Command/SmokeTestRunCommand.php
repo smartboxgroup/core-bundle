@@ -7,6 +7,7 @@ use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputMessage;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,10 +29,12 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             ->setName('smartbox:smoke-test')
             ->setDescription('Run all services tagged with "smartcore.smoke_test"')
             ->addOption('label', 'l', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'A set of label that will be used to filter the tests', [])
+            ->addOption('skip', 'x', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'A set of tests id that will be skipped', [])
             ->addOption('showSkipped', null, InputOption::VALUE_NONE, 'If set will show the list of skipped tests')
             ->addOption('silent', null, InputOption::VALUE_NONE, 'If in silent mode this command will return only exit code (0 or 1)')
             ->addOption('json', null, InputOption::VALUE_NONE, 'Show output in JSON format.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'File path to write')
+            ->addArgument('test', InputArgument::OPTIONAL, 'Specify the id of a single test to execute')
         ;
     }
 
@@ -60,10 +63,12 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $this->out = $out;
 
         $labels = $in->getOption('label');
+        $skipTests = $in->getOption('skip');
         $showSkipped = $in->getOption('showSkipped');
         $silent = $in->getOption('silent');
         $json = $in->getOption('json');
         $output = $in->getOption('output');
+        $test = $in->getArgument('test');
         $exitCode = 0;
 
         if (!$silent && !$json) {
@@ -76,15 +81,45 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $skipped = [];
         $smokeTests = $this->smokeTests;
 
-        if (!empty($labels)) {
-            $smokeTests = [];
+        if ($test) {
+            // executes a single test
+            $showSkipped = false;
+            $testNames = array_keys($smokeTests);
+            $smokeTests = array_filter($smokeTests, function($key) use ($test){
+                return ($key === $test);
+            }, ARRAY_FILTER_USE_KEY);
+            if (empty($smokeTests)) {
+                throw new \RuntimeException(sprintf('Test "%s" not found. Available tests: %s', $test, json_encode($testNames)));
+            }
+        } else {
+            // executes all tests (checking for label filters)
+            ksort($smokeTests, SORT_STRING);
 
-            foreach ($this->smokeTests as $key => $smokeTestInfo) {
-                if (!empty(array_intersect($labels, $smokeTestInfo['labels']))) {
-                    $smokeTests[$key] = $smokeTestInfo;
-                } else {
-                    $skipped[$key] = $smokeTestInfo;
+            // filter by labels
+            if (!empty($labels)) {
+                $filteredSmokeTests = [];
+
+                foreach ($smokeTests as $key => $smokeTestInfo) {
+                    if (!empty(array_intersect($labels, $smokeTestInfo['labels']))) {
+                        $filteredSmokeTests[$key] = $smokeTestInfo;
+                    } else {
+                        $skipped[$key] = $smokeTestInfo;
+                    }
                 }
+
+                $smokeTests = $filteredSmokeTests;
+            }
+
+            // filter by skipped
+            if (!empty($skipTests)) {
+                $smokeTests = array_filter($smokeTests, function($smokeTestInfo) use ($skipTests, &$skipped) {
+                    $key = $smokeTestInfo['id'];
+                    $skipping = in_array($key, $skipTests);
+                    if ($skipping) {
+                        $skipped[$key] = $smokeTestInfo;
+                    }
+                    return !$skipping;
+                });
             }
         }
 
