@@ -8,13 +8,13 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Smartbox\CoreBundle\SmartboxCoreBundle(),
-        );
+        ];
 
         switch ($this->getEnvironment()) {
             case CacheDriversCompilerPass::PREDEFINED_CACHE_DRIVER_PREDIS:

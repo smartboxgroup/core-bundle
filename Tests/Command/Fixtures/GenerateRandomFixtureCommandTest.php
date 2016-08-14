@@ -29,7 +29,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     protected $container;
 
-    public function setUp()
+    protected function setUp()
     {
         $kernel = $this->createKernel();
         $kernel->boot();
@@ -56,6 +56,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
 
     /**
      * @dataProvider dataProviderForEntityGeneration
+     *
      * @covers ::execute
      * @covers Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator::generate
      * @covers Smartbox\CoreBundle\Utils\Helper\NamespaceResolver::resolveNamespaceForClass
@@ -87,15 +88,18 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
 
         $commandTester->execute(
             array_merge(
-                array(
+                [
                     'command' => $command->getName(),
                     'entity' => 'TestComplexEntity',
-                ),
+                ],
                 $commandConfiguration
             )
         );
 
-        $this->assertTrue(in_array($commandTester->getStatusCode(), [0, null], true), 'Command should return proper status code.');
+        $this->assertTrue(
+            in_array($commandTester->getStatusCode(), [0, null], true),
+            'Command should return proper status code.'
+        );
         $this->assertInstanceOf(
             TestComplexEntity::class,
             @$serializer->deserialize(
@@ -104,7 +108,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
                 'json',
                 ContextFactory::createDeserializationContextForFixtures($group, $version)
             ),
-            'Generated entity should be instance of ' . TestComplexEntity::class
+            'Generated entity should be instance of '.TestComplexEntity::class
         );
     }
 }

@@ -44,9 +44,9 @@ class DeserializationTypeMismatchException
      *
      * @param string $propertyName
      * @param string $className
-     * @param mixed  $propertyValue
+     * @param mixed $propertyValue
      * @param string $expectedType
-     * @param mixed  $originalData
+     * @param mixed $originalData
      */
     public function __construct($propertyName, $className, $propertyValue, $expectedType, $originalData)
     {
@@ -60,7 +60,8 @@ class DeserializationTypeMismatchException
         if ($this->propertyName && $this->className) {
             $message .= sprintf(' in property "%s" while deserializing for "%s', $this->propertyName, $this->className);
         }
-        $message .= sprintf(': found "%s", hence "%s" was expected',
+        $message .= sprintf(
+            ': found "%s", hence "%s" was expected',
             $this->getTypeOrClass($this->propertyValue),
             $this->expectedType
         );

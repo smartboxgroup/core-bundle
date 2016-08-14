@@ -37,9 +37,10 @@ class DeserializationTypesValidator
 
     public function validateString($data, Context $context, $currentObject)
     {
-        if (null === $context->getExclusionStrategy() ||
-            !$context->getExclusionStrategy()
-                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
+        if (
+            null === $context->getExclusionStrategy() ||
+            !$context->getExclusionStrategy()->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)
+        ) {
             if (!$this->castingChecker->canBeCastedToString($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -52,9 +53,10 @@ class DeserializationTypesValidator
 
     public function validateBoolean($data, Context $context, $currentObject)
     {
-        if (null === $context->getExclusionStrategy() ||
-            !$context->getExclusionStrategy()
-                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
+        if (
+            null === $context->getExclusionStrategy() ||
+            !$context->getExclusionStrategy()->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)
+        ) {
             if (!$this->castingChecker->canBeCastedToBoolean($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -67,9 +69,10 @@ class DeserializationTypesValidator
 
     public function validateDouble($data, Context $context, $currentObject)
     {
-        if (null === $context->getExclusionStrategy() ||
-            !$context->getExclusionStrategy()
-                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
+        if (
+            null === $context->getExclusionStrategy() ||
+            !$context->getExclusionStrategy()->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)
+        ) {
             if (!$this->castingChecker->canBeCastedToDouble($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),
@@ -82,9 +85,10 @@ class DeserializationTypesValidator
 
     public function validateInteger($data, Context $context, $currentObject)
     {
-        if (null === $context->getExclusionStrategy() ||
-            !$context->getExclusionStrategy()
-                ->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)) {
+        if (
+            null === $context->getExclusionStrategy() ||
+            !$context->getExclusionStrategy()->shouldSkipProperty($this->getCurrentPropertyMetadata($context), $context)
+        ) {
             if (!$this->castingChecker->canBeCastedToInteger($data)) {
                 throw new DeserializationTypeMismatchException(
                     $this->getCurrentPropertyName($context),

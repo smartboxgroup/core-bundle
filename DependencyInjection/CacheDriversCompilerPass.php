@@ -38,7 +38,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
         if (isset($config[self::CONFIG_NODE]) && !empty($config[self::CONFIG_NODE])) {
             $cacheDrivers = $config[self::CONFIG_NODE];
             $defaultCacheDriver = null;
-            
+
             foreach ($cacheDrivers as $cacheDriverName => $cacheDriverConf) {
                 if ('' === $cacheDriverName) {
                     $cacheDriverName = 'null';
@@ -50,8 +50,8 @@ class CacheDriversCompilerPass implements CompilerPassInterface
                     throw new \RuntimeException(
                         sprintf(
                             'Service "%s" defined for the cache driver configuration "%s" doesn\'t exist.',
-                            '@' . $cacheDriverServiceId,
-                            Configuration::CONFIG_ROOT . '.' . self::CONFIG_NODE . '.' . $cacheDriverName
+                            '@'.$cacheDriverServiceId,
+                            Configuration::CONFIG_ROOT.'.'.self::CONFIG_NODE.'.'.$cacheDriverName
                         )
                     );
                 }
@@ -64,21 +64,24 @@ class CacheDriversCompilerPass implements CompilerPassInterface
                     throw new \RuntimeException(
                         sprintf(
                             'Service "%s" defined for the cache driver configuration "%s" should implement "%s" interface.',
-                            '@' . $cacheDriverServiceId,
-                            Configuration::CONFIG_ROOT . '.' . self::CONFIG_NODE . '.' . $cacheDriverName,
+                            '@'.$cacheDriverServiceId,
+                            Configuration::CONFIG_ROOT.'.'.self::CONFIG_NODE.'.'.$cacheDriverName,
                             CacheServiceInterface::class
                         )
                     );
                 }
 
                 $container->setDefinition(
-                    self::CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName,
+                    self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName,
                     $cacheDriverDef
                 );
 
                 // there should be always one default cache driver
-                if (is_null($defaultCacheDriver) || (isset($cacheDriverConf['default']) && $cacheDriverConf['default'])) {
-                    $defaultCacheDriver = self::CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName;
+                if (is_null(
+                        $defaultCacheDriver
+                    ) || (isset($cacheDriverConf['default']) && $cacheDriverConf['default'])
+                ) {
+                    $defaultCacheDriver = self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName;
                 }
             }
 
@@ -101,11 +104,14 @@ class CacheDriversCompilerPass implements CompilerPassInterface
     {
         $cacheDriverServiceId = null;
 
-        if (in_array($cacheDriverName, $this->getPredefinedCacheDriversNames()) && is_null($cacheDriverConf['service'])) {
+        if (in_array($cacheDriverName, $this->getPredefinedCacheDriversNames()) && is_null(
+                $cacheDriverConf['service']
+            )
+        ) {
             // is predefined driver
-            switch($cacheDriverName) {
+            switch ($cacheDriverName) {
                 case self::PREDEFINED_CACHE_DRIVER_NULL: // register predefined cache driver - null
-                    $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName;
+                    $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName;
 
                     $cacheDriverServiceDef = new Definition(NullCacheService::class);
                     $this->container->setDefinition(
@@ -114,9 +120,12 @@ class CacheDriversCompilerPass implements CompilerPassInterface
                     );
                     break;
                 case self::PREDEFINED_CACHE_DRIVER_PREDIS: // register predefined cache driver - predis
-                    $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX . $cacheDriverName;
+                    $cacheDriverServiceId = self::PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName;
 
-                    $cacheDriverServiceDef = new Definition(PredisCacheService::class, [new Reference('snc_redis.cache')]);
+                    $cacheDriverServiceDef = new Definition(
+                        PredisCacheService::class,
+                        [new Reference('snc_redis.cache')]
+                    );
                     $this->container->setDefinition(
                         $cacheDriverServiceId,
                         $cacheDriverServiceDef
@@ -137,7 +146,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
     {
         return [
             self::PREDEFINED_CACHE_DRIVER_PREDIS,
-            self::PREDEFINED_CACHE_DRIVER_NULL
+            self::PREDEFINED_CACHE_DRIVER_NULL,
         ];
     }
 }

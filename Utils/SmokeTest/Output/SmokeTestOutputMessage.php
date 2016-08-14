@@ -4,10 +4,10 @@ namespace Smartbox\CoreBundle\Utils\SmokeTest\Output;
 
 final class SmokeTestOutputMessage
 {
-    const OUTPUT_MESSAGE_TYPE_INFO      = 'info';
-    const OUTPUT_MESSAGE_TYPE_SUCCESS   = 'success';
-    const OUTPUT_MESSAGE_TYPE_FAILURE   = 'failure';
-    const OUTPUT_MESSAGE_TYPE_SKIPPED   = 'skipped';
+    const OUTPUT_MESSAGE_TYPE_INFO = 'info';
+    const OUTPUT_MESSAGE_TYPE_SUCCESS = 'success';
+    const OUTPUT_MESSAGE_TYPE_FAILURE = 'failure';
+    const OUTPUT_MESSAGE_TYPE_SKIPPED = 'skipped';
 
     /**
      * @var array

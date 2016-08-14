@@ -28,19 +28,40 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $this
             ->setName('smartbox:smoke-test')
             ->setDescription('Run all services tagged with "smartcore.smoke_test"')
-            ->addOption('label', 'l', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'A set of label that will be used to filter the tests', [])
-            ->addOption('skip', 'x', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'A set of tests id that will be skipped', [])
+            ->addOption(
+                'label',
+                'l',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'A set of label that will be used to filter the tests',
+                []
+            )
+            ->addOption(
+                'skip',
+                'x',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'A set of tests id that will be skipped',
+                []
+            )
             ->addOption('showSkipped', null, InputOption::VALUE_NONE, 'If set will show the list of skipped tests')
-            ->addOption('silent', null, InputOption::VALUE_NONE, 'If in silent mode this command will return only exit code (0 or 1)')
+            ->addOption(
+                'silent',
+                null,
+                InputOption::VALUE_NONE,
+                'If in silent mode this command will return only exit code (0 or 1)'
+            )
             ->addOption('json', null, InputOption::VALUE_NONE, 'Show output in JSON format.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'File path to write')
-            ->addArgument('test', InputArgument::OPTIONAL, 'Specify the id of a single test to execute')
-        ;
+            ->addArgument('test', InputArgument::OPTIONAL, 'Specify the id of a single test to execute');
     }
 
-    public function addTest($id, SmokeTestInterface $smokeTest, $runMethod = 'run', $descriptionMethod = 'getDescription', $labels = [])
-    {
-        $key = $id . '_' . $runMethod;
+    public function addTest(
+        $id,
+        SmokeTestInterface $smokeTest,
+        $runMethod = 'run',
+        $descriptionMethod = 'getDescription',
+        $labels = []
+    ) {
+        $key = $id.'_'.$runMethod;
         if (array_key_exists($key, $this->smokeTests)) {
             throw new \RuntimeException(sprintf('Test with id "%s" is already added.', $id));
         }
@@ -50,7 +71,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             'id' => $id,
             'runMethod' => $runMethod,
             'descriptionMethod' => $descriptionMethod,
-            'labels' => $labels
+            'labels' => $labels,
         ];
     }
 
@@ -85,11 +106,17 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             // executes a single test
             $showSkipped = false;
             $testNames = array_keys($smokeTests);
-            $smokeTests = array_filter($smokeTests, function($key) use ($test){
-                return ($key === $test);
-            }, ARRAY_FILTER_USE_KEY);
+            $smokeTests = array_filter(
+                $smokeTests,
+                function ($key) use ($test) {
+                    return ($key === $test);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
             if (empty($smokeTests)) {
-                throw new \RuntimeException(sprintf('Test "%s" not found. Available tests: %s', $test, json_encode($testNames)));
+                throw new \RuntimeException(
+                    sprintf('Test "%s" not found. Available tests: %s', $test, json_encode($testNames))
+                );
             }
         } else {
             // executes all tests (checking for label filters)
@@ -112,14 +139,18 @@ class SmokeTestRunCommand extends ContainerAwareCommand
 
             // filter by skipped
             if (!empty($skipTests)) {
-                $smokeTests = array_filter($smokeTests, function($smokeTestInfo) use ($skipTests, &$skipped) {
-                    $key = $smokeTestInfo['id'];
-                    $skipping = in_array($key, $skipTests);
-                    if ($skipping) {
-                        $skipped[$key] = $smokeTestInfo;
+                $smokeTests = array_filter(
+                    $smokeTests,
+                    function ($smokeTestInfo) use ($skipTests, &$skipped) {
+                        $key = $smokeTestInfo['id'];
+                        $skipping = in_array($key, $skipTests);
+                        if ($skipping) {
+                            $skipped[$key] = $smokeTestInfo;
+                        }
+
+                        return !$skipping;
                     }
-                    return !$skipping;
-                });
+                );
             }
         }
 
@@ -133,24 +164,32 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             $smokeTestOutput = null;
             if (!$silent && !$json) {
                 $this->applyOutputStyles();
-                
+
                 $this->out->writeln("\n");
-                $this->out->writeln('Running @SmokeTest with ID: ' . '<info>' . $id . '</info> and method: <info>' . $runMethod . '</info>');
-                $this->out->writeln('Description: ' . '<info>' . $smokeTest->$descriptionMethod() . '</info>');
+                $this->out->writeln(
+                    'Running @SmokeTest with ID: '.'<info>'.$id.'</info> and method: <info>'.$runMethod.'</info>'
+                );
+                $this->out->writeln('Description: '.'<info>'.$smokeTest->$descriptionMethod().'</info>');
 
                 try {
                     /** @var SmokeTestOutputInterface $smokeTestOutput */
                     $smokeTestOutput = $smokeTest->$runMethod();
 
                     if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                        throw new \RuntimeException(
+                            "A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod"
+                        );
                     }
 
-                    $this->out->writeln('STATUS: ' . ($smokeTestOutput->isOK() ? '<success>Success</success>' : '<failure>Failure</failure>'));
-                    $this->out->writeln('LABELS: ' . json_encode($smokeTestInfo['labels']));
+                    $this->out->writeln(
+                        'STATUS: '.($smokeTestOutput->isOK(
+                        ) ? '<success>Success</success>' : '<failure>Failure</failure>')
+                    );
+                    $this->out->writeln('LABELS: '.json_encode($smokeTestInfo['labels']));
                     $this->out->writeln('MESSAGE:');
                     foreach ($smokeTestOutput->getMessages() as $message) {
-                        $this->out->writeln("\t" .
+                        $this->out->writeln(
+                            "\t".
                             sprintf(
                                 ' - <%1$s>%2$s</%1$s>',
                                 $message->getType(),
@@ -165,7 +204,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 } catch (\Exception $e) {
                     $this->out->writeln('STATUS: <failure>Failure</failure>');
                     $this->out->writeln('MESSAGE:');
-                    $this->out->writeln("\t" .
+                    $this->out->writeln(
+                        "\t".
                         sprintf(
                             ' - <%1$s>[%2$s] %3$s</%1$s>',
                             SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
@@ -190,14 +230,16 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     $smokeTestOutput = $smokeTest->$runMethod();
 
                     if (!$smokeTestOutput instanceof SmokeTestOutputInterface) {
-                        throw new \RuntimeException("A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod");
+                        throw new \RuntimeException(
+                            "A smoke test method must return an object implementing SmokeTestOutputInterface. Wrong return type for smoke test: $id with method $runMethod"
+                        );
                     }
                     $messages = $smokeTestOutput->getMessages();
                     $result['result'] = [];
                     foreach ($messages as $message) {
                         $result['result'][] = [
                             'type' => $message->getType(),
-                            'value' => $message->getValue()
+                            'value' => $message->getValue(),
                         ];
                     }
 
@@ -206,10 +248,10 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                     if (!$smokeTestOutput->isOK()) {
                         $exitCode = 1;
                     }
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     $result['result'][] = [
                         'type' => SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_FAILURE,
-                        'value' => sprintf('[%s] %s', get_class($e), $e->getMessage())
+                        'value' => sprintf('[%s] %s', get_class($e), $e->getMessage()),
                     ];
                     $result['failed'] = true;
 
@@ -224,10 +266,14 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 $descriptionMethod = $smokeTestInfo['descriptionMethod'];
                 if (!$silent && !$json) {
                     $this->out->writeln("\n");
-                    $this->out->writeln('@SmokeTest with ID: ' . '<info>' . $smokeTestInfo['id'] . '</info> and method: <info>' . $smokeTestInfo['runMethod'] . '</info>');
-                    $this->out->writeln('Description: ' . '<info>' . $smokeTestInfo['service']->$descriptionMethod() . '</info>');
+                    $this->out->writeln(
+                        '@SmokeTest with ID: '.'<info>'.$smokeTestInfo['id'].'</info> and method: <info>'.$smokeTestInfo['runMethod'].'</info>'
+                    );
+                    $this->out->writeln(
+                        'Description: '.'<info>'.$smokeTestInfo['service']->$descriptionMethod().'</info>'
+                    );
                     $this->out->writeln('STATUS: <skipped>Skipped</skipped>');
-                    $this->out->writeln('LABELS: ' . json_encode($smokeTestInfo['labels']));
+                    $this->out->writeln('LABELS: '.json_encode($smokeTestInfo['labels']));
                     $this->out->writeln("\n---------------------------------");
                 } else {
                     $content[] = [

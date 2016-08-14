@@ -33,7 +33,7 @@ class DoubleType extends Basic
      */
     public function getValue()
     {
-        return (double) $this->value;
+        return (double)$this->value;
     }
 
     /***
@@ -43,11 +43,11 @@ class DoubleType extends Basic
     public function setValue($value)
     {
         if ((is_scalar($value) && is_numeric($value))) {
-            $this->value = (double) $value;
+            $this->value = (double)$value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
-        } else {
-            throw new \InvalidArgumentException('Expected double');
         }
+
+        throw new \InvalidArgumentException('Expected double');
     }
 }

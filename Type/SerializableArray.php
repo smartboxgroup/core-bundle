@@ -21,7 +21,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     protected $array = [];
 
-    public function __construct($input = array())
+    public function __construct($input = [])
     {
         if (is_array($input)) {
             $this->setArray($input);
@@ -56,7 +56,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     }
 
     /**
-     * @param string                                          $key
+     * @param string $key
      * @param SerializableInterface|\DateTime|bool|int|string $value
      */
     public function set($key, $value)
@@ -89,10 +89,10 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
             if ($value) {
                 throw new \InvalidArgumentException('Invalid value');
             } else {
-                $this->array[(string) $key] = null;
+                $this->array[(string)$key] = null;
             }
         } else {
-            $this->array[(string) $key] = $cleanValue;
+            $this->array[(string)$key] = $cleanValue;
         }
     }
 
@@ -101,7 +101,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function toArray()
     {
-        $res = array();
+        $res = [];
         // Force to use the getters to fetch the values because they will unwrap the basic types
         foreach (array_keys($this->array) as $key) {
             $res[$key] = $this->get($key);

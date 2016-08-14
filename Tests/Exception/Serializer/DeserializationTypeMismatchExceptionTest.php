@@ -9,9 +9,15 @@ class DeserializationTypeMismatchExceptionTest extends \PHPUnit_Framework_TestCa
     /** @var DeserializationTypeMismatchException */
     private $exception;
 
-    public function setup()
+    protected function setUp()
     {
-        $this->exception = new DeserializationTypeMismatchException('some property', 'some class', 'some value', 'some type', 'original data');
+        $this->exception = new DeserializationTypeMismatchException(
+            'some property',
+            'some class',
+            'some value',
+            'some type',
+            'original data'
+        );
     }
 
     public function testItShouldGetPropertyName()

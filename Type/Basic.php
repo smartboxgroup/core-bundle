@@ -12,7 +12,7 @@ abstract class Basic implements SerializableInterface
 
     public function __toString()
     {
-        return (string) $this->getValue();
+        return (string)$this->getValue();
     }
 
     abstract public function getValue();

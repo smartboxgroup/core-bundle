@@ -29,24 +29,24 @@ class DateHandler implements SubscribingHandlerInterface
     {
         $methods = \JMS\Serializer\Handler\DateHandler::getSubscribingMethods();
 
-        $types = array('DateTime', 'DateInterval');
+        $types = ['DateTime', 'DateInterval'];
 
-        $newFormats = array('array');   // Add here any new format you wish to support
+        $newFormats = ['array'];   // Add here any new format you wish to support
 
         foreach ($newFormats as $format) {
-            $methods[] = array(
+            $methods[] = [
                 'type' => 'DateTime',
                 'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
                 'format' => $format,
-            );
+            ];
 
             foreach ($types as $type) {
-                $methods[] = array(
+                $methods[] = [
                     'type' => $type,
                     'format' => $format,
                     'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                    'method' => 'serialize' . $type,
-                );
+                    'method' => 'serialize'.$type,
+                ];
             }
         }
 
@@ -58,7 +58,11 @@ class DateHandler implements SubscribingHandlerInterface
         $this->defaultFormat = $defaultFormat;
         $this->defaultTimezone = new \DateTimeZone($defaultTimezone);
         $this->xmlCData = $xmlCData;
-        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone, $xmlCData);
+        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler(
+            $defaultFormat,
+            $defaultTimezone,
+            $xmlCData
+        );
     }
 
     public function serializeDateTime(VisitorInterface $visitor, \DateTime $date, array $type, Context $context)
@@ -85,7 +89,7 @@ class DateHandler implements SubscribingHandlerInterface
     {
         $timezone = isset($type['params'][1]) ? new \DateTimeZone($type['params'][1]) : $this->defaultTimezone;
         $format = $this->getFormat($type);
-        $datetime = \DateTime::createFromFormat($format, (string) $data, $timezone);
+        $datetime = \DateTime::createFromFormat($format, (string)$data, $timezone);
         if (false === $datetime) {
             throw new RuntimeException(sprintf('Invalid datetime "%s", expected format %s.', $data, $format));
         }

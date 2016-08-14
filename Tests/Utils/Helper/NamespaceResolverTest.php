@@ -22,7 +22,10 @@ class NamespaceResolverTest extends \PHPUnit_Framework_TestCase
         ];
         $namespaceResolver = new NamespaceResolver($namespaces);
 
-        $this->assertEquals(TestComplexEntity::class, $namespaceResolver->resolveNamespaceForClass('TestComplexEntity'));
+        $this->assertEquals(
+            TestComplexEntity::class,
+            $namespaceResolver->resolveNamespaceForClass('TestComplexEntity')
+        );
     }
 
     /**
@@ -37,7 +40,10 @@ class NamespaceResolverTest extends \PHPUnit_Framework_TestCase
         ];
         $namespaceResolver = new NamespaceResolver($namespaces);
 
-        $this->assertEquals(TestComplexEntity::class, $namespaceResolver->resolveNamespaceForClass(TestComplexEntity::class));
+        $this->assertEquals(
+            TestComplexEntity::class,
+            $namespaceResolver->resolveNamespaceForClass(TestComplexEntity::class)
+        );
     }
 
     /**
@@ -45,7 +51,7 @@ class NamespaceResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolveNamespaceForNotExistingClass()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $namespaces = [
             'Fake\Namespace',

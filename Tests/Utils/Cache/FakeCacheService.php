@@ -22,7 +22,7 @@ class FakeCacheService implements CacheServiceInterface
     /**
      * @param $method
      * @param array $arguments
-     * @param null  $result
+     * @param null $result
      */
     private function notifySpy($method, $arguments = [], $result = null)
     {

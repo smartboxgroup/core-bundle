@@ -22,7 +22,7 @@ class TestNestedEntity extends Entity
      * @JMS\Type("Smartbox\CoreBundle\Type\Entity")
      * @JMS\Expose
      */
-    protected $generic_item;
+    protected $genericItem;
 
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
@@ -38,7 +38,7 @@ class TestNestedEntity extends Entity
      * @JMS\Type("array<string,Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
      */
-    protected $assoc_items;
+    protected $assocItems;
 
     /**
      * @var Entity
@@ -46,7 +46,7 @@ class TestNestedEntity extends Entity
      * @JMS\Type("array<Smartbox\CoreBundle\Type\Entity>")
      * @JMS\Expose
      */
-    protected $generic_items;
+    protected $genericItems;
 
     /**
      * @return \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
@@ -69,15 +69,15 @@ class TestNestedEntity extends Entity
      */
     public function getGenericItem()
     {
-        return $this->generic_item;
+        return $this->genericItem;
     }
 
     /**
-     * @param Entity $generic_item
+     * @param Entity $genericItem
      */
-    public function setGenericItem($generic_item)
+    public function setGenericItem($genericItem)
     {
-        $this->generic_item = $generic_item;
+        $this->genericItem = $genericItem;
     }
 
     /**
@@ -101,15 +101,15 @@ class TestNestedEntity extends Entity
      */
     public function getAssocItems()
     {
-        return $this->assoc_items;
+        return $this->assocItems;
     }
 
     /**
-     * @param \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[] $assoc_items
+     * @param \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity[] $assocItems
      */
-    public function setAssocItems($assoc_items)
+    public function setAssocItems($assocItems)
     {
-        $this->assoc_items = $assoc_items;
+        $this->assocItems = $assocItems;
     }
 
     /**
@@ -117,14 +117,14 @@ class TestNestedEntity extends Entity
      */
     public function getGenericItems()
     {
-        return $this->generic_items;
+        return $this->genericItems;
     }
 
     /**
-     * @param Entity[] $generic_items
+     * @param Entity[] $genericItems
      */
-    public function setGenericItems($generic_items)
+    public function setGenericItems($genericItems)
     {
-        $this->generic_items = $generic_items;
+        $this->genericItems = $genericItems;
     }
 }

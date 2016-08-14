@@ -33,7 +33,7 @@ class StringType extends Basic
      */
     public function getValue()
     {
-        return (string) $this->value;
+        return (string)$this->value;
     }
 
     /***
@@ -46,8 +46,8 @@ class StringType extends Basic
             $this->value = $value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
-        } else {
-            throw new \InvalidArgumentException('Expected string');
         }
+
+        throw new \InvalidArgumentException('Expected string');
     }
 }

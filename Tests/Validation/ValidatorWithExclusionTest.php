@@ -28,7 +28,7 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
      *
      * @return ValidatorWithExclusion
      */
-    protected function createValidator(MetadataFactoryInterface $metadataFactory, array $objectInitializers = array())
+    protected function createValidator(MetadataFactoryInterface $metadataFactory, array $objectInitializers = [])
     {
         $translator = new IdentityTranslator();
         $translator->setLocale('en');
@@ -55,16 +55,16 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
     public function exclusionCombinationsProvider()
     {
         // Group, Version, Errors
-        return array(
-            array(null, null, 3),
-            array(EntityConstants::GROUP_A, null, 3),
-            array(EntityConstants::GROUP_B, null, 2),
-            array('XXX', null, 0),
-            array(null, EntityConstants::VERSION_2, 3),
-            array(null, EntityConstants::VERSION_1, 2),
-            array(EntityConstants::GROUP_A, EntityConstants::VERSION_2, 3),
-            array(EntityConstants::GROUP_A, EntityConstants::VERSION_1, 2),
-        );
+        return [
+            [null, null, 3],
+            [EntityConstants::GROUP_A, null, 3],
+            [EntityConstants::GROUP_B, null, 2],
+            ['XXX', null, 0],
+            [null, EntityConstants::VERSION_2, 3],
+            [null, EntityConstants::VERSION_1, 2],
+            [EntityConstants::GROUP_A, EntityConstants::VERSION_2, 3],
+            [EntityConstants::GROUP_A, EntityConstants::VERSION_1, 2],
+        ];
     }
 
     /**

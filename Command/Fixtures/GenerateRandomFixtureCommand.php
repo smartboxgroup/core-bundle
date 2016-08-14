@@ -3,7 +3,6 @@
 namespace Smartbox\CoreBundle\Command\Fixtures;
 
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
-use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,12 +46,11 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_NONE,
                 'If set raw json without comments will be printed'
-            )
-        ;
+            );
     }
 
     /**
-     * @param InputInterface  $in
+     * @param InputInterface $in
      * @param OutputInterface $out
      *
      * @throws \InvalidArgumentException

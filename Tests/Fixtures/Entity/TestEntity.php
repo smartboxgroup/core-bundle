@@ -110,7 +110,7 @@ class TestEntity extends Entity
      */
     public function isEnabled()
     {
-        return (bool) $this->enabled;
+        return (bool)$this->enabled;
     }
 
     /**

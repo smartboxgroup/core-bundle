@@ -14,10 +14,10 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'),
-            array('event' => 'serializer.pre_deserialize', 'method' => 'onPreDeserialize'),
-        );
+        return [
+            ['event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'],
+            ['event' => 'serializer.pre_deserialize', 'method' => 'onPreDeserialize'],
+        ];
     }
 
     public function onPreDeserialize(PreDeserializeEvent $event)
@@ -28,7 +28,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 
         if ($isArray && array_key_exists('_type', $data)) {
             if ($data instanceof \SimpleXMLElement) {
-                $type = (string) $data->{'_type'};
+                $type = (string)$data->{'_type'};
             } else {
                 $type = $data['_type'];
             }

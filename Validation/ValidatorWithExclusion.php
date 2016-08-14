@@ -138,7 +138,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
         $parentPath = '';
         foreach ($parts as $child) {
             if (!empty($parentPath)) {
-                $childPath = $parentPath . '.' . $child;
+                $childPath = $parentPath.'.'.$child;
                 $result[] = array($parentPath, $childPath);
                 $parentPath = $childPath;
             } else {

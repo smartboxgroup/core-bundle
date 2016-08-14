@@ -37,7 +37,10 @@ class SmokeTestCompilerPass implements CompilerPassInterface
                     $labels = explode(',', $attr['labels']);
                 }
 
-                $smokeTestCommand->addMethodCall('addTest', [$serviceId, new Reference($serviceId), $runMethod, $descriptionMethod, $labels]);
+                $smokeTestCommand->addMethodCall(
+                    'addTest',
+                    [$serviceId, new Reference($serviceId), $runMethod, $descriptionMethod, $labels]
+                );
             }
         }
     }

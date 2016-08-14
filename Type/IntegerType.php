@@ -33,7 +33,7 @@ class IntegerType extends Basic
      */
     public function getValue()
     {
-        return (int) $this->value;
+        return (int)$this->value;
     }
 
     /***
@@ -43,11 +43,11 @@ class IntegerType extends Basic
     public function setValue($value)
     {
         if ((is_scalar($value) && is_numeric($value))) {
-            $this->value = (int) $value;
+            $this->value = (int)$value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
-        } else {
-            throw new \InvalidArgumentException('Expected integer');
         }
+
+        throw new \InvalidArgumentException('Expected integer');
     }
 }
