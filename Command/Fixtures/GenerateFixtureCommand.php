@@ -251,6 +251,18 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 $result = $this->ask($question);
                 break;
 
+            case 'boolean':
+                $result = $this->ask($question);
+
+                while ($result !== 'true' && $result !== 'false') {
+                    $this->out->writeln('<error>Invalid boolean.</error>');
+                    $result = $this->ask($question);
+                }
+
+                $result = ($result === 'true') ? true : false;
+
+                break;
+
             default:
                 if (is_string($tName) && class_exists($tName) && is_a($tName, EntityInterface::class, true)) {
                     if ($tName == EntityInterface::class) {
