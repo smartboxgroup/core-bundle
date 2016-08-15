@@ -29,24 +29,24 @@ class DateHandler implements SubscribingHandlerInterface
     {
         $methods = \JMS\Serializer\Handler\DateHandler::getSubscribingMethods();
 
-        $types = array('DateTime', 'DateInterval');
+        $types = ['DateTime', 'DateInterval'];
 
-        $newFormats = array('array');   // Add here any new format you wish to support
+        $newFormats = ['array'];   // Add here any new format you wish to support
 
         foreach ($newFormats as $format) {
-            $methods[] = array(
+            $methods[] = [
                 'type' => 'DateTime',
                 'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
                 'format' => $format,
-            );
+            ];
 
             foreach ($types as $type) {
-                $methods[] = array(
+                $methods[] = [
                     'type' => $type,
                     'format' => $format,
                     'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                    'method' => 'serialize' . $type,
-                );
+                    'method' => 'serialize'.$type,
+                ];
             }
         }
 
@@ -58,7 +58,11 @@ class DateHandler implements SubscribingHandlerInterface
         $this->defaultFormat = $defaultFormat;
         $this->defaultTimezone = new \DateTimeZone($defaultTimezone);
         $this->xmlCData = $xmlCData;
-        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone, $xmlCData);
+        $this->decoratedDateHandler = new \JMS\Serializer\Handler\DateHandler(
+            $defaultFormat,
+            $defaultTimezone,
+            $xmlCData
+        );
     }
 
     public function serializeDateTime(VisitorInterface $visitor, \DateTime $date, array $type, Context $context)

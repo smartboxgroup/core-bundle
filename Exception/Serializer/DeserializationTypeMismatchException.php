@@ -60,7 +60,8 @@ class DeserializationTypeMismatchException
         if ($this->propertyName && $this->className) {
             $message .= sprintf(' in property "%s" while deserializing for "%s', $this->propertyName, $this->className);
         }
-        $message .= sprintf(': found "%s", hence "%s" was expected',
+        $message .= sprintf(
+            ': found "%s", hence "%s" was expected',
             $this->getTypeOrClass($this->propertyValue),
             $this->expectedType
         );

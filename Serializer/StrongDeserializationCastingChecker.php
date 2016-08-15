@@ -34,8 +34,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToInteger($data)
     {
-        return is_null($data) ||
-            (is_numeric($data) && floor($data) == $data);
+        return is_null($data) || (is_numeric($data) && floor($data) == $data);
     }
 
     /**

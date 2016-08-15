@@ -15,12 +15,13 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
     /** @var SerializerInterface $serializer */
     private $serializer;
 
-    public function setup()
+    protected function setUp()
     {
         $builder = new SerializerBuilder();
 
         /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')->getMock();
+        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
+            ->getMock();
 
         $this->serializer = $builder
             ->setSerializationVisitor(
@@ -30,9 +31,8 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
                     $objectConstructor
                 )
             )
-            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
-            ->build()
-        ;
+            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->build();
     }
 
     public function testItShouldSerializeValidEntity()

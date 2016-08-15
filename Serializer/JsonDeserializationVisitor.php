@@ -21,11 +21,12 @@ class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisi
      * @param ObjectConstructorInterface      $objectConstructor
      * @param DeserializationTypesValidator   $visitorValidator
      */
-    public function __construct(PropertyNamingStrategyInterface $namingStrategy,
-                                ObjectConstructorInterface $objectConstructor,
-                                DeserializationTypesValidator $visitorValidator)
-    {
-        parent::__construct($namingStrategy, $objectConstructor);
+    public function __construct(
+        PropertyNamingStrategyInterface $namingStrategy,
+        ObjectConstructorInterface $objectConstructor,
+        DeserializationTypesValidator $visitorValidator
+    ) {
+        parent::__construct($namingStrategy);
 
         $visitorValidator->setNamingStrategy($this->namingStrategy);
         $this->visitorValidator = $visitorValidator;

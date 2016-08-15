@@ -15,7 +15,7 @@ class BaseKernelTestCase extends KernelTestCase
         return self::$kernel->getContainer();
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->bootKernel();
     }

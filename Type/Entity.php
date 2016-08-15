@@ -2,12 +2,11 @@
 
 namespace Smartbox\CoreBundle\Type;
 
-use Smartbox\CoreBundle\Serializer\Cache\SerializerCacheableInterface;
 use Smartbox\CoreBundle\Type\Traits\HasEntityGroup;
 use Smartbox\CoreBundle\Type\Traits\HasInternalType;
 use Smartbox\CoreBundle\Type\Traits\HasAPIVersion;
 
-class Entity implements EntityInterface //, SerializerCacheableInterface
+class Entity implements EntityInterface
 {
     use HasEntityGroup;
     use HasAPIVersion;

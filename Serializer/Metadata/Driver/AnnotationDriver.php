@@ -59,8 +59,8 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
         $classMetadata = new ClassMetadata($name = $class->name);
         $classMetadata->fileResources[] = $class->getFilename();
 
-        $propertiesMetadata = array();
-        $propertiesAnnotations = array();
+        $propertiesMetadata = [];
+        $propertiesAnnotations = [];
 
         // -------
         // change of default exclusion policy from NONE to ALL
@@ -117,7 +117,11 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                     $propertiesAnnotations[] = $methodAnnotations;
                     continue 2;
                 } elseif ($annot instanceof HandlerCallback) {
-                    $classMetadata->addHandlerCallback(GraphNavigator::parseDirection($annot->direction), $annot->format, $method->name);
+                    $classMetadata->addHandlerCallback(
+                        GraphNavigator::parseDirection($annot->direction),
+                        $annot->format,
+                        $method->name
+                    );
                     continue 2;
                 }
             }
@@ -137,7 +141,7 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                 $isExpose = $propertyMetadata instanceof VirtualPropertyMetadata;
                 $propertyMetadata->readOnly = $propertyMetadata->readOnly || $readOnlyClass;
                 $accessType = $classAccessType;
-                $accessor = array(null, null);
+                $accessor = [null, null];
 
                 $propertyAnnotations = $propertiesAnnotations[$propertyKey];
 
@@ -182,16 +186,18 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                     } elseif ($annot instanceof ReadOnly) {
                         $propertyMetadata->readOnly = $annot->readOnly;
                     } elseif ($annot instanceof Accessor) {
-                        $accessor = array($annot->getter, $annot->setter);
+                        $accessor = [$annot->getter, $annot->setter];
                     } elseif ($annot instanceof Groups) {
                         $propertyMetadata->groups = $annot->groups;
                         foreach ((array) $propertyMetadata->groups as $groupName) {
                             if (false !== strpos($groupName, ',')) {
-                                throw new InvalidArgumentException(sprintf(
-                                    'Invalid group name "%s" on "%s", did you mean to create multiple groups?',
-                                    implode(', ', $propertyMetadata->groups),
-                                    $propertyMetadata->class . '->' . $propertyMetadata->name
-                                ));
+                                throw new InvalidArgumentException(
+                                    sprintf(
+                                        'Invalid group name "%s" on "%s", did you mean to create multiple groups?',
+                                        implode(', ', $propertyMetadata->groups),
+                                        $propertyMetadata->class.'->'.$propertyMetadata->name
+                                    )
+                                );
                             }
                         }
                     } elseif ($annot instanceof Inline) {
@@ -205,8 +211,10 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
 
                 $propertyMetadata->setAccessor($accessType, $accessor[0], $accessor[1]);
 
-                if ((ExclusionPolicy::NONE === $exclusionPolicy && !$isExclude)
-                    || (ExclusionPolicy::ALL === $exclusionPolicy && $isExpose)) {
+                if (
+                    (ExclusionPolicy::NONE === $exclusionPolicy && !$isExclude) ||
+                    (ExclusionPolicy::ALL === $exclusionPolicy && $isExpose)
+                ) {
                     $classMetadata->addPropertyMetadata($propertyMetadata);
                 }
             }

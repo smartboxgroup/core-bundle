@@ -46,8 +46,8 @@ class DoubleType extends Basic
             $this->value = (double) $value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
-        } else {
-            throw new \InvalidArgumentException('Expected double');
         }
+
+        throw new \InvalidArgumentException('Expected double');
     }
 }

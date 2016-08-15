@@ -23,7 +23,8 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
         $builder = new SerializerBuilder();
 
         /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')->getMock();
+        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
+            ->getMock();
 
         $this->serializer = $builder
             ->setDeserializationVisitor(
@@ -34,9 +35,8 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
-            ->build()
-        ;
+            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->build();
     }
 
     protected function tearDown()
@@ -102,7 +102,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestC
 
     public function testItShouldNotDeserializeAnInvalidEntity()
     {
-        $this->setExpectedException(DeserializationTypeMismatchException::class, 'Type mismatch in property "description"');
+        $this->expectException(DeserializationTypeMismatchException::class);
 
         $data = [
             'title' => 'some title',

@@ -34,17 +34,21 @@ class PredisCacheService implements CacheServiceInterface
         try {
             if ($expireTTL) {
                 if (!is_integer($expireTTL)) {
-                    throw new \InvalidArgumentException(sprintf('Expire TTL should be integer value. Given: %s', json_encode($expireTTL)));
+                    throw new \InvalidArgumentException(
+                        sprintf('Expire TTL should be integer value. Given: %s', json_encode($expireTTL))
+                    );
                 }
 
                 if (!($expireTTL > 0)) {
-                    throw new \InvalidArgumentException(sprintf('Expire TTL should be higher than 0. Given: %s', $expireTTL));
+                    throw new \InvalidArgumentException(
+                        sprintf('Expire TTL should be higher than 0. Given: %s', $expireTTL)
+                    );
                 }
 
                 return $this->client->set($key, serialize($value), 'EX', $expireTTL);
-            } else {
-                return $this->client->set($key, serialize($value));
             }
+
+            return $this->client->set($key, serialize($value));
         } catch (PredisException $e) {
             $this->logException($e);
 
@@ -66,7 +70,7 @@ class PredisCacheService implements CacheServiceInterface
         } catch (PredisException $ex) {
             $this->logException($ex);
 
-            return null;
+            return;
         }
     }
 
@@ -83,10 +87,11 @@ class PredisCacheService implements CacheServiceInterface
             if ($this->client->exists($key)) {
                 if (!is_null($ttlLimit)) {
                     return $this->client->ttl($key) >= $ttlLimit;
-                } else {
-                    return true;
                 }
+
+                return true;
             }
+
             return false;
         } catch (PredisException $ex) {
             $this->logException($ex);
@@ -104,6 +109,6 @@ class PredisCacheService implements CacheServiceInterface
      */
     protected function logException(PredisException $ex)
     {
-        error_log('Error: Redis service is down: ' . $ex->getMessage());
+        error_log('Error: Redis service is down: '.$ex->getMessage());
     }
 }

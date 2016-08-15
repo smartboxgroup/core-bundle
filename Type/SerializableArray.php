@@ -21,7 +21,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     protected $array = [];
 
-    public function __construct($input = array())
+    public function __construct($input = [])
     {
         if (is_array($input)) {
             $this->setArray($input);
@@ -101,7 +101,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function toArray()
     {
-        $res = array();
+        $res = [];
         // Force to use the getters to fetch the values because they will unwrap the basic types
         foreach (array_keys($this->array) as $key) {
             $res[$key] = $this->get($key);

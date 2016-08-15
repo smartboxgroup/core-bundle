@@ -30,7 +30,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      */
     protected $randomFixtureGenerator;
 
-    public function setUp()
+    protected function setUp()
     {
         $kernel = $this->createKernel();
         $kernel->boot();
@@ -59,6 +59,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
 
     /**
      * @dataProvider dataProviderForGroupsAndVersions
+     *
      * @covers ::generate
      * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createSerializationContextForFixtures
      * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createDeserializationContextForFixtures
@@ -93,7 +94,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      */
     public function testGenerateForNonEntityClass()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->randomFixtureGenerator->generate(\stdClass::class, 'dummy_group', 'dummy_version');
     }
 }

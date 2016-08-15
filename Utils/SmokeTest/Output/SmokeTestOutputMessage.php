@@ -4,10 +4,10 @@ namespace Smartbox\CoreBundle\Utils\SmokeTest\Output;
 
 final class SmokeTestOutputMessage
 {
-    const OUTPUT_MESSAGE_TYPE_INFO      = 'info';
-    const OUTPUT_MESSAGE_TYPE_SUCCESS   = 'success';
-    const OUTPUT_MESSAGE_TYPE_FAILURE   = 'failure';
-    const OUTPUT_MESSAGE_TYPE_SKIPPED   = 'skipped';
+    const OUTPUT_MESSAGE_TYPE_INFO = 'info';
+    const OUTPUT_MESSAGE_TYPE_SUCCESS = 'success';
+    const OUTPUT_MESSAGE_TYPE_FAILURE = 'failure';
+    const OUTPUT_MESSAGE_TYPE_SKIPPED = 'skipped';
 
     /**
      * @var array
@@ -29,7 +29,7 @@ final class SmokeTestOutputMessage
     protected $value;
 
     /**
-     * @param string $type Type of the message. Supported types: info, success, failure
+     * @param string $type  Type of the message. Supported types: info, success, failure
      * @param string $value The message value
      */
     public function __construct($type, $value)

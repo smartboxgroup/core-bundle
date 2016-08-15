@@ -36,7 +36,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     {
         $this
             ->setName('smartbox:generate:fixture')
-            ->setAliases(array('generate:smartbox:fixture'))
+            ->setAliases(['generate:smartbox:fixture'])
             ->setDescription('Generates a fixture of a smartesb entity serialized in json');
     }
 
@@ -56,13 +56,13 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             $parts = explode('/', $name);
             array_pop($parts);
 
-            $dir = $folder . '/' . implode('/', $parts);
+            $dir = $folder.'/'.implode('/', $parts);
             if (!file_exists($dir)) {
                 mkdir($dir, 777, true);
             }
         }
 
-        $path = $folder . "/$name.json";
+        $path = $folder."/$name.json";
 
         return $path;
     }
@@ -87,7 +87,10 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $path = $this->getCleanDefaultPathForFixture($name);
 
-        $context = ContextFactory::createSerializationContextForFixtures($entity->getEntityGroup(), $entity->getAPIVersion());
+        $context = ContextFactory::createSerializationContextForFixtures(
+            $entity->getEntityGroup(),
+            $entity->getAPIVersion()
+        );
 
         $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
 
@@ -121,8 +124,8 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
         $group = $this->ask('Group for this entity(none): ', null);
         if ($group) {
-            $groupExclusion = new GroupsExclusionStrategy(array($group));
-            $context->setGroups(array($group));
+            $groupExclusion = new GroupsExclusionStrategy([$group]);
+            $context->setGroups([$group]);
         }
 
         /** @var EntityInterface $entity */
@@ -134,7 +137,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $metadata = $this->getEntityMetadata($class);
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, array('_group', '_apiVersion', '_type'))
+            if (!in_array($property, ['_group', '_apiVersion', '_type'])
                 && $propertyAccessor->isWritable($entity, $property)
                 && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context))
                 && !$versionExclusion->shouldSkipProperty($propertyMetadata, $context)
@@ -147,7 +150,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 }
 
                 if ($typeName != 'array') {
-                    $result = $this->askForField('Value for ' . $property, $typeName);
+                    $result = $this->askForField('Value for '.$property, $typeName);
                 } else {
                     $numParams = count($typeParams);
 
@@ -163,16 +166,16 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
                     $question = "Do you want to add a new entry to $property? (yes): ";
 
-                    $result = array();
+                    $result = [];
 
                     while ($this->ask($question, 'yes') == 'yes') {
                         $key = null;
 
                         if ($keyType) {
-                            $key = $this->askForField($property . '[] Key', $keyType);
+                            $key = $this->askForField($property.'[] Key', $keyType);
                         }
 
-                        $value = $this->askForField($property . '[] Value', $valueType);
+                        $value = $this->askForField($property.'[] Value', $valueType);
 
                         if ($key) {
                             $result[$key] = $value;
@@ -251,19 +254,37 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 $result = $this->ask($question);
                 break;
 
+            case 'boolean':
+                $result = $this->ask($question);
+
+                while ($result !== 'true' && $result !== 'false') {
+                    $this->out->writeln('<error>Invalid boolean.</error>');
+                    $result = $this->ask($question);
+                }
+
+                $result = ($result === 'true') ? true : false;
+
+                break;
+
             default:
                 if (is_string($tName) && class_exists($tName) && is_a($tName, EntityInterface::class, true)) {
                     if ($tName == EntityInterface::class) {
                         $tName = null;
                     }
 
-                    $skip = $this->ask("$field (entity); do you want to leave this field blank? (yes): ", 'yes') == 'yes';
+                    $skip = $this->ask(
+                            "$field (entity); do you want to leave this field blank? (yes): ",
+                            'yes'
+                        ) == 'yes';
 
                     if ($skip) {
                         return;
                     }
 
-                    $useExisting = $this->ask("$field (entity); do you want to use an existing entity fixture? (yes): ", 'yes') == 'yes';
+                    $useExisting = $this->ask(
+                            "$field (entity); do you want to use an existing entity fixture? (yes): ",
+                            'yes'
+                        ) == 'yes';
 
                     if (!$useExisting) {
                         $result = $this->askForEntity($field, $tName);
@@ -281,7 +302,9 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                             $serializer = $this->getContainer()->get('serializer');
                             $obj = $serializer->deserialize(file_get_contents($path), Entity::class, 'json');
                             if (!$obj || ($tName && !(is_a($obj, $tName) || is_subclass_of($obj, $tName)))) {
-                                $this->out->writeln("<error>The given fixture is not of type: $tName but of type " . $obj->getType() . '</error>');
+                                $this->out->writeln(
+                                    "<error>The given fixture is not of type: $tName but of type ".$obj->getType().'</error>'
+                                );
                             } else {
                                 $result = $obj;
                             }
@@ -308,7 +331,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             );
         }
 
-        return array(substr($entity, 0, $pos), substr($entity, $pos + 1));
+        return [substr($entity, 0, $pos), substr($entity, $pos + 1)];
     }
 
     protected function getEntityMetadata($entity)

@@ -21,7 +21,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $builder = new SerializerBuilder();
 
         /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')->getMock();
+        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
+            ->getMock();
 
         $this->serializer = $builder
             ->setDeserializationVisitor(
@@ -32,9 +33,8 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
-            ->build()
-        ;
+            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->build();
     }
 
     protected function tearDown()
@@ -45,7 +45,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     public function testItShouldDeserializeValidEntity()
     {
         $data =
-        '{
+            '{
             "title": "some title",
             "description": "some description",
             "note": "some note",
@@ -62,7 +62,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     public function testItShouldDeserializeValidEntityWithVersion()
     {
         $data =
-        '{
+            '{
             "title": "some title",
             "description": 22,
             "note": "some note",
@@ -75,7 +75,12 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $context = new DeserializationContext();
         $context->setVersion(EntityConstants::VERSION_1);
 
-        $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json', $context);
+        $obj = $this->serializer->deserialize(
+            $data,
+            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            'json',
+            $context
+        );
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertNull($obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
@@ -85,7 +90,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     public function testItShouldDeserializeValidEntityWithGroup()
     {
         $data =
-        '{
+            '{
             "title": 11,
             "description": "some description",
             "note": 33,
@@ -98,7 +103,12 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
         $context = new DeserializationContext();
         $context->setGroups([EntityConstants::GROUP_C]);
 
-        $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json', $context);
+        $obj = $this->serializer->deserialize(
+            $data,
+            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            'json',
+            $context
+        );
         $this->assertNull($obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertNull($obj->getNote());
@@ -112,7 +122,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCa
     public function testItShouldNotDeserializeAnInvalidEntity()
     {
         $data =
-        '{
+            '{
             "title": "some title",
             "description": {},
             "note": "some note",

@@ -45,7 +45,7 @@ class MergeableChainDriver implements DriverInterface
                 if (!$currentMetadata instanceof MergeableClassMetadata) {
                     throw new \InvalidArgumentException(
                         sprintf(
-                            'Metadata of class "%s" is not an instance of "%s". "%s" supports only mergeable' .
+                            'Metadata of class "%s" is not an instance of "%s". "%s" supports only mergeable'.
                             ' metadata',
                             get_class($currentMetadata),
                             MergeableClassMetadata::class,

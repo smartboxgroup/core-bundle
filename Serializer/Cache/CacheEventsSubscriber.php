@@ -29,8 +29,12 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
         $config = [];
         foreach ($formats as $format) {
-            $config[] = array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize', 'format' => $format);
-            $config[] = array('event' => 'serializer.post_serialize', 'method' => 'onPostSerialize', 'format' => $format);
+            $config[] = ['event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize', 'format' => $format];
+            $config[] = [
+                'event' => 'serializer.post_serialize',
+                'method' => 'onPostSerialize',
+                'format' => $format,
+            ];
         }
 
         return $config;
@@ -39,7 +43,10 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     public function onPreSerialize(PreSerializeEvent $event)
     {
         $data = $event->getObject();
-        if ($data instanceof SerializerCacheableInterface && $event->getVisitor() instanceof GenericSerializationVisitor) {
+        if (
+            $data instanceof SerializerCacheableInterface &&
+            $event->getVisitor() instanceof GenericSerializationVisitor
+        ) {
             $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
             if ($key !== null && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
                 $event->setType(CachedObjectHandler::TYPE);
@@ -53,7 +60,11 @@ class CacheEventsSubscriber implements EventSubscriberInterface
         $object = $event->getObject();
         $type = $event->getType();
 
-        if ($type['name'] !== CachedObjectHandler::TYPE && $object instanceof SerializerCacheableInterface && $visitor instanceof GenericSerializationVisitor) {
+        if (
+            $type['name'] !== CachedObjectHandler::TYPE &&
+            $object instanceof SerializerCacheableInterface &&
+            $visitor instanceof GenericSerializationVisitor
+        ) {
             // save to cache
             $cacheData = $this->getDataFromVisitor($visitor);
             $key = CachedObjectHandler::getDataCacheKey($object, $event->getContext());

@@ -20,7 +20,7 @@ class NullCacheService implements CacheServiceInterface
      */
     public function get($key)
     {
-        return null;
+        return;
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Smartbox\CoreBundle\Tests\Serializer\Handler;
 
 use JMS\Serializer\SerializerInterface;
-use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use JMS\Serializer\SerializationContext;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\CacheableEntity;
@@ -67,8 +66,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $cacheServiceMock = $this->getMockBuilder(FakeCacheService::class)
             ->setConstructorArgs([$cacheServiceSpy])
             ->setMethods(null)
-            ->getMock()
-        ;
+            ->getMock();
 
         $container->get('smartcore.serializer.subscriber.cache')->setCacheService($cacheServiceMock);
         $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
@@ -142,7 +140,11 @@ class CachedObjectHandlerTest extends KernelTestCase
                 ],
             ];
         }
-        $this->assertEquals($expectedSpyLog, $cacheServiceSpy->getLog(), 'Methods of cache service were not executed with proper order or arguments.');
+        $this->assertEquals(
+            $expectedSpyLog,
+            $cacheServiceSpy->getLog(),
+            'Methods of cache service were not executed with proper order or arguments.'
+        );
 
         $kernel->shutdown();
     }

@@ -46,8 +46,8 @@ class IntegerType extends Basic
             $this->value = (int) $value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
-        } else {
-            throw new \InvalidArgumentException('Expected integer');
         }
+
+        throw new \InvalidArgumentException('Expected integer');
     }
 }

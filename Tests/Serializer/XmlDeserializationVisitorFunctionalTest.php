@@ -16,12 +16,13 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
     /** @var SerializerInterface $serializer */
     private $serializer;
 
-    public function setup()
+    protected function setUp()
     {
         $builder = new SerializerBuilder();
 
         /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')->getMock();
+        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
+            ->getMock();
 
         $this->serializer = $builder
             ->setDeserializationVisitor(
@@ -32,20 +33,19 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
                     new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
                 )
             )
-            ->addMetadataDir(__DIR__ . '/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
-            ->build()
-        ;
+            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->build();
     }
 
     public function testItShouldDeserializeValidEntity()
     {
         $data =
-        '<?xml version="1.0" encoding="UTF-8"?>
-        <result>
-          <title><![CDATA[some title]]></title>
-          <description><![CDATA[some description]]></description>
-          <note><![CDATA[some note]]></note>
-        </result>';
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <result>
+              <title><![CDATA[some title]]></title>
+              <description><![CDATA[some description]]></description>
+              <note><![CDATA[some note]]></note>
+            </result>';
 
         $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'xml');
         $this->assertEquals('some title', $obj->getTitle());
@@ -69,7 +69,12 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $context = new DeserializationContext();
         $context->setVersion(EntityConstants::VERSION_1);
 
-        $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'xml', $context);
+        $obj = $this->serializer->deserialize(
+            $data,
+            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            'xml',
+            $context
+        );
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertNull($obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
@@ -91,7 +96,12 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCas
         $context = new DeserializationContext();
         $context->setGroups([EntityConstants::GROUP_C]);
 
-        $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'xml', $context);
+        $obj = $this->serializer->deserialize(
+            $data,
+            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            'xml',
+            $context
+        );
         $this->assertNull($obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertNull($obj->getNote());

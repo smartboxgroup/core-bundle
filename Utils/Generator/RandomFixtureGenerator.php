@@ -59,17 +59,18 @@ class RandomFixtureGenerator
         $version = $entity->getAPIVersion();
         $group = $entity->getEntityGroup();
         $versionExclusion = new VersionExclusionStrategy($version);
-        $groupExclusion = new GroupsExclusionStrategy(array($group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC));
+        $groupExclusion = new GroupsExclusionStrategy([$group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC]);
         $propertyAccessor = new PropertyAccessor();
         $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
         $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, array('entityGroup', 'version', '_type'))
-                && $propertyAccessor->isWritable($entity, $property)
-                && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context))
-                && (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))
+            if (
+                !in_array($property, ['entityGroup', 'version', '_type']) &&
+                $propertyAccessor->isWritable($entity, $property) &&
+                (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context)) &&
+                (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))
             ) {
                 $typeName = @$propertyMetadata->type['name'];
                 $typeParams = @$propertyMetadata->type['params'];
@@ -81,7 +82,7 @@ class RandomFixtureGenerator
                 try {
                     $data = $this->generateRandomData($typeName, $typeParams, $group, $version);
                 } catch (\Exception $e) {
-                    throw new \Exception('Property: ' . $property . 'Error: ' . $e->getMessage());
+                    throw new \Exception('Property: '.$property.'Error: '.$e->getMessage());
                 }
 
                 $propertyAccessor->setValue($entity, $property, $data);

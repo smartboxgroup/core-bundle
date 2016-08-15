@@ -22,14 +22,14 @@ class SerializableTest extends BaseKernelTestCase
     {
         $exceptClass = 'InvalidArgumentException';
 
-        return array(
-            array('xxx', null),
-            array(null, null),
-            array('', null),
-            array(-1, $exceptClass),
-            array(234, $exceptClass),
-            array(12.32, $exceptClass),
-        );
+        return [
+            ['xxx', null],
+            [null, null],
+            ['', null],
+            [-1, $exceptClass],
+            [234, $exceptClass],
+            [12.32, $exceptClass],
+        ];
     }
 
     public function objectsToSerializeProvider()
@@ -44,9 +44,9 @@ class SerializableTest extends BaseKernelTestCase
         $arrEntity->set('string', new StringType('Lorem ipsum'));
         $arrEntity->set('other', $arrEntityA);
 
-        return array(
-            array($arrEntity),
-        );
+        return [
+            [$arrEntity],
+        ];
     }
 
     /**

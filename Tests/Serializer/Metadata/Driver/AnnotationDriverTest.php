@@ -24,7 +24,7 @@ class AnnotationDriverTest extends KernelTestCase
      */
     protected $serializer;
 
-    public function setUp()
+    protected function setUp()
     {
         $kernel = new \AppKernel('test', false);
         $kernel->boot();

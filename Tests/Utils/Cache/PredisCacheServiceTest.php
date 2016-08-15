@@ -1,13 +1,13 @@
 <?php
 
-namespace Utils\Cache;
+namespace Smartbox\CoreBundle\Tests\Utils\Cache;
 
 use Predis\ClientInterface;
 use Predis\Response\ServerException;
 use Smartbox\CoreBundle\Utils\Cache\PredisCacheService;
 
 /**
- * Class PredisCacheServiceTest
+ * Class PredisCacheServiceTest.
  */
 class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,8 +27,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->client->expects($this->once())
             ->method('__call')
-            ->with('set', ['foo', serialize('bar'), 'EX', 666])
-        ;
+            ->with('set', ['foo', serialize('bar'), 'EX', 666]);
 
         $this->service->set('foo', 'bar', 666);
     }
@@ -37,29 +36,30 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->client->expects($this->once())
             ->method('__call')
-            ->with('set', ['foo', serialize('bar')])
-        ;
+            ->with('set', ['foo', serialize('bar')]);
 
         $this->service->set('foo', 'bar', null);
     }
 
     /**
-     * @param mixed $key
      * @dataProvider falsyValuesForKeyProvider
+     *
+     * @param mixed $key
      */
     public function testItShouldThrowAnExceptionWhenUsingFalsyKey($key)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->service->set($key, 'bar', null);
     }
 
     /**
      * @dataProvider invalidTTLProvider
+     *
      * @param mixed $ttl
      */
     public function testItShouldThrowAnExceptionWhenUsingSetWithInvalidTTL($ttl)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->service->set('foo', 'bar', $ttl);
     }
 
@@ -68,8 +68,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
         $this->client->expects($this->once())
             ->method('__call')
             ->with('get', ['foo'])
-            ->willReturn(serialize('bar'))
-        ;
+            ->willReturn(serialize('bar'));
 
         $this->assertEquals('bar', $this->service->get('foo'));
     }
@@ -78,11 +77,14 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->client->expects($this->any())
             ->method('__call')
-            ->will($this->returnValueMap([
-                ['exists', ['foo'], true],
-                ['exists', ['bar'], false],
-            ]))
-        ;
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['exists', ['foo'], true],
+                        ['exists', ['bar'], false],
+                    ]
+                )
+            );
 
         $this->assertTrue($this->service->exists('foo'));
         $this->assertFalse($this->service->exists('bar'));
@@ -92,32 +94,37 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->client->expects($this->any())
             ->method('__call')
-            ->will($this->returnValueMap([
-                ['exists', ['foo'], true],
-                ['ttl', ['foo'], 10],
-            ]))
-        ;
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['exists', ['foo'], true],
+                        ['ttl', ['foo'], 10],
+                    ]
+                )
+            );
 
         $this->assertFalse($this->service->exists('foo', 11));
     }
 
     /**
-     * @param mixed $key
      * @dataProvider falsyValuesForKeyProvider
+     *
+     * @param mixed $key
      */
     public function testItShouldThrowAnExceptionWhenUsingGetWithFalsyKey($key)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->service->get($key);
     }
 
     /**
-     * @param mixed $key
      * @dataProvider falsyValuesForKeyProvider
+     *
+     * @param mixed $key
      */
     public function testItShouldThrowAnExceptionWhenUsingExistsWithFalsyKey($key)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->service->exists($key);
     }
 
@@ -127,22 +134,21 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     public function testItShouldLogExceptionInCaseOfConnectionIssues($method, $methodArgs, $expectsArgs, $assert)
     {
         // temporarily logs to a file
-        $errorLogFile = __DIR__ . sprintf('/../../Fixtures/stderr_%s.log', $method);
-        $oldErrorLog = ini_get("error_log");
-        ini_set("error_log", $errorLogFile);
+        $errorLogFile = __DIR__.sprintf('/../../Fixtures/stderr_%s.log', $method);
+        $oldErrorLog = ini_get('error_log');
+        ini_set('error_log', $errorLogFile);
 
         // mocking the specific call to throw an exception
         $this->client->expects($this->any())
             ->method('__call')
             ->with($method, $expectsArgs)
-            ->willThrowException(new ServerException(sprintf('when calling "%s"', $method)))
-        ;
-        
+            ->willThrowException(new ServerException(sprintf('when calling "%s"', $method)));
+
         // checking the return type from the method call
         $this->assertEquals($assert, call_user_func_array([$this->service, $method], $methodArgs));
 
         // restores error logging
-        ini_set("error_log", $oldErrorLog);
+        ini_set('error_log', $oldErrorLog);
 
         // checks logged message and deletes temp file
         $loggedMessage = file_get_contents($errorLogFile);
@@ -154,7 +160,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['some string'],
-            [[1,2,3]], // an array
+            [[1, 2, 3]], // an array
             [new \stdClass()], // an object
             [-666], // a negative value
             [66.6], // a decimal value
@@ -168,7 +174,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
             [false],
             [0],
             [null],
-            [[]]
+            [[]],
         ];
     }
 

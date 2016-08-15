@@ -14,10 +14,10 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(
-            array('event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'),
-            array('event' => 'serializer.pre_deserialize', 'method' => 'onPreDeserialize'),
-        );
+        return [
+            ['event' => 'serializer.pre_serialize', 'method' => 'onPreSerialize'],
+            ['event' => 'serializer.pre_deserialize', 'method' => 'onPreDeserialize'],
+        ];
     }
 
     public function onPreDeserialize(PreDeserializeEvent $event)

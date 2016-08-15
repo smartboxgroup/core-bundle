@@ -40,20 +40,20 @@ class CachedObjectHandler implements SubscribingHandlerInterface
 
     public static function getSubscribingMethods()
     {
-        return array(
-            array(
+        return [
+            [
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
                 'format' => 'json',
                 'type' => self::TYPE,
                 'method' => 'getDataFromCache',
-            ),
-            array(
+            ],
+            [
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
                 'format' => 'array',
                 'type' => self::TYPE,
                 'method' => 'getDataFromCache',
-            ),
-        );
+            ],
+        ];
     }
 
     public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)

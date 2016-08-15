@@ -31,12 +31,13 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
     /** @var \JMS\Serializer\Metadata\PropertyMetadata|\PHPUnit_Framework_MockObject_MockObject */
     private $currentPropertyMetadata;
 
-    public function setup()
+    protected function setUp()
     {
         $this->namingStrategy = $this->getMockBuilder('\JMS\Serializer\Naming\PropertyNamingStrategyInterface')
             ->getMock();
-        $this->castingChecker = $this->getMockBuilder('\Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker')
-            ->getMock();
+        $this->castingChecker = $this->getMockBuilder(
+            '\Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker'
+        )->getMock();
 
         $this->context = $this->getMockBuilder('\JMS\Serializer\Context')
             ->getMock();
@@ -47,8 +48,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->metadataStack = $this->getMockBuilder('\SplStack')->getMock();
         $this->currentPropertyMetadata = $this->getMockBuilder('\JMS\Serializer\Metadata\PropertyMetadata')
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $this->metadataStack->method('top')->will($this->returnValue($this->currentPropertyMetadata));
 
         $this->context->method('getMetadataStack')->will($this->returnValue($this->metadataStack));
@@ -57,8 +57,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->visitorMock = $this
             ->getMockBuilder(GenericDeserializationVisitor::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $this->visitorValidator = new DeserializationTypesValidator($this->castingChecker);
     }
 
@@ -67,13 +66,11 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->castingChecker
             ->expects($this->never())
-            ->method('canBeCastedToString')
-        ;
+            ->method('canBeCastedToString');
 
         $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -83,14 +80,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToString')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -103,14 +98,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToString')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->visitorValidator->validateString(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -120,13 +113,11 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->castingChecker
             ->expects($this->never())
-            ->method('canBeCastedToBoolean')
-        ;
+            ->method('canBeCastedToBoolean');
 
         $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -136,14 +127,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToBoolean')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -156,14 +145,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToBoolean')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->visitorValidator->validateBoolean(11111, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -173,13 +160,11 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->castingChecker
             ->expects($this->never())
-            ->method('canBeCastedToInteger')
-        ;
+            ->method('canBeCastedToInteger');
 
         $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -189,14 +174,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToInteger')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -209,16 +192,18 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToInteger')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
-        $this->visitorValidator->validateInteger('notAnInteger', $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateInteger(
+            'notAnInteger',
+            $this->context,
+            $this->visitorMock->getCurrentObject()
+        );
     }
 
     public function testItShouldNotCheckAnExcludedDouble()
@@ -226,13 +211,11 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->castingChecker
             ->expects($this->never())
-            ->method('canBeCastedToDouble')
-        ;
+            ->method('canBeCastedToDouble');
 
         $this->visitorValidator->validateDouble(22.5, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -242,14 +225,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToDouble')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->visitorValidator->validateDouble(22.4, $this->context, $this->visitorMock->getCurrentObject());
     }
@@ -262,14 +243,12 @@ class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToDouble')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->visitorValidator->validateDouble('notADouble', $this->context, $this->visitorMock->getCurrentObject());
     }
