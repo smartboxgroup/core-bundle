@@ -75,7 +75,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
             $version = $object->getAPIVersion();
             $groups = null;
             if ($object->getEntityGroup()) {
-                $groups = array($object->getEntityGroup());
+                $groups = [$object->getEntityGroup()];
             }
 
             $className = get_class($object);
@@ -87,7 +87,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
                 $propertyMeta = $meta->propertyMetadata[$fieldName];
                 $context = SerializationContext::create();
 
-                $exclusionStrategies = array();
+                $exclusionStrategies = [];
                 if ($groups) {
                     $exclusionStrategies[] = new GroupsExclusionStrategy($groups);
                 }
@@ -115,7 +115,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
     {
         if (is_object($value) && $value instanceof EntityInterface) {
             if (!$groups && $value->getEntityGroup()) {
-                $groups = array($value->getEntityGroup(), EntityInterface::GROUP_DEFAULT);
+                $groups = [$value->getEntityGroup(), EntityInterface::GROUP_DEFAULT];
             }
         }
 
@@ -133,13 +133,13 @@ class ValidatorWithExclusion extends ValidatorDecorator
 
     public function getObjectPropertiesPathsForPath($propertyPath)
     {
-        $result = array();
+        $result = [];
         $parts = explode('.', $propertyPath);
         $parentPath = '';
         foreach ($parts as $child) {
             if (!empty($parentPath)) {
                 $childPath = $parentPath.'.'.$child;
-                $result[] = array($parentPath, $childPath);
+                $result[] = [$parentPath, $childPath];
                 $parentPath = $childPath;
             } else {
                 $parentPath = $child;
