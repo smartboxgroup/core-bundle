@@ -103,7 +103,7 @@ class AnnotationDriverTest extends KernelTestCase
      * @dataProvider dataProviderForSerializables
      *
      * @param SerializableInterface $data
-     * @param array $expectedSerializedData
+     * @param array                 $expectedSerializedData
      */
     public function testSerialization(SerializableInterface $data, array $expectedSerializedData)
     {

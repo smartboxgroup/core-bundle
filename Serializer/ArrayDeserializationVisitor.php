@@ -19,8 +19,8 @@ class ArrayDeserializationVisitor extends GenericDeserializationVisitor
 
     /**
      * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface $objectConstructor
-     * @param DeserializationTypesValidator $visitorValidator
+     * @param ObjectConstructorInterface      $objectConstructor
+     * @param DeserializationTypesValidator   $visitorValidator
      */
     public function __construct(
         PropertyNamingStrategyInterface $namingStrategy,

@@ -7,7 +7,7 @@ use Predis\Response\ServerException;
 use Smartbox\CoreBundle\Utils\Cache\PredisCacheService;
 
 /**
- * Class PredisCacheServiceTest
+ * Class PredisCacheServiceTest.
  */
 class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -135,8 +135,8 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
     {
         // temporarily logs to a file
         $errorLogFile = __DIR__.sprintf('/../../Fixtures/stderr_%s.log', $method);
-        $oldErrorLog = ini_get("error_log");
-        ini_set("error_log", $errorLogFile);
+        $oldErrorLog = ini_get('error_log');
+        ini_set('error_log', $errorLogFile);
 
         // mocking the specific call to throw an exception
         $this->client->expects($this->any())
@@ -148,7 +148,7 @@ class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($assert, call_user_func_array([$this->service, $method], $methodArgs));
 
         // restores error logging
-        ini_set("error_log", $oldErrorLog);
+        ini_set('error_log', $oldErrorLog);
 
         // checks logged message and deletes temp file
         $loggedMessage = file_get_contents($errorLogFile);

@@ -33,7 +33,7 @@ class StringType extends Basic
      */
     public function getValue()
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     /***

@@ -109,7 +109,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             $smokeTests = array_filter(
                 $smokeTests,
                 function ($key) use ($test) {
-                    return ($key === $test);
+                    return $key === $test;
                 },
                 ARRAY_FILTER_USE_KEY
             );

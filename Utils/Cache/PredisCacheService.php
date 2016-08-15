@@ -70,7 +70,7 @@ class PredisCacheService implements CacheServiceInterface
         } catch (PredisException $ex) {
             $this->logException($ex);
 
-            return null;
+            return;
         }
     }
 

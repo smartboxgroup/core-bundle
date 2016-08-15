@@ -29,7 +29,7 @@ final class SmokeTestOutputMessage
     protected $value;
 
     /**
-     * @param string $type Type of the message. Supported types: info, success, failure
+     * @param string $type  Type of the message. Supported types: info, success, failure
      * @param string $value The message value
      */
     public function __construct($type, $value)

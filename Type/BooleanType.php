@@ -33,7 +33,7 @@ class BooleanType extends Basic
      */
     public function getValue()
     {
-        return (bool)$this->value;
+        return (bool) $this->value;
     }
 
     /***
@@ -43,7 +43,7 @@ class BooleanType extends Basic
     public function setValue($value)
     {
         if ((is_bool($value))) {
-            $this->value = (bool)$value;
+            $this->value = (bool) $value;
         } elseif (is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         } else {

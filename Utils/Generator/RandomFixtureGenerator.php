@@ -93,8 +93,8 @@ class RandomFixtureGenerator
     /**
      * @param $typeName
      * @param array|null $typeParams
-     * @param null $group
-     * @param null $version
+     * @param null       $group
+     * @param null       $version
      *
      * @return float|int|string|array|\DateTime|EntityInterface
      */
@@ -140,7 +140,7 @@ class RandomFixtureGenerator
 
                 $result = [];
                 while ($amountOfArrayIndexes-- > 0) {
-                    $result[] = $this->generateRandomData($subtypeName, (array)$subtypeParams, $group, $version);
+                    $result[] = $this->generateRandomData($subtypeName, (array) $subtypeParams, $group, $version);
                 }
 
                 break;

@@ -44,9 +44,9 @@ class DeserializationTypeMismatchException
      *
      * @param string $propertyName
      * @param string $className
-     * @param mixed $propertyValue
+     * @param mixed  $propertyValue
      * @param string $expectedType
-     * @param mixed $originalData
+     * @param mixed  $originalData
      */
     public function __construct($propertyName, $className, $propertyValue, $expectedType, $originalData)
     {

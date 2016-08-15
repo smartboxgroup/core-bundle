@@ -50,7 +50,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $in
+     * @param InputInterface  $in
      * @param OutputInterface $out
      *
      * @throws \InvalidArgumentException

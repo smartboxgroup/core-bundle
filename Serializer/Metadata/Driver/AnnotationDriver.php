@@ -189,7 +189,7 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                         $accessor = [$annot->getter, $annot->setter];
                     } elseif ($annot instanceof Groups) {
                         $propertyMetadata->groups = $annot->groups;
-                        foreach ((array)$propertyMetadata->groups as $groupName) {
+                        foreach ((array) $propertyMetadata->groups as $groupName) {
                             if (false !== strpos($groupName, ',')) {
                                 throw new InvalidArgumentException(
                                     sprintf(

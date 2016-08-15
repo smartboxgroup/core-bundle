@@ -106,15 +106,15 @@ class TestEntity extends Entity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
-        return (bool)$this->enabled;
+        return (bool) $this->enabled;
     }
 
     /**
-     * @param boolean $enabled
+     * @param bool $enabled
      *
      * @return $this
      */

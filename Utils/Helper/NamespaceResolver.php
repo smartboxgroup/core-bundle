@@ -24,7 +24,7 @@ class NamespaceResolver
         if (class_exists($class)) {
             return $class;
         }
-        
+
         foreach ($this->namespaces as $namespace) {
             if (class_exists($namespace.'\\'.$class)) {
                 return $namespace.'\\'.$class;

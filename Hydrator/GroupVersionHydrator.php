@@ -31,8 +31,8 @@ class GroupVersionHydrator
      * version to it and to all its sub-fields/sub-entities recursively.
      *
      * @param array|EntityInterface $object
-     * @param string $group
-     * @param string $version
+     * @param string                $group
+     * @param string                $version
      *
      * @return array|EntityInterface
      */
@@ -52,7 +52,7 @@ class GroupVersionHydrator
     /**
      * Hydrate an array.
      *
-     * @param array $array
+     * @param array  $array
      * @param string $group
      * @param string $version
      *
@@ -71,8 +71,8 @@ class GroupVersionHydrator
      * Hydrate an entity.
      *
      * @param EntityInterface $entity
-     * @param string $group
-     * @param string $version
+     * @param string          $group
+     * @param string          $version
      *
      * @return EntityInterface
      */

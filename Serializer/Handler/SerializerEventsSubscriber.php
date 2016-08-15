@@ -28,7 +28,7 @@ class SerializerEventsSubscriber implements EventSubscriberInterface
 
         if ($isArray && array_key_exists('_type', $data)) {
             if ($data instanceof \SimpleXMLElement) {
-                $type = (string)$data->{'_type'};
+                $type = (string) $data->{'_type'};
             } else {
                 $type = $data['_type'];
             }

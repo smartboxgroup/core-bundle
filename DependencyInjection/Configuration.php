@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
 
     protected function getCacheDriversNode()
     {
-        $configRoot = Configuration::CONFIG_ROOT;
+        $configRoot = self::CONFIG_ROOT;
         $configNode = CacheDriversCompilerPass::CONFIG_NODE;
         $cacheDriverServicePrefix = CacheDriversCompilerPass::CACHE_DRIVER_SERVICE_ID_PREFIX;
 
@@ -121,11 +121,11 @@ class Configuration implements ConfigurationInterface
 
     protected function getSerializationCacheNode()
     {
-        $configRoot = Configuration::CONFIG_ROOT;
+        $configRoot = self::CONFIG_ROOT;
         $configNode = SerializationCacheCompilerPass::CONFIG_NODE;
 
         $root = new ArrayNodeDefinition($configNode);
-        $root->info("Configure serialization cache")
+        $root->info('Configure serialization cache')
             ->addDefaultsIfNotSet()
             ->children()
                 ->booleanNode('enabled')
@@ -136,7 +136,7 @@ class Configuration implements ConfigurationInterface
                     ->info(
                         sprintf(
                             'Driver name: predis or any other custom driver configured in "%s".',
-                            $configRoot . '.' . CacheDriversCompilerPass::CONFIG_NODE
+                            $configRoot.'.'.CacheDriversCompilerPass::CONFIG_NODE
                         )
                     )
                     ->defaultValue(CacheDriversCompilerPass::DEFAULT_CACHE_DRIVER_SERVICE_ID)

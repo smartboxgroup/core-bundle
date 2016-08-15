@@ -29,9 +29,9 @@ class AppKernel extends Kernel
     {
         $config = 'config';
         if ($this->getEnvironment() !== 'test') {
-            $config = 'config_' . $this->getEnvironment();
+            $config = 'config_'.$this->getEnvironment();
         }
 
-        $loader->load($this->getRootDir() . '/config/' . $config . '.yml');
+        $loader->load($this->getRootDir().'/config/'.$config.'.yml');
     }
 }

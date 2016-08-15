@@ -98,6 +98,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
      *
      * @param $cacheDriverName
      * @param array $cacheDriverConf
+     *
      * @return string
      */
     protected function getCacheDriverServiceId($cacheDriverName, array $cacheDriverConf)
