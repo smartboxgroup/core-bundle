@@ -150,7 +150,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset,$this->array);
+        return array_key_exists($offset, $this->array);
     }
 
     /**
@@ -166,7 +166,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->set($offset,$value);
+        $this->set($offset, $value);
     }
 
     /**
