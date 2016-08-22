@@ -158,7 +158,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return @$this->get($offset);
+        return $this->get($offset);
     }
 
     /**
