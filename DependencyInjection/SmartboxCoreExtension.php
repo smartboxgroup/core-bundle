@@ -37,13 +37,7 @@ class SmartboxCoreExtension extends Extension
             $config['fixtures_path'] = $container->getParameter('kernel.root_dir').'/Resources/Fixtures';
         }
 
-        if (empty($config['entities_namespaces'])) {
-            $config['entities_namespaces'] = [];
-        }
-        $config['entities_namespaces'][] = 'Smartbox\CoreBundle\Type';
-
         $container->setParameter('smartcore.fixtures_path', $config['fixtures_path']);
-        $container->setParameter('smartcore.entity.namespaces', $config['entities_namespaces']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

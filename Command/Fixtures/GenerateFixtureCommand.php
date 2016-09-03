@@ -10,7 +10,6 @@ use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
-use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,9 +27,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     protected $version;
 
     protected $path;
-
-    /** @var NamespaceResolver */
-    protected $namespaceResolver;
 
     protected function configure()
     {
@@ -74,7 +70,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     {
         $this->in = $in;
         $this->out = $out;
-        $this->namespaceResolver = $this->getContainer()->get('smartcore.helper.entity_namespace_resolver');
 
         $this->out->writeln('<info>###################################</info>');
         $this->out->writeln('<info>##       Fixture generator       ##</info>');
@@ -110,7 +105,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         if (!$class) {
             $question = "Entity class for $field: ";
             $class = $this->ask($question);
-            $class = $this->namespaceResolver->resolveNamespaceForClass($class);
 
             while (!(is_string($class) && class_exists($class) && is_subclass_of($class, EntityInterface::class))) {
                 $this->out->writeln('<error>Invalid entity class.</error>');
