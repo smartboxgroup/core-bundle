@@ -35,10 +35,10 @@ class Configuration implements ConfigurationInterface
     protected function getCacheDriversNode()
     {
         $configRoot = self::CONFIG_ROOT;
-        $configNode = CacheDriversCompilerPass::CONFIG_NODE;
+        $configNode = CacheDriversCompilerPass::CACHE_DRIVERS;
         $cacheDriverServicePrefix = CacheDriversCompilerPass::CACHE_DRIVER_SERVICE_ID_PREFIX;
 
-        $root = new ArrayNodeDefinition(CacheDriversCompilerPass::CONFIG_NODE);
+        $root = new ArrayNodeDefinition(CacheDriversCompilerPass::CACHE_DRIVERS);
         $root->info("Configure cache drivers.\n
     1) predis (predefined driver which requires https://github.com/snc/SncRedisBundle and predis library/extension)
         - add packages to composer.json:
@@ -93,8 +93,6 @@ class Configuration implements ConfigurationInterface
         - you can access this driver by service reference @{$cacheDriverServicePrefix}my_cache_driver
         "
         )
-        ->isRequired()
-        ->requiresAtLeastOneElement()
         ->useAttributeAsKey('driver_name')
         ->prototype('array')
             ->children()
@@ -128,7 +126,7 @@ class Configuration implements ConfigurationInterface
                     ->info(
                         sprintf(
                             'Driver name: predis or any other custom driver configured in "%s".',
-                            $configRoot.'.'.CacheDriversCompilerPass::CONFIG_NODE
+                            $configRoot.'.'.CacheDriversCompilerPass::CACHE_DRIVERS
                         )
                     )
                     ->defaultValue(CacheDriversCompilerPass::DEFAULT_CACHE_DRIVER_SERVICE_ID)

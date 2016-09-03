@@ -83,7 +83,7 @@ To install the bundle, you just need to:
       #
       #         - you can access this driver by service reference @smartcore.cache_driver.my_cache_driver
       #
-      cache_drivers:        # Required
+      cache_drivers:
 
           # Prototype
           driver_name:

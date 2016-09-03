@@ -19,8 +19,3 @@ monolog:
             level: debug
             formatter: smartcore.monolog.formatter.json
             channels: [tracking]
-
-smartbox_core:
-    cache_drivers:
-        null:
-            service: ~
