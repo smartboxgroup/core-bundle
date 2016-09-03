@@ -25,10 +25,6 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root(self::CONFIG_ROOT);
         $rootNode
             ->children()
-                ->scalarNode('fixtures_path')
-                    ->info('Base path to store/lookup the entity fixtures')
-                    ->defaultNull()
-                ->end()
                 ->append($this->getCacheDriversNode())
                 ->append($this->getSerializationCacheNode())
             ->end();

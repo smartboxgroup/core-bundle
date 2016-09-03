@@ -33,12 +33,6 @@ class SmartboxCoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $this->config = $config;
 
-        if (empty($config['fixtures_path'])) {
-            $config['fixtures_path'] = $container->getParameter('kernel.root_dir').'/Resources/Fixtures';
-        }
-
-        $container->setParameter('smartcore.fixtures_path', $config['fixtures_path']);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

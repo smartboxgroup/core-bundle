@@ -12,6 +12,7 @@ use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -33,12 +34,19 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $this
             ->setName('smartbox:generate:fixture')
             ->setAliases(['generate:smartbox:fixture'])
-            ->setDescription('Generates a fixture of a smartesb entity serialized in json');
+            ->setDescription('Generates a fixture of a smartesb entity serialized in json')
+            ->addOption('fixtures-path',null,InputOption::VALUE_OPTIONAL,'Folder where fixtures are stored. Default "%kernel.root_dir%/Resources/Fixtures"',null)
+        ;
     }
 
     public function getCleanDefaultPathForFixture($name)
     {
-        $folder = realpath($this->getContainer()->getParameter('smartcore.fixtures_path'));
+        $folder = $this->in->getOption('fixtures-path');
+        if(empty($folder)){
+            $folder = $this->getContainer()->getParameter('kernel.root_dir').'/Resources/Fixtures';
+        }
+
+        $folder = realpath($folder);
 
         if (!file_exists($folder)) {
             throw new \RuntimeException("Fixtures folder $folder doesn't exist");

@@ -29,10 +29,6 @@ To install the bundle, you just need to:
 
 ```
   smartbox_core:
-
-      # Base path to store/lookup the entity fixtures
-      fixtures_path:        null
-
       # Configure cache drivers.
       #
       #     1) predis (predefined driver which requires https://github.com/snc/SncRedisBundle and predis library/extension)

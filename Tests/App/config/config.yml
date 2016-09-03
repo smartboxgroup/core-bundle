@@ -21,7 +21,6 @@ monolog:
             channels: [tracking]
 
 smartbox_core:
-    fixtures_path: "%kernel.root_dir%/../Json"
     cache_drivers:
         null:
             service: ~
