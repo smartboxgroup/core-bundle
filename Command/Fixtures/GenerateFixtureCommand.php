@@ -10,15 +10,18 @@ use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
-use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class GenerateFixtureCommand extends ContainerAwareCommand
 {
+
+    const DEFAULT_FIXTURES_PATH = '/Resources/Fixtures';
+
     /** @var  InputInterface */
     protected $in;
 
@@ -27,22 +30,30 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
     protected $version;
 
-    protected $path;
-
-    /** @var NamespaceResolver */
-    protected $namespaceResolver;
-
     protected function configure()
     {
         $this
             ->setName('smartbox:generate:fixture')
             ->setAliases(['generate:smartbox:fixture'])
-            ->setDescription('Generates a fixture of a smartesb entity serialized in json');
+            ->setDescription('Generates a fixture of a smartesb entity serialized in json')
+            ->addOption(
+                'fixtures-path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Folder where fixtures are stored. Default "%kernel.root_dir%'.self::DEFAULT_FIXTURES_PATH,
+                null
+            )
+        ;
     }
 
     public function getCleanDefaultPathForFixture($name)
     {
-        $folder = realpath($this->getContainer()->getParameter('smartcore.fixtures_path'));
+        $folder = $this->in->getOption('fixtures-path');
+        if (empty($folder)) {
+            $folder = $this->getContainer()->getParameter('kernel.root_dir').self::DEFAULT_FIXTURES_PATH;
+        }
+
+        $folder = realpath($folder);
 
         if (!file_exists($folder)) {
             throw new \RuntimeException("Fixtures folder $folder doesn't exist");
@@ -74,7 +85,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     {
         $this->in = $in;
         $this->out = $out;
-        $this->namespaceResolver = $this->getContainer()->get('smartcore.helper.entity_namespace_resolver');
 
         $this->out->writeln('<info>###################################</info>');
         $this->out->writeln('<info>##       Fixture generator       ##</info>');
@@ -110,7 +120,6 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         if (!$class) {
             $question = "Entity class for $field: ";
             $class = $this->ask($question);
-            $class = $this->namespaceResolver->resolveNamespaceForClass($class);
 
             while (!(is_string($class) && class_exists($class) && is_subclass_of($class, EntityInterface::class))) {
                 $this->out->writeln('<error>Invalid entity class.</error>');
