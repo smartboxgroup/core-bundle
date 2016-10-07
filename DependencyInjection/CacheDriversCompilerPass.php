@@ -35,9 +35,8 @@ class CacheDriversCompilerPass implements CompilerPassInterface
         $extension = $container->getExtension(Configuration::CONFIG_ROOT);
         $config = $extension->getConfig();
 
-        if(!array_key_exists(self::CACHE_DRIVERS,$config) || empty($config[self::CACHE_DRIVERS])){
-            $cacheDrivers = ['null' => ['service' => null]];
-        }else {
+        $cacheDrivers = ['null' => ['service' => null]];
+        if (array_key_exists(self::CACHE_DRIVERS, $config) && !empty($config[self::CACHE_DRIVERS])) {
             $cacheDrivers = $config[self::CACHE_DRIVERS];
         }
 
@@ -91,7 +90,6 @@ class CacheDriversCompilerPass implements CompilerPassInterface
 
         // create alias for default cache driver
         $container->setAlias(self::DEFAULT_CACHE_DRIVER_SERVICE_ID, $defaultCacheDriver);
-
     }
 
     /**

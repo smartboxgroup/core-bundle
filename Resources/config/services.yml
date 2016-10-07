@@ -12,7 +12,6 @@ parameters:
     smartcore.monolog.formatter.json.class: Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter
 
     smartcore.generator.random_fixture.class: Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
-    smartcore.helper.namespace_resolver.class: Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
 
     # OVERRIDING JMS
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver

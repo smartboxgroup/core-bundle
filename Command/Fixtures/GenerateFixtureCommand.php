@@ -19,6 +19,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class GenerateFixtureCommand extends ContainerAwareCommand
 {
+
+    const DEFAULT_FIXTURES_PATH = '/Resources/Fixtures';
+
     /** @var  InputInterface */
     protected $in;
 
@@ -27,23 +30,27 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
     protected $version;
 
-    protected $path;
-
     protected function configure()
     {
         $this
             ->setName('smartbox:generate:fixture')
             ->setAliases(['generate:smartbox:fixture'])
             ->setDescription('Generates a fixture of a smartesb entity serialized in json')
-            ->addOption('fixtures-path',null,InputOption::VALUE_OPTIONAL,'Folder where fixtures are stored. Default "%kernel.root_dir%/Resources/Fixtures"',null)
+            ->addOption(
+                'fixtures-path',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Folder where fixtures are stored. Default "%kernel.root_dir%'.self::DEFAULT_FIXTURES_PATH,
+                null
+            )
         ;
     }
 
     public function getCleanDefaultPathForFixture($name)
     {
         $folder = $this->in->getOption('fixtures-path');
-        if(empty($folder)){
-            $folder = $this->getContainer()->getParameter('kernel.root_dir').'/Resources/Fixtures';
+        if (empty($folder)) {
+            $folder = $this->getContainer()->getParameter('kernel.root_dir').self::DEFAULT_FIXTURES_PATH;
         }
 
         $folder = realpath($folder);
