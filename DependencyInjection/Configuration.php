@@ -25,6 +25,14 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root(self::CONFIG_ROOT);
         $rootNode
             ->children()
+                ->scalarNode('fixtures_path')
+                    ->info('Base path to store/lookup the entity fixtures')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('entities_namespaces')
+                    ->info('Namespaces to look for entity classes')
+                    ->prototype('scalar')->end()
+                ->end()
                 ->append($this->getCacheDriversNode())
                 ->append($this->getSerializationCacheNode())
             ->end();
@@ -35,10 +43,10 @@ class Configuration implements ConfigurationInterface
     protected function getCacheDriversNode()
     {
         $configRoot = self::CONFIG_ROOT;
-        $configNode = CacheDriversCompilerPass::CACHE_DRIVERS;
+        $configNode = CacheDriversCompilerPass::CONFIG_NODE;
         $cacheDriverServicePrefix = CacheDriversCompilerPass::CACHE_DRIVER_SERVICE_ID_PREFIX;
 
-        $root = new ArrayNodeDefinition(CacheDriversCompilerPass::CACHE_DRIVERS);
+        $root = new ArrayNodeDefinition(CacheDriversCompilerPass::CONFIG_NODE);
         $root->info("Configure cache drivers.\n
     1) predis (predefined driver which requires https://github.com/snc/SncRedisBundle and predis library/extension)
         - add packages to composer.json:
@@ -93,6 +101,8 @@ class Configuration implements ConfigurationInterface
         - you can access this driver by service reference @{$cacheDriverServicePrefix}my_cache_driver
         "
         )
+        ->isRequired()
+        ->requiresAtLeastOneElement()
         ->useAttributeAsKey('driver_name')
         ->prototype('array')
             ->children()
@@ -126,7 +136,7 @@ class Configuration implements ConfigurationInterface
                     ->info(
                         sprintf(
                             'Driver name: predis or any other custom driver configured in "%s".',
-                            $configRoot.'.'.CacheDriversCompilerPass::CACHE_DRIVERS
+                            $configRoot.'.'.CacheDriversCompilerPass::CONFIG_NODE
                         )
                     )
                     ->defaultValue(CacheDriversCompilerPass::DEFAULT_CACHE_DRIVER_SERVICE_ID)

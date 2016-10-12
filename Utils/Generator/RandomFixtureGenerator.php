@@ -26,26 +26,26 @@ class RandomFixtureGenerator
     }
 
     /**
-     * @param $className
+     * @param $entityNamespace
      * @param null $group
      * @param null $version
      *
      * @return EntityInterface
      */
-    public function generate($className, $group = null, $version = null)
+    public function generate($entityNamespace, $group = null, $version = null)
     {
-        if (!is_subclass_of($className, EntityInterface::class)) {
+        if (!is_subclass_of($entityNamespace, EntityInterface::class)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Entity class: %s should implement an %s',
-                    $className,
+                    $entityNamespace,
                     EntityInterface::class
                 )
             );
         }
 
         /** @var Entity $entity */
-        $entity = new $className();
+        $entity = new $entityNamespace();
         $entity->setEntityGroup($group);
         $entity->setAPIVersion($version);
 

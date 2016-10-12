@@ -19,3 +19,11 @@ monolog:
             level: debug
             formatter: smartcore.monolog.formatter.json
             channels: [tracking]
+
+smartbox_core:
+    fixtures_path: "%kernel.root_dir%/../Json"
+    entities_namespaces:
+        - 'Smartbox\CoreBundle\Tests\Fixtures\Entity'
+    cache_drivers:
+        null:
+            service: ~

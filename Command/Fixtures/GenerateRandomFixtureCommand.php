@@ -60,6 +60,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
         $this->in = $in;
         $this->out = $out;
         $serializer = $this->getContainer()->get('serializer');
+        $namespaceResolver = $this->getContainer()->get('smartcore.helper.entity_namespace_resolver');
         $entityClass = $this->in->getArgument('entity');
         $group = $this->in->getOption('entity-group');
         $version = $this->in->getOption('entity-version');
@@ -72,8 +73,10 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
             $this->out->writeln('');
         }
 
+        $entityNamespace = $namespaceResolver->resolveNamespaceForClass($entityClass);
+
         $randomFixtureGenerator = $this->getContainer()->get('smartcore.generator.random_fixture');
-        $entity = $randomFixtureGenerator->generate($entityClass, $group, $version);
+        $entity = $randomFixtureGenerator->generate($entityNamespace, $group, $version);
         $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
         $result = $serializer->serialize($entity, 'json', $context);
