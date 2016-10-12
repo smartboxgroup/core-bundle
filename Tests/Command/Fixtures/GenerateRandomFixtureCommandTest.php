@@ -90,7 +90,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
             array_merge(
                 [
                     'command' => $command->getName(),
-                    'entity' => TestComplexEntity::class,
+                    'entity' => 'TestComplexEntity',
                 ],
                 $commandConfiguration
             )

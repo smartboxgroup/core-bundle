@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CacheDriversCompilerPass implements CompilerPassInterface
 {
-    const CACHE_DRIVERS = 'cache_drivers';
+    const CONFIG_NODE = 'cache_drivers';
     const CACHE_DRIVER_SERVICE_ID_PREFIX = 'smartcore.cache_driver.';
     const DEFAULT_CACHE_DRIVER_SERVICE_ID = 'smartcore.cache_service';
     const PREDEFINED_CACHE_DRIVER_SERVICE_ID_PREFIX = 'smartcore.predefined_cache_driver.';
@@ -35,61 +35,59 @@ class CacheDriversCompilerPass implements CompilerPassInterface
         $extension = $container->getExtension(Configuration::CONFIG_ROOT);
         $config = $extension->getConfig();
 
-        $cacheDrivers = ['null' => ['service' => null]];
-        if (array_key_exists(self::CACHE_DRIVERS, $config) && !empty($config[self::CACHE_DRIVERS])) {
-            $cacheDrivers = $config[self::CACHE_DRIVERS];
-        }
+        if (isset($config[self::CONFIG_NODE]) && !empty($config[self::CONFIG_NODE])) {
+            $cacheDrivers = $config[self::CONFIG_NODE];
+            $defaultCacheDriver = null;
 
-        $defaultCacheDriver = null;
+            foreach ($cacheDrivers as $cacheDriverName => $cacheDriverConf) {
+                if ('' === $cacheDriverName) {
+                    $cacheDriverName = 'null';
+                }
+                $cacheDriverServiceId = $this->getCacheDriverServiceId($cacheDriverName, $cacheDriverConf);
 
-        foreach ($cacheDrivers as $cacheDriverName => $cacheDriverConf) {
-            if ('' === $cacheDriverName) {
-                $cacheDriverName = 'null';
-            }
-            $cacheDriverServiceId = $this->getCacheDriverServiceId($cacheDriverName, $cacheDriverConf);
+                // check if service exists
+                if (!$container->hasDefinition($cacheDriverServiceId)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Service "%s" defined for the cache driver configuration "%s" doesn\'t exist.',
+                            '@'.$cacheDriverServiceId,
+                            Configuration::CONFIG_ROOT.'.'.self::CONFIG_NODE.'.'.$cacheDriverName
+                        )
+                    );
+                }
 
-            // check if service exists
-            if (!$container->hasDefinition($cacheDriverServiceId)) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Service "%s" defined for the cache driver configuration "%s" doesn\'t exist.',
-                        '@'.$cacheDriverServiceId,
-                        Configuration::CONFIG_ROOT.'.'.self::CACHE_DRIVERS.'.'.$cacheDriverName
-                    )
+                $cacheDriverDef = $container->getDefinition($cacheDriverServiceId);
+
+                // check if service implements required interface
+                $cacheDriverReflection = new \ReflectionClass($cacheDriverDef->getClass());
+                if (!$cacheDriverReflection->implementsInterface(CacheServiceInterface::class)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Service "%s" defined for the cache driver configuration "%s" should implement "%s" interface.',
+                            '@'.$cacheDriverServiceId,
+                            Configuration::CONFIG_ROOT.'.'.self::CONFIG_NODE.'.'.$cacheDriverName,
+                            CacheServiceInterface::class
+                        )
+                    );
+                }
+
+                $container->setDefinition(
+                    self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName,
+                    $cacheDriverDef
                 );
+
+                // there should be always one default cache driver
+                if (is_null(
+                        $defaultCacheDriver
+                    ) || (isset($cacheDriverConf['default']) && $cacheDriverConf['default'])
+                ) {
+                    $defaultCacheDriver = self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName;
+                }
             }
 
-            $cacheDriverDef = $container->getDefinition($cacheDriverServiceId);
-
-            // check if service implements required interface
-            $cacheDriverReflection = new \ReflectionClass($cacheDriverDef->getClass());
-            if (!$cacheDriverReflection->implementsInterface(CacheServiceInterface::class)) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Service "%s" defined for the cache driver configuration "%s" should implement "%s" interface.',
-                        '@'.$cacheDriverServiceId,
-                        Configuration::CONFIG_ROOT.'.'.self::CACHE_DRIVERS.'.'.$cacheDriverName,
-                        CacheServiceInterface::class
-                    )
-                );
-            }
-
-            $container->setDefinition(
-                self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName,
-                $cacheDriverDef
-            );
-
-            // there should be always one default cache driver
-            if (is_null(
-                    $defaultCacheDriver
-                ) || (isset($cacheDriverConf['default']) && $cacheDriverConf['default'])
-            ) {
-                $defaultCacheDriver = self::CACHE_DRIVER_SERVICE_ID_PREFIX.$cacheDriverName;
-            }
+            // create alias for default cache driver
+            $container->setAlias(self::DEFAULT_CACHE_DRIVER_SERVICE_ID, $defaultCacheDriver);
         }
-
-        // create alias for default cache driver
-        $container->setAlias(self::DEFAULT_CACHE_DRIVER_SERVICE_ID, $defaultCacheDriver);
     }
 
     /**
