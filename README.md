@@ -124,5 +124,5 @@ Check out the small test app within Tests/Fixtures/app
 ## History
 
 ## Contributors
-Jose Rufino, Marcin Skurski, Luciano Mammino, Alberto Rodrigo, David Camprubi, Arthur Thevenet
+Jose Rufino, Marcin Skurski, Luciano Mammino, Alberto Rodrigo, David Camprubi, Arthur Thevenet, Bertrand Drouhard, Mel McCann, Shane McKinley.
 
