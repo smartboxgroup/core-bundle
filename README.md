@@ -13,12 +13,6 @@ To install the bundle, you just need to:
     "require": {
         "smartbox/core-bundle": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@gitlab.production.smartbox.com:smartesb/core-bundle.git"
-        }
-    ],
 ```
 
 2. Add it to your AppKernel.php file
