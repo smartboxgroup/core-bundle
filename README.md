@@ -1,6 +1,10 @@
 # SmartboxCoreBundle
 Core features
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/smartbox/core-bundle.svg?style=flat-square)](https://packagist.org/packages/smartbox/core-bundle)
+[![Minimum PHP Version](https://img.shields.io/badge/php-~%207.0-8892BF.svg?style=flat-square)](https://php.net/)
+[![Build Status](https://travis-ci.org/smartbox/core-bundle.svg?branch=master)](https://travis-ci.org/smartbox/core-bundle)
+
 ## Installation and usage
 To install the bundle, you just need to:
 
@@ -9,12 +13,6 @@ To install the bundle, you just need to:
     "require": {
         "smartbox/core-bundle": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@gitlab.production.smartbox.com:smartesb/core-bundle.git"
-        }
-    ],
 ```
 
 2. Add it to your AppKernel.php file
@@ -126,5 +124,5 @@ Check out the small test app within Tests/Fixtures/app
 ## History
 
 ## Contributors
-Jose Rufino, Marcin Skurski, Luciano Mammino, Alberto Rodrigo, David Camprubi, Arthur Thevenet
+Jose Rufino, Marcin Skurski, Luciano Mammino, Alberto Rodrigo, David Camprubi, Arthur Thevenet, Bertrand Drouhard, Mel McCann, Shane McKinley.
 
