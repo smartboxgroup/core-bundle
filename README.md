@@ -3,7 +3,7 @@ Core features
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/smartbox/core-bundle.svg?style=flat-square)](https://packagist.org/packages/smartbox/core-bundle)
 [![Minimum PHP Version](https://img.shields.io/badge/php-~%207.0-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](https://travis-ci.org/smartbox/core-bundle.svg?branch=master)](https://travis-ci.org/smartbox/core-bundle)
+[![Build Status](https://travis-ci.org/smartboxgroup/core-bundle.svg?branch=master)](https://travis-ci.org/smartboxgroup/core-bundle)
 
 ## Installation and usage
 To install the bundle, you just need to:
