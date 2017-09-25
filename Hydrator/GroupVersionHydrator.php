@@ -43,7 +43,7 @@ class GroupVersionHydrator
         }
 
         if (!$object instanceof EntityInterface) {
-            throw new \InvalidArgumentException('The given object is not an array and neither an entity');
+            throw new \InvalidArgumentException("The given object is not an array and neither an entity inside the group '" . $group . "'");
         }
 
         return $this->hydrateEntity($object, $group, $version);
