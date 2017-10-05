@@ -53,7 +53,7 @@ class DateHandler implements SubscribingHandlerInterface
         return $methods;
     }
 
-    public function __construct($defaultFormat = \DateTime::ISO8601, $defaultTimezone = 'UTC', $xmlCData = true)
+    public function __construct($defaultFormat = 'Y-m-d\TH:i:s.uP', $defaultTimezone = 'UTC', $xmlCData = true)
     {
         $this->defaultFormat = $defaultFormat;
         $this->defaultTimezone = new \DateTimeZone($defaultTimezone);
