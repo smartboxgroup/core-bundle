@@ -17,10 +17,10 @@ class SmokeTestRunCommand extends ContainerAwareCommand
     /** @var SmokeTestInterface[] */
     protected $smokeTests = [];
 
-    /** @var  InputInterface */
+    /** @var InputInterface */
     protected $in;
 
-    /** @var  OutputInterface */
+    /** @var OutputInterface */
     protected $out;
 
     protected function configure()
@@ -51,6 +51,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             )
             ->addOption('json', null, InputOption::VALUE_NONE, 'Show output in JSON format.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'File path to write')
+            ->addOption('list', 'L', InputOption::VALUE_NONE, 'List all the possible tests')
             ->addArgument('test', InputArgument::OPTIONAL, 'Specify the id of a single test to execute');
     }
 
@@ -102,10 +103,19 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $skipped = [];
         $smokeTests = $this->smokeTests;
 
+        if ($in->getOption('list')) {
+            $testNames = $this->getTestNames();
+            foreach ($testNames as $name) {
+                $this->out->writeln($name);
+            }
+
+            return 0;
+        }
+
         if ($test) {
             // executes a single test
             $showSkipped = false;
-            $testNames = array_keys($smokeTests);
+            $testNames = $this->getTestNames();
             $smokeTests = array_filter(
                 $smokeTests,
                 function ($key) use ($test) {
@@ -320,5 +330,15 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             SmokeTestOutputMessage::OUTPUT_MESSAGE_TYPE_SKIPPED,
             new OutputFormatterStyle('yellow')
         );
+    }
+
+    /**
+     * Returns and array of all the test names that this command can run.
+     *
+     * @return array
+     */
+    public function getTestNames()
+    {
+        return array_keys($this->smokeTests);
     }
 }
