@@ -19,9 +19,6 @@ before_script:
 script:
   - bin/phpunit --coverage-text --debug
 
-after_success:
-  - coveralls
-
 notifications:
   email:
     recipients:
