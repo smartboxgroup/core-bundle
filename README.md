@@ -4,6 +4,7 @@ Core features
 [![Latest Stable Version](https://img.shields.io/packagist/v/smartbox/core-bundle.svg?style=flat-square)](https://packagist.org/packages/smartbox/core-bundle)
 [![Minimum PHP Version](https://img.shields.io/badge/php-~%207.0-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status](https://travis-ci.org/smartboxgroup/core-bundle.svg?branch=master)](https://travis-ci.org/smartboxgroup/core-bundle)
+[![Coverage Status](https://coveralls.io/repos/github/smartboxgroup/core-bundle/badge.svg?branch=master)](https://coveralls.io/github/smartboxgroup/core-bundle?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/smartboxgroup/core-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/smartboxgroup/core-bundle/?branch=master)
 
 ## Installation and usage
