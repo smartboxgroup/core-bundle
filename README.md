@@ -110,6 +110,14 @@ To install the bundle, you just need to:
           cache_driver:         smartcore.cache_service
 
 ```
+## Tools ##
+
+### smartbox:core:generate:random-fixture ###
+Generates a random fixture of a smartesb entity. The fixture can be seen as sample data associated to a view and a main entity. 
+
+Usage: ```php app/console smartbox:core:generate:random-fixture --help```
+
+Example: ```php app/console smartbox:core:generate:random-fixture NiceBoxEntity --entity-group the-view-for-a-nice-box --entity-version v0```
 
 ## Contributing
 1. Fork it!
