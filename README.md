@@ -119,6 +119,16 @@ Usage: ```php app/console smartbox:core:generate:random-fixture --help```
 
 Example: ```php app/console smartbox:core:generate:random-fixture NiceBoxEntity --entity-group the-view-for-a-nice-box --entity-version v0```
 
+### smartbox:smoke-test ###
+Run all services tagged with "smartcore.smoke_test".
+
+Usage: ```php app/console smartbox:smoke-test --help```
+
+Example: 
+* ```php app/console smartbox:smoke-test --list```
+* ```php app/console smartbox:smoke-test```
+* ```php app/console smartbox:smoke-test test my_project.producers.my_producer.connectivity_smoke_test_run```
+
 ## Contributing
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
