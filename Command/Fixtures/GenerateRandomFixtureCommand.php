@@ -2,17 +2,18 @@
 
 namespace Smartbox\CoreBundle\Command\Fixtures;
 
+use JMS\Serializer\SerializerInterface;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator;
+use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateRandomFixtureCommand extends ContainerAwareCommand
+class GenerateRandomFixtureCommand extends Command
 {
-    const COMMAND_NAME = 'smartbox:core:generate:random-fixture';
-
     /** @var InputInterface */
     protected $in;
 
@@ -23,10 +24,32 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
 
     protected $group;
 
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
+    /**
+     * @var NamespaceResolver
+     */
+    protected $namespaceResolver;
+
+    /**
+     * @var RandomFixtureGenerator
+     */
+    private $randomFixtureGenerator;
+
+    public function __construct(string $name, SerializerInterface $serializer, NamespaceResolver $namespaceResolver, RandomFixtureGenerator $randomFixtureGenerator)
+    {
+        $this->serializer = $serializer;
+        $this->namespaceResolver = $namespaceResolver;
+        $this->randomFixtureGenerator = $randomFixtureGenerator;
+        parent::__construct($name);
+    }
+
     protected function configure()
     {
         $this
-            ->setName(self::COMMAND_NAME)
             ->setDescription('Generates an random fixture of a smartesb entity')
             ->addArgument('entity', InputArgument::REQUIRED, 'Entity class')
             ->addOption(
@@ -59,8 +82,8 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
     {
         $this->in = $in;
         $this->out = $out;
-        $serializer = $this->getContainer()->get('serializer');
-        $namespaceResolver = $this->getContainer()->get('smartcore.helper.entity_namespace_resolver');
+        $serializer = $this->serializer;
+        $namespaceResolver = $this->namespaceResolver;
         $entityClass = $this->in->getArgument('entity');
         $group = $this->in->getOption('entity-group');
         $version = $this->in->getOption('entity-version');
@@ -75,7 +98,7 @@ class GenerateRandomFixtureCommand extends ContainerAwareCommand
 
         $entityNamespace = $namespaceResolver->resolveNamespaceForClass($entityClass);
 
-        $randomFixtureGenerator = $this->getContainer()->get('smartcore.generator.random_fixture');
+        $randomFixtureGenerator = $this->randomFixtureGenerator;
         $entity = $randomFixtureGenerator->generate($entityNamespace, $group, $version);
         $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 

@@ -68,13 +68,13 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     public function testExecute($group, $version)
     {
-        $this->application->add(new GenerateRandomFixtureCommand());
+        $this->application->add($this->container->get('smartbox_core.command_fixtures.generate_random_fixture_command'));
 
-        $command = $this->application->find(GenerateRandomFixtureCommand::COMMAND_NAME);
+        $command = $this->application->find('smartbox:core:generate:random-fixture');
         $commandTester = new CommandTester($command);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('serializer');
+        $serializer = $this->container->get('jms_serializer');
 
         $commandConfiguration = [];
         if (!is_null($group)) {

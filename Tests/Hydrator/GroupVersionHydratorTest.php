@@ -20,7 +20,7 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
     protected function setUp()
     {
         parent::setUp();
-        $metadataFactory = $this->getContainer()->get('serializer')->getMetadataFactory();
+        $metadataFactory = $this->getContainer()->get('jms_serializer')->getMetadataFactory();
         $this->hydrator = new GroupVersionHydrator($metadataFactory);
     }
 
