@@ -22,7 +22,7 @@ class JMSSerializerFormatterTest extends WebTestCase
         self::$class = null;
         static::bootKernel();
         $container = static::$kernel->getContainer();
-        $this->serializer = $container->get('serializer');
+        $this->serializer = $container->get('jms_serializer');
     }
 
     protected function tearDown()
