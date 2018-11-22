@@ -16,7 +16,6 @@ parameters:
 
     # OVERRIDING JMS
     jms_serializer.metadata.annotation_driver.class: Smartbox\CoreBundle\Serializer\Metadata\Driver\AnnotationDriver
-    jms_serializer.array_collection_handler.class: Smartbox\CoreBundle\Serializer\Handler\DateHandler
 
 services:
     smartcore.serialization.subscriber:
