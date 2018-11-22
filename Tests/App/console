@@ -8,6 +8,9 @@ require_once __DIR__.'/autoload.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-$kernel = new AppKernel('test', true);
+$input = new \Symfony\Component\Console\Input\ArgvInput();
+$env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'test');
+
+$kernel = new AppKernel($env, true);
 $application = new Application($kernel);
 $application->run();
