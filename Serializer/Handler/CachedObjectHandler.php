@@ -2,8 +2,8 @@
 
 namespace Smartbox\CoreBundle\Serializer\Handler;
 
+use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\Context;
-use JMS\Serializer\GenericSerializationVisitor;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use Smartbox\CoreBundle\Serializer\Cache\CacheServiceAwareTrait;
@@ -27,8 +27,8 @@ class CachedObjectHandler implements SubscribingHandlerInterface
         $dataArray = [
             'data' => $data,
             'serializationFormat' => $context->getFormat(),
-            'serializationGroups' => $context->attributes->get('groups'),
-            'serializationVersion' => $context->attributes->get('version'),
+//            'serializationGroups' => $context->getAttribute('groups'),
+//            'serializationVersion' => $context->getAttribute('version'),
         ];
 
         try {
@@ -56,7 +56,7 @@ class CachedObjectHandler implements SubscribingHandlerInterface
         ];
     }
 
-    public function getDataFromCache(GenericSerializationVisitor $visitor, $data, array $type, Context $context)
+    public function getDataFromCache(AbstractVisitor $visitor, $data, array $type, Context $context)
     {
         $result = $this->getCacheService()->get(self::getDataCacheKey($data, $context));
         if ($visitor->getRoot() === null) {

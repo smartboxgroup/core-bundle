@@ -18,5 +18,6 @@ smartbox_core:
             service: ~
 
     serialization_cache:
+        cached_visitors: ['Smartbox\CoreBundle\Serializer\ArraySerializationVisitor', 'JMS\Serializer\JsonSerializationVisitor']
         enabled: true
         cache_driver: predis

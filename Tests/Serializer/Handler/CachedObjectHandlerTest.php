@@ -72,7 +72,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('serializer');
+        $serializer = $container->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
         $cacheDataArray = [
             '_type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',

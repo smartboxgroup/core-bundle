@@ -15,5 +15,6 @@ smartbox_core:
             service: "@smartcore.custom_cache_service_id"
 
     serialization_cache:
+        cached_visitors: ['Smartbox\CoreBundle\Serializer\ArraySerializationVisitor', 'JMS\Serializer\JsonSerializationVisitor']
         enabled: true
         cache_driver: custom
