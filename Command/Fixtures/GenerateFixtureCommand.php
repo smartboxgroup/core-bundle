@@ -92,7 +92,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             $entity->getAPIVersion()
         );
 
-        $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
+        $result = $this->getContainer()->get('jms_serializer')->serialize($entity, 'json', $context);
 
         file_put_contents($path, $result);
 
@@ -299,7 +299,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                                 $name = $this->ask($askForName);
                             }
 
-                            $serializer = $this->getContainer()->get('serializer');
+                            $serializer = $this->getContainer()->get('jms_serializer');
                             $obj = $serializer->deserialize(file_get_contents($path), Entity::class, 'json');
                             if (!$obj || ($tName && !(is_a($obj, $tName) || is_subclass_of($obj, $tName)))) {
                                 $this->out->writeln(
