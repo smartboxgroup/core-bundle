@@ -170,7 +170,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $container = $kernel->getContainer();
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('serializer');
+        $serializer = $container->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
 
         $entity = new SerializableThing();

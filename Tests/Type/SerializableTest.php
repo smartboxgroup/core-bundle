@@ -55,7 +55,7 @@ class SerializableTest extends BaseKernelTestCase
     public function testSerializationEntity(SerializableInterface $object)
     {
         /** @var Serializer $serializer */
-        $serializer = $this->getContainer()->get('serializer');
+        $serializer = $this->getContainer()->get('jms_serializer');
 
         $json = $serializer->serialize($object, 'json');
         $entityAfterJson = $serializer->deserialize($json, Entity::class, 'json');
@@ -90,7 +90,7 @@ class SerializableTest extends BaseKernelTestCase
     public function testSerializationSerializable(SerializableInterface $serializable)
     {
         /** @var Serializer $serializer */
-        $serializer = $this->getContainer()->get('serializer');
+        $serializer = $this->getContainer()->get('jms_serializer');
 
         $json = $serializer->serialize($serializable, 'json');
 

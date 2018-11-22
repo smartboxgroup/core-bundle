@@ -30,7 +30,7 @@ class AnnotationDriverTest extends KernelTestCase
         $kernel->boot();
 
         $this->container = $kernel->getContainer();
-        $this->serializer = $this->container->get('serializer');
+        $this->serializer = $this->container->get('jms_serializer');
     }
 
     /**

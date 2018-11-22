@@ -69,7 +69,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      */
     public function testGenerate($group, $version)
     {
-        $serializer = $this->container->get('serializer');
+        $serializer = $this->container->get('jms_serializer');
 
         $entity = $this->randomFixtureGenerator->generate(TestComplexEntity::class, $group, $version);
         $serializedEntity = $serializer->serialize(
