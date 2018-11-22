@@ -31,6 +31,7 @@ class RandomFixtureGenerator
      * @param null $version
      *
      * @return EntityInterface
+     * @throws \Exception
      */
     public function generate($entityNamespace, $group = null, $version = null)
     {
@@ -93,10 +94,11 @@ class RandomFixtureGenerator
     /**
      * @param $typeName
      * @param array|null $typeParams
-     * @param null       $group
-     * @param null       $version
+     * @param null $group
+     * @param null $version
      *
      * @return float|int|string|array|\DateTime|EntityInterface
+     * @throws \Exception
      */
     protected function generateRandomData($typeName, array $typeParams = null, $group = null, $version = null)
     {

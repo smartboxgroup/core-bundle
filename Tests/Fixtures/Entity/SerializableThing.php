@@ -85,6 +85,14 @@ class SerializableThing implements SerializableInterface
      */
     protected $arrayOfDates = [];
 
+    /**
+     * @JMS\Type("array<DateTime>")
+     * @JMS\Expose
+     *
+     * @var \DateTime[]
+     */
+    protected $arrayOfDateTimes = [];
+
     public function __construct()
     {
     }
@@ -232,4 +240,21 @@ class SerializableThing implements SerializableInterface
     {
         $this->arrayOfDates = $arrayOfDates;
     }
+
+    /**
+     * @return \DateTime[]
+     */
+    public function getArrayOfDateTimes()
+    {
+        return $this->arrayOfDateTimes;
+    }
+
+    /**
+     * @param \DateTime[] $arrayOfDateTimes
+     */
+    public function setArrayOfDateTimes(array $arrayOfDateTimes)
+    {
+        $this->arrayOfDateTimes = $arrayOfDateTimes;
+    }
+
 }

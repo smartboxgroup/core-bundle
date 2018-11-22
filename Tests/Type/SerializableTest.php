@@ -73,7 +73,10 @@ class SerializableTest extends BaseKernelTestCase
         $thing->setIntegerValue(17);
         $thing->setDoubleValue(17.17);
         $thing->setArrayOfDates([
-            new Date(),
+            new Date(new \DateTime('2018-11-22 00:00:00')),
+        ]);
+        $thing->setArrayOfDateTimes([
+            new \DateTime('2018-11-22 00:00:00'),
         ]);
         $thing->setArrayOfEntities([
             new TestEntity(),
@@ -86,6 +89,7 @@ class SerializableTest extends BaseKernelTestCase
 
     /**
      * @dataProvider serializableObjectsToSerialize
+     * @param SerializableInterface $serializable
      */
     public function testSerializationSerializable(SerializableInterface $serializable)
     {
