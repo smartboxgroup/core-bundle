@@ -9,7 +9,7 @@ use Smartbox\CoreBundle\Utils\Cache\PredisCacheService;
 /**
  * Class PredisCacheServiceTest.
  */
-class PredisCacheServiceTest extends \PHPUnit_Framework_TestCase
+class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PredisCacheService */
     protected $service;

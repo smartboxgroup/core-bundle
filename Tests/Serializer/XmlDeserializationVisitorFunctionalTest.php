@@ -11,7 +11,7 @@ use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 use Smartbox\CoreBundle\Serializer\XmlDeserializationVisitor;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 
-class XmlDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
+class XmlDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SerializerInterface $serializer */
     private $serializer;

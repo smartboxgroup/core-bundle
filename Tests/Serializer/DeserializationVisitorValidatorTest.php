@@ -5,7 +5,7 @@ namespace Smartbox\CoreBundle\Tests\Serializer;
 use JMS\Serializer\GenericDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 
-class DeserializationVisitorValidatorTest extends \PHPUnit_Framework_TestCase
+class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \JMS\Serializer\GenericDeserializationVisitor|\PHPUnit_Framework_MockObject_MockObject */
     private $visitorMock;
