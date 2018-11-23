@@ -31,13 +31,14 @@ class RandomFixtureGenerator
      * @param null $version
      *
      * @return EntityInterface
+     *
      * @throws \Exception
      */
     public function generate($entityNamespace, $group = null, $version = null)
     {
-        if (!is_subclass_of($entityNamespace, EntityInterface::class)) {
+        if (!\is_subclass_of($entityNamespace, EntityInterface::class)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Entity class: %s should implement an %s',
                     $entityNamespace,
                     EntityInterface::class
@@ -64,11 +65,11 @@ class RandomFixtureGenerator
         $propertyAccessor = new PropertyAccessor();
         $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
-        $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
+        $metadata = $this->metadataFactory->getMetadataForClass(\get_class($entity));
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
             if (
-                !in_array($property, ['entityGroup', 'version', '_type']) &&
+                !\in_array($property, ['entityGroup', 'version', '_type']) &&
                 $propertyAccessor->isWritable($entity, $property) &&
                 (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context)) &&
                 (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))
@@ -94,10 +95,11 @@ class RandomFixtureGenerator
     /**
      * @param $typeName
      * @param array|null $typeParams
-     * @param null $group
-     * @param null $version
+     * @param null       $group
+     * @param null       $version
      *
      * @return float|int|string|array|\DateTime|EntityInterface
+     *
      * @throws \Exception
      */
     protected function generateRandomData($typeName, array $typeParams = null, $group = null, $version = null)
@@ -110,35 +112,35 @@ class RandomFixtureGenerator
                 break;
 
             case 'integer':
-                $result = rand(0, 100);
+                $result = \rand(0, 100);
                 break;
 
             case 'double':
-                $result = doubleval(rand(0, 1000) / 1000);
+                $result = \doubleval(\rand(0, 1000) / 1000);
                 break;
 
             case 'string':
-                $result = substr(md5(rand()), 0, rand(2, 10));
+                $result = \substr(\md5(\rand()), 0, \rand(2, 10));
                 break;
 
             case 'boolean':
-                $result = (rand(0, 1) % 2 == 0);
+                $result = (0 == \rand(0, 1) % 2);
                 break;
 
             case 'array':
-                $numberOfTypeParams = count($typeParams);
+                $numberOfTypeParams = \count($typeParams);
 
-                if ($numberOfTypeParams == 2) {
+                if (2 == $numberOfTypeParams) {
                     $subtypeName = @$typeParams[0]['name'];
                     $subtypeParams = $typeParams[1]['name'];
-                } elseif ($numberOfTypeParams == 1) {
+                } elseif (1 == $numberOfTypeParams) {
                     $subtypeName = $typeParams[0]['name'];
                     $subtypeParams = null;
                 } else {
                     throw new \RuntimeException('Missing JMS type params.');
                 }
 
-                $amountOfArrayIndexes = rand(0, 5);
+                $amountOfArrayIndexes = \rand(0, 5);
 
                 $result = [];
                 while ($amountOfArrayIndexes-- > 0) {
@@ -148,7 +150,7 @@ class RandomFixtureGenerator
                 break;
 
             default:
-                if (is_string($typeName) && class_exists($typeName)) {
+                if (\is_string($typeName) && \class_exists($typeName)) {
                     $result = $this->generate($typeName, $group, $version);
                 } else {
                     throw new \RuntimeException("Unrecognized type: $typeName");

@@ -25,16 +25,16 @@ class SmokeTestCompilerPass implements CompilerPassInterface
                 $descriptionMethod = 'getDescription';
                 $labels = [];
 
-                if (array_key_exists('method', $attr)) {
+                if (\array_key_exists('method', $attr)) {
                     $runMethod = $attr['runMethod'];
                 }
 
-                if (array_key_exists('descriptionMethod', $attr)) {
+                if (\array_key_exists('descriptionMethod', $attr)) {
                     $descriptionMethod = $attr['descriptionMethod'];
                 }
 
-                if (array_key_exists('labels', $attr)) {
-                    $labels = explode(',', $attr['labels']);
+                if (\array_key_exists('labels', $attr)) {
+                    $labels = \explode(',', $attr['labels']);
                 }
 
                 $smokeTestCommand->addMethodCall(

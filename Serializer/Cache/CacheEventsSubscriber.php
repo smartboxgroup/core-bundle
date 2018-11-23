@@ -17,11 +17,11 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     const DATA_PROPERTY = 'data';
 
     /** @var array */
-    private $reflectors  = [];
+    private $reflectors = [];
 
     public function __construct(array $vistorClasses)
     {
-        foreach ($vistorClasses as $class){
+        foreach ($vistorClasses as $class) {
             $reflector = new \ReflectionProperty($class, self::DATA_PROPERTY);
             $reflector->setAccessible(true);
             $this->reflectors[$class] = $reflector;
@@ -49,16 +49,16 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     {
         $data = $event->getObject();
 
-        if( !$data instanceof SerializerCacheableInterface ){
+        if (!$data instanceof SerializerCacheableInterface) {
             return;
         }
 
         $visitor = $event->getVisitor();
-        $visitorClass = get_class($visitor);
+        $visitorClass = \get_class($visitor);
 
-        if ( array_key_exists($visitorClass, $this->reflectors) ) {
+        if (\array_key_exists($visitorClass, $this->reflectors)) {
             $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
-            if ($key !== null && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
+            if (null !== $key && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }
@@ -69,19 +69,19 @@ class CacheEventsSubscriber implements EventSubscriberInterface
         $object = $event->getObject();
         $typeName = $event->getType()['name'];
 
-        if( $typeName === CachedObjectHandler::TYPE || !$object instanceof SerializerCacheableInterface ){
+        if (CachedObjectHandler::TYPE === $typeName || !$object instanceof SerializerCacheableInterface) {
             return;
         }
 
         $visitor = $event->getVisitor();
-        $visitorClass = get_class($visitor);
+        $visitorClass = \get_class($visitor);
 
-        if (array_key_exists($visitorClass, $this->reflectors)) {
+        if (\array_key_exists($visitorClass, $this->reflectors)) {
             // save to cache
             $cacheData = $this->getDataFromVisitor($visitor, $visitorClass);
             $key = CachedObjectHandler::getDataCacheKey($object, $event->getContext());
 
-            if ($key !== null) {
+            if (null !== $key) {
                 $this->cacheService->set($key, $cacheData);
             }
         }
@@ -89,8 +89,8 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
     /**
      * @param AbstractVisitor $visitor
+     * @param string          $class
      *
-     * @param string $class
      * @return mixed
      */
     private function getDataFromVisitor(AbstractVisitor $visitor, string $class)

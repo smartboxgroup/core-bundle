@@ -21,7 +21,7 @@ class ArraySerializationVisitor extends AbstractVisitor
     {
         $this->navigator = $navigator;
         $this->root = null;
-        $this->dataStack = new \SplStack;
+        $this->dataStack = new \SplStack();
     }
 
     /**
@@ -43,7 +43,7 @@ class ArraySerializationVisitor extends AbstractVisitor
             $this->root = $data;
         }
 
-        return (string)$data;
+        return (string) $data;
     }
 
     public function visitBoolean($data, array $type, Context $context)
@@ -52,7 +52,7 @@ class ArraySerializationVisitor extends AbstractVisitor
             $this->root = $data;
         }
 
-        return (boolean)$data;
+        return (bool) $data;
     }
 
     public function visitInteger($data, array $type, Context $context)
@@ -61,7 +61,7 @@ class ArraySerializationVisitor extends AbstractVisitor
             $this->root = $data;
         }
 
-        return (int)$data;
+        return (int) $data;
     }
 
     public function visitDouble($data, array $type, Context $context)
@@ -70,13 +70,14 @@ class ArraySerializationVisitor extends AbstractVisitor
             $this->root = $data;
         }
 
-        return (float)$data;
+        return (float) $data;
     }
 
     /**
-     * @param array $data
-     * @param array $type
+     * @param array   $data
+     * @param array   $type
      * @param Context $context
+     *
      * @return array|\ArrayObject
      */
     public function visitArray($data, array $type, Context $context)
@@ -97,7 +98,7 @@ class ArraySerializationVisitor extends AbstractVisitor
         foreach ($data as $k => $v) {
             $v = $this->navigator->accept($v, $this->getElementType($type), $context);
 
-            if (null === $v && $context->shouldSerializeNull() !== true) {
+            if (null === $v && true !== $context->shouldSerializeNull()) {
                 continue;
             }
 
@@ -116,7 +117,7 @@ class ArraySerializationVisitor extends AbstractVisitor
     public function startVisitingObject(ClassMetadata $metadata, $data, array $type, Context $context)
     {
         if (null === $this->root) {
-            $this->root = new \stdClass;
+            $this->root = new \stdClass();
         }
 
         $this->dataStack->push($this->data);
@@ -140,7 +141,7 @@ class ArraySerializationVisitor extends AbstractVisitor
         $v = $this->accessor->getValue($data, $metadata);
 
         $v = $this->navigator->accept($v, $metadata->type, $context);
-        if (null === $v && $context->shouldSerializeNull() !== true) {
+        if (null === $v && true !== $context->shouldSerializeNull()) {
             return;
         }
 
@@ -152,7 +153,7 @@ class ArraySerializationVisitor extends AbstractVisitor
 
         if ($metadata->inline) {
             if (\is_array($v)) {
-                $this->data = array_merge($this->data, $v);
+                $this->data = \array_merge($this->data, $v);
             }
         } else {
             $this->data[$k] = $v;
@@ -161,15 +162,17 @@ class ArraySerializationVisitor extends AbstractVisitor
 
     /**
      * Allows you to add additional data to the current object/root element.
+     *
      * @deprecated use setData instead
-     * @param string $key
-     * @param integer|float|boolean|string|array|null $value This value must either be a regular scalar, or an array.
-     *                                                       It must not contain any objects anymore.
+     *
+     * @param string                           $key
+     * @param int|float|bool|string|array|null $value this value must either be a regular scalar, or an array.
+     *                                                It must not contain any objects anymore
      */
     public function addData($key, $value)
     {
         if (isset($this->data[$key])) {
-            throw new InvalidArgumentException(sprintf('There is already data for "%s".', $key));
+            throw new InvalidArgumentException(\sprintf('There is already data for "%s".', $key));
         }
 
         $this->data[$key] = $value;
@@ -179,7 +182,8 @@ class ArraySerializationVisitor extends AbstractVisitor
      * Checks if some data key exists.
      *
      * @param string $key
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasData($key)
     {
@@ -189,9 +193,9 @@ class ArraySerializationVisitor extends AbstractVisitor
     /**
      * Allows you to replace existing data on the current object/root element.
      *
-     * @param string $key
-     * @param integer|float|boolean|string|array|null $value This value must either be a regular scalar, or an array.
-     *                                                       It must not contain any objects anymore.
+     * @param string                           $key
+     * @param int|float|bool|string|array|null $value this value must either be a regular scalar, or an array.
+     *                                                It must not contain any objects anymore
      */
     public function setData($key, $value)
     {
@@ -204,7 +208,7 @@ class ArraySerializationVisitor extends AbstractVisitor
     }
 
     /**
-     * @param array|\ArrayObject $data the passed data must be understood by whatever encoding function is applied later.
+     * @param array|\ArrayObject $data the passed data must be understood by whatever encoding function is applied later
      */
     public function setRoot($data)
     {

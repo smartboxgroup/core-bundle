@@ -138,7 +138,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('cache_driver')
                     ->info(
-                        sprintf(
+                        \sprintf(
                             'Driver name: predis or any other custom driver configured in "%s".',
                             $configRoot.'.'.CacheDriversCompilerPass::CONFIG_NODE
                         )

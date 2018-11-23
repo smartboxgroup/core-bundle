@@ -89,6 +89,7 @@ class SerializableTest extends BaseKernelTestCase
 
     /**
      * @dataProvider serializableObjectsToSerialize
+     *
      * @param SerializableInterface $serializable
      */
     public function testSerializationSerializable(SerializableInterface $serializable)

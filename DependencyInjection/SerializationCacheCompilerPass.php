@@ -15,7 +15,7 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
 {
     const CONFIG_NODE = 'serialization_cache';
 
-    /** @var  ContainerBuilder */
+    /** @var ContainerBuilder */
     protected $container;
 
     public function process(ContainerBuilder $container)
@@ -30,7 +30,7 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
 
             if (!$container->hasDefinition($cacheDriverServiceId)) {
                 throw new \RuntimeException(
-                    sprintf(
+                    \sprintf(
                         'Cache driver "%s" configured in "%s" was not found. Configure it by adding "%s" to your configuration.',
                         $cacheDriverName,
                         Configuration::CONFIG_ROOT.'.'.self::CONFIG_NODE.'.cache_driver',
@@ -43,11 +43,11 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
 
             // Test that the Visitor classes in the config exist
             $vistorClasses = $config[self::CONFIG_NODE]['cached_visitors'];
-            foreach($vistorClasses as $class){
-                if(!class_exists($class)){
+            foreach ($vistorClasses as $class) {
+                if (!\class_exists($class)) {
                     throw new \Exception("The class '$class' configured in smartbox_core.serialization_cache.cached_visitors does not exist.");
                 }
-                if(!property_exists($class, CacheEventsSubscriber::DATA_PROPERTY)){
+                if (!\property_exists($class, CacheEventsSubscriber::DATA_PROPERTY)) {
                     throw new \Exception("The class '$class' configured in smartbox_core.serialization_cache.cached_visitors does not have the data property and can not be cached.");
                 }
             }
@@ -56,7 +56,7 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
             $serializationCacheSubscriber = $container->setDefinition(
                 'smartcore.serializer.subscriber.cache',
                 new Definition(CacheEventsSubscriber::class, [
-                    $vistorClasses
+                    $vistorClasses,
                 ])
             );
             $serializationCacheSubscriber->addMethodCall('setCacheService', [$cacheDriverServiceDef]);

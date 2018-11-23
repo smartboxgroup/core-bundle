@@ -12,7 +12,7 @@ final class SmokeTestOutputMessage
     /**
      * @var array
      */
-    protected static $outputMessageTypes = [
+    private static $outputMessageTypes = [
         self::OUTPUT_MESSAGE_TYPE_INFO,
         self::OUTPUT_MESSAGE_TYPE_SUCCESS,
         self::OUTPUT_MESSAGE_TYPE_FAILURE,
@@ -21,12 +21,12 @@ final class SmokeTestOutputMessage
     /**
      * @var string
      */
-    protected $type;
+    private $type;
 
     /**
      * @var string
      */
-    protected $value;
+    private $value;
 
     /**
      * @param string $type  Type of the message. Supported types: info, success, failure
@@ -35,22 +35,22 @@ final class SmokeTestOutputMessage
     public function __construct($type, $value)
     {
         // checking type
-        if (!in_array($type, self::$outputMessageTypes)) {
+        if (!\in_array($type, self::$outputMessageTypes)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Unsupported message type. Given "%s", expected one of [%s].',
                     $type,
-                    implode(', ', self::$outputMessageTypes)
+                    \implode(', ', self::$outputMessageTypes)
                 )
             );
         }
 
         // checking value
-        if (!is_string($value)) {
+        if (!\is_string($value)) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'Value of the message should be a string. Given "%s".',
-                    gettype($value)
+                    \gettype($value)
                 )
             );
         }
@@ -80,6 +80,6 @@ final class SmokeTestOutputMessage
      */
     public function __toString()
     {
-        return sprintf('[%s] %s', $this->getType(), $this->getValue());
+        return \sprintf('[%s] %s', $this->getType(), $this->getValue());
     }
 }

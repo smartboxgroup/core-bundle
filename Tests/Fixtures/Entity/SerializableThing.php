@@ -256,5 +256,4 @@ class SerializableThing implements SerializableInterface
     {
         $this->arrayOfDateTimes = $arrayOfDateTimes;
     }
-
 }

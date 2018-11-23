@@ -28,7 +28,7 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $config = 'config';
-        if ($this->getEnvironment() !== 'test') {
+        if ('test' !== $this->getEnvironment()) {
             $config = 'config_'.$this->getEnvironment();
         }
 

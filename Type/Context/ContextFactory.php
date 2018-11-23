@@ -18,11 +18,11 @@ class ContextFactory
      */
     protected static function prepareContextForFixtures(Context $context, $group, $version)
     {
-        if (!is_null($version)) {
+        if (!\is_null($version)) {
             $context->setVersion($version);
         }
 
-        if (!is_null($group)) {
+        if (!\is_null($group)) {
             $context->setGroups([$group, Entity::GROUP_METADATA]);
         }
 

@@ -32,7 +32,7 @@ class CachedObjectHandler implements SubscribingHandlerInterface
         ];
 
         try {
-            return sha1(serialize($dataArray));
+            return \sha1(\serialize($dataArray));
         } catch (\Exception $e) {
             return;
         }
@@ -59,7 +59,7 @@ class CachedObjectHandler implements SubscribingHandlerInterface
     public function getDataFromCache(AbstractVisitor $visitor, $data, array $type, Context $context)
     {
         $result = $this->getCacheService()->get(self::getDataCacheKey($data, $context));
-        if ($visitor->getRoot() === null) {
+        if (null === $visitor->getRoot()) {
             $visitor->setRoot($result);
         }
 

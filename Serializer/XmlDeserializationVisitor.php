@@ -76,7 +76,7 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
     private function fixXmlNode($data)
     {
         if ($data instanceof \SimpleXMLElement) {
-            if (in_array(dom_import_simplexml($data)->firstChild->nodeType, [XML_CDATA_SECTION_NODE, XML_TEXT_NODE])) {
+            if (\in_array(\dom_import_simplexml($data)->firstChild->nodeType, [XML_CDATA_SECTION_NODE, XML_TEXT_NODE])) {
                 $data = $data->__toString();
             }
         }

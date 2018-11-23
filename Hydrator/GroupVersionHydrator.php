@@ -38,7 +38,7 @@ class GroupVersionHydrator
      */
     public function hydrate($object, $group, $version)
     {
-        if (is_array($object)) {
+        if (\is_array($object)) {
             return $this->hydrateArray($object, $group, $version);
         }
 
@@ -82,15 +82,15 @@ class GroupVersionHydrator
         $entity->setAPIVersion($version);
 
         // hydrate all the sub-fields recursively using JMS to extract them and identify their type
-        $metadata = $this->metadataFactory->getMetadataForClass(get_class($entity));
+        $metadata = $this->metadataFactory->getMetadataForClass(\get_class($entity));
         /** @var PropertyMetadata $property */
         foreach ($metadata->propertyMetadata as $property) {
-            if ($property->type['name'] === 'array') {
+            if ('array' === $property->type['name']) {
                 $array = $property->getValue($entity);
-                if (is_array($array) && count($array) > 0) {
-                    $first = array_values($array)[0];
+                if (\is_array($array) && \count($array) > 0) {
+                    $first = \array_values($array)[0];
 
-                    if ((is_object($first) || is_array($first))) {
+                    if ((\is_object($first) || \is_array($first))) {
                         $this->hydrateArray($array, $group, $version);
                     }
                 }

@@ -12,7 +12,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToString($data)
     {
-        return !is_object($data) && !is_array($data);
+        return !\is_object($data) && !\is_array($data);
     }
 
     /**
@@ -20,12 +20,12 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToBoolean($data)
     {
-        return is_bool($data) ||
-            is_null($data) ||
-            $data === 'true' ||
-            $data === 'false' ||
-            $data === 1 || $data === '1' ||
-            $data === 0 || $data === '0'
+        return \is_bool($data) ||
+            \is_null($data) ||
+            'true' === $data ||
+            'false' === $data ||
+            1 === $data || '1' === $data ||
+            0 === $data || '0' === $data
         ;
     }
 
@@ -34,7 +34,7 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToInteger($data)
     {
-        return is_null($data) || (is_numeric($data) && floor($data) == $data);
+        return \is_null($data) || (\is_numeric($data) && \floor($data) == $data);
     }
 
     /**
@@ -42,6 +42,6 @@ class StrongDeserializationCastingChecker implements DeserializationCastingCheck
      */
     public function canBeCastedToDouble($data)
     {
-        return is_numeric($data) || is_null($data);
+        return \is_numeric($data) || \is_null($data);
     }
 }

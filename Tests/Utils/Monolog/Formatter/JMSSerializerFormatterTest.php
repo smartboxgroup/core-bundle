@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class JMSSerializerFormatterTest.
  *
- * @coversDefaultClass Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter
+ * @coversDefaultClass \Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter
  */
 class JMSSerializerFormatterTest extends WebTestCase
 {
@@ -37,7 +37,7 @@ class JMSSerializerFormatterTest extends WebTestCase
         $data = [];
         for ($i = 0; $i < 3; ++$i) {
             $data[] = [
-                sprintf(
+                \sprintf(
                     '[{"title":"title_%s","description":"description_%s","note":"note_%s","enabled":%s}]',
                     $i,
                     $i,
@@ -57,7 +57,7 @@ class JMSSerializerFormatterTest extends WebTestCase
 
     /**
      * @dataProvider dataProviderForFormatter
-     * @covers Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter::format
+     * @covers \Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter::format
      *
      * @param $expected
      * @param $entity

@@ -18,11 +18,11 @@ use Symfony\Component\Validator\MetadataFactoryInterface;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 /**
- * @covers ValidatorWithExclusion
+ * @covers \ValidatorWithExclusion
  */
 class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
 {
-    /** @var  ValidatorWithExclusion */
+    /** @var ValidatorWithExclusion */
     protected $validator;
 
     /**
@@ -91,6 +91,6 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
         $entity->setEntityGroup($group);
         $entity->setAPIVersion($version);
         $errors = $this->validator->validate($entity);
-        $this->assertEquals($expectedErrorCount, count($errors));
+        $this->assertEquals($expectedErrorCount, \count($errors));
     }
 }

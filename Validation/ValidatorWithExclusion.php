@@ -45,12 +45,12 @@ class ValidatorWithExclusion extends ValidatorDecorator
      */
     protected function shouldSkip($object, $propertyPath)
     {
-        if (!is_object($object) && !is_array($object)) {
+        if (!\is_object($object) && !\is_array($object)) {
             return false;
         }
 
         if (!empty($propertyPath)) {
-            $parts = explode('.', $propertyPath);
+            $parts = \explode('.', $propertyPath);
             $accessor = new PropertyAccessor();
             $parent = $object;
             foreach ($parts as $childSubPath) {
@@ -78,12 +78,12 @@ class ValidatorWithExclusion extends ValidatorDecorator
                 $groups = [$object->getEntityGroup()];
             }
 
-            $className = get_class($object);
+            $className = \get_class($object);
             $meta = $this->metadataFactory->getMetadataForClass($className);
 
-            $fieldName = preg_replace('/\[[0-9]+\]/', '', $propertySubPath);
+            $fieldName = \preg_replace('/\[[0-9]+\]/', '', $propertySubPath);
 
-            if (array_key_exists($fieldName, $meta->propertyMetadata)) {
+            if (\array_key_exists($fieldName, $meta->propertyMetadata)) {
                 $propertyMeta = $meta->propertyMetadata[$fieldName];
                 $context = SerializationContext::create();
 
@@ -113,7 +113,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
 
     public function validate($value, $constraints = null, $groups = null)
     {
-        if (is_object($value) && $value instanceof EntityInterface) {
+        if (\is_object($value) && $value instanceof EntityInterface) {
             if (!$groups && $value->getEntityGroup()) {
                 $groups = [$value->getEntityGroup(), EntityInterface::GROUP_DEFAULT];
             }
@@ -134,7 +134,7 @@ class ValidatorWithExclusion extends ValidatorDecorator
     public function getObjectPropertiesPathsForPath($propertyPath)
     {
         $result = [];
-        $parts = explode('.', $propertyPath);
+        $parts = \explode('.', $propertyPath);
         $parentPath = '';
         foreach ($parts as $child) {
             if (!empty($parentPath)) {

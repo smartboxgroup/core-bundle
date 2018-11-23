@@ -17,6 +17,6 @@ trait HasInternalType
      */
     public function getInternalType()
     {
-        return get_class($this);
+        return \get_class($this);
     }
 }

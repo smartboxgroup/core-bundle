@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class ValidatorDecorator implements ValidatorInterface
 {
-    /** @var  ValidatorInterface */
+    /** @var ValidatorInterface */
     protected $decoratedValidator;
 
     /**

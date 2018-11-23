@@ -106,7 +106,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $this->assertEquals($entity, $deserializedEntity);
 
         $expectedSpyLog = [];
-        if (in_array($format, ['json', 'array'])) {
+        if (\in_array($format, ['json', 'array'])) {
             $expectedSpyLog = [
                 [
                     'method' => 'exists',

@@ -27,7 +27,7 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->client->expects($this->once())
             ->method('__call')
-            ->with('set', ['foo', serialize('bar'), 'EX', 666]);
+            ->with('set', ['foo', \serialize('bar'), 'EX', 666]);
 
         $this->service->set('foo', 'bar', 666);
     }
@@ -36,7 +36,7 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->client->expects($this->once())
             ->method('__call')
-            ->with('set', ['foo', serialize('bar')]);
+            ->with('set', ['foo', \serialize('bar')]);
 
         $this->service->set('foo', 'bar', null);
     }
@@ -68,7 +68,7 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
         $this->client->expects($this->once())
             ->method('__call')
             ->with('get', ['foo'])
-            ->willReturn(serialize('bar'));
+            ->willReturn(\serialize('bar'));
 
         $this->assertEquals('bar', $this->service->get('foo'));
     }
@@ -134,26 +134,26 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
     public function testItShouldLogExceptionInCaseOfConnectionIssues($method, $methodArgs, $expectsArgs, $assert)
     {
         // temporarily logs to a file
-        $errorLogFile = __DIR__.sprintf('/../../Fixtures/stderr_%s.log', $method);
-        $oldErrorLog = ini_get('error_log');
-        ini_set('error_log', $errorLogFile);
+        $errorLogFile = __DIR__.\sprintf('/../../Fixtures/stderr_%s.log', $method);
+        $oldErrorLog = \ini_get('error_log');
+        \ini_set('error_log', $errorLogFile);
 
         // mocking the specific call to throw an exception
         $this->client->expects($this->any())
             ->method('__call')
             ->with($method, $expectsArgs)
-            ->willThrowException(new ServerException(sprintf('when calling "%s"', $method)));
+            ->willThrowException(new ServerException(\sprintf('when calling "%s"', $method)));
 
         // checking the return type from the method call
-        $this->assertEquals($assert, call_user_func_array([$this->service, $method], $methodArgs));
+        $this->assertEquals($assert, \call_user_func_array([$this->service, $method], $methodArgs));
 
         // restores error logging
-        ini_set('error_log', $oldErrorLog);
+        \ini_set('error_log', $oldErrorLog);
 
         // checks logged message and deletes temp file
-        $loggedMessage = file_get_contents($errorLogFile);
-        $this->assertContains(sprintf('Error: Redis service is down: when calling "%s"', $method), $loggedMessage);
-        unlink($errorLogFile);
+        $loggedMessage = \file_get_contents($errorLogFile);
+        $this->assertContains(\sprintf('Error: Redis service is down: when calling "%s"', $method), $loggedMessage);
+        \unlink($errorLogFile);
     }
 
     public function invalidTTLProvider()
@@ -184,7 +184,7 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
             [
                 'method' => 'set',
                 'methodArgs' => ['foo', 'bar', null],
-                'expectsArgs' => ['foo', serialize('bar')],
+                'expectsArgs' => ['foo', \serialize('bar')],
                 'assert' => false,
             ],
             [

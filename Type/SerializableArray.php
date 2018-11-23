@@ -23,7 +23,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
     public function __construct($input = [])
     {
-        if (is_array($input)) {
+        if (\is_array($input)) {
             $this->setArray($input);
         } else {
             $this->set(0, $input);
@@ -34,25 +34,25 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     {
         $cleanValue = false;
 
-        if (is_scalar($value)) {
-            if (is_string($value)) {
+        if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $cleanValue = new StringType($value);
-            } elseif (is_int($value)) {
+            } elseif (\is_int($value)) {
                 $cleanValue = new IntegerType($value);
-            } elseif (is_double($value)) {
+            } elseif (\is_double($value)) {
                 $cleanValue = new DoubleType($value);
-            } elseif (is_bool($value)) {
+            } elseif (\is_bool($value)) {
                 $cleanValue = new BooleanType($value);
             }
-        } elseif (is_object($value) && $value instanceof \DateTime) {
+        } elseif (\is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
-        } elseif (is_array($value) && count($value) > 0) {
+        } elseif (\is_array($value) && \count($value) > 0) {
             $cleanValue = new self($value);
-        } elseif (is_object($value) && $value instanceof SerializableInterface) {
+        } elseif (\is_object($value) && $value instanceof SerializableInterface) {
             $cleanValue = $value;
         }
 
-        return !$value || $cleanValue !== false;
+        return !$value || false !== $cleanValue;
     }
 
     /**
@@ -61,31 +61,31 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function set($key, $value)
     {
-        if (!is_string($key) && !is_numeric($key)) {
+        if (!\is_string($key) && !\is_numeric($key)) {
             throw new \InvalidArgumentException('Invalid key');
         }
 
         $cleanValue = false;
 
-        if (is_scalar($value)) {
-            if (is_string($value)) {
+        if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $cleanValue = new StringType($value);
-            } elseif (is_int($value)) {
+            } elseif (\is_int($value)) {
                 $cleanValue = new IntegerType($value);
-            } elseif (is_double($value)) {
+            } elseif (\is_double($value)) {
                 $cleanValue = new DoubleType($value);
-            } elseif (is_bool($value)) {
+            } elseif (\is_bool($value)) {
                 $cleanValue = new BooleanType($value);
             }
-        } elseif (is_object($value) && $value instanceof \DateTime) {
+        } elseif (\is_object($value) && $value instanceof \DateTime) {
             $cleanValue = new Date($value);
-        } elseif (is_array($value) && count($value) > 0) {
+        } elseif (\is_array($value) && \count($value) > 0) {
             $cleanValue = new self($value);
-        } elseif (is_object($value) && $value instanceof SerializableInterface) {
+        } elseif (\is_object($value) && $value instanceof SerializableInterface) {
             $cleanValue = $value;
         }
 
-        if ($cleanValue === false) {
+        if (false === $cleanValue) {
             if ($value) {
                 throw new \InvalidArgumentException('Invalid value');
             } else {
@@ -103,7 +103,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
     {
         $res = [];
         // Force to use the getters to fetch the values because they will unwrap the basic types
-        foreach (array_keys($this->array) as $key) {
+        foreach (\array_keys($this->array) as $key) {
             $res[$key] = $this->get($key);
         }
 
@@ -117,7 +117,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function get($key)
     {
-        if (array_key_exists($key, $this->array)) {
+        if (\array_key_exists($key, $this->array)) {
             $res = $this->array[$key];
             if ($res instanceof Basic) {
                 return $res->getValue();
@@ -136,7 +136,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function setArray($array)
     {
-        if (!is_array($array)) {
+        if (!\is_array($array)) {
             throw new \InvalidArgumentException('Expected array');
         }
 
@@ -150,7 +150,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset, $this->array);
+        return \array_key_exists($offset, $this->array);
     }
 
     /**
