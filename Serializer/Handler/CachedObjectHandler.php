@@ -27,8 +27,8 @@ class CachedObjectHandler implements SubscribingHandlerInterface
         $dataArray = [
             'data' => $data,
             'serializationFormat' => $context->getFormat(),
-//            'serializationGroups' => $context->getAttribute('groups'),
-//            'serializationVersion' => $context->getAttribute('version'),
+            'serializationGroups' => $context->getAttribute('groups'),
+            'serializationVersion' => $context->getAttribute('version'),
         ];
 
         try {
