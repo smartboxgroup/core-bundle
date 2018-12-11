@@ -6,17 +6,19 @@ use Smartbox\CoreBundle\Utils\Helper\DateTimeCreator;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
 /**
- * @coversDefaultClass Smartbox\CoreBundle\Utils\Helper\DateTimeCreator
+ * @coversDefaultClass \Smartbox\CoreBundle\Utils\Helper\DateTimeCreator
  */
-class DateTimeCreatorTest extends \PHPUnit_Framework_TestCase
+class DateTimeCreatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers ::getNowDateTime
      * @dataProvider microtimeProvider
      */
-    public function testGetNowDateTime($microtime, $expectedDateTime)
+    public function testGetNowDateTimePHP70($microtime, $expectedDateTime)
     {
-
+        if (PHP_VERSION_ID >= 70100) {
+            $this->markTestSkipped('Skipped as using a different method to create a datetime');
+        }
         $clockReflection = new \ReflectionClass(ClockMock::class);
 
         $reflectionProperty = $clockReflection->getProperty('now');
@@ -28,6 +30,20 @@ class DateTimeCreatorTest extends \PHPUnit_Framework_TestCase
         $datetime = DateTimeCreator::getNowDateTime();
 
         $this->assertEquals($expectedDateTime, $datetime);
+    }
+
+    /**
+     * @covers ::getNowDateTime
+     */
+    public function testGetNowDateTimePHP71()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            $this->markTestSkipped('Skipped as using a different method to create date time');
+        }
+
+        $datetime = DateTimeCreator::getNowDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $datetime);
     }
 
     public function microtimeProvider()
