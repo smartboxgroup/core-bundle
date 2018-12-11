@@ -13,12 +13,17 @@ class DateTimeCreatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @covers ::getNowDateTime
      * @dataProvider microtimeProvider
+     *
+     * @param $microtime
+     * @param $expectedDateTime
+     * @throws \ReflectionException
      */
     public function testGetNowDateTimePHP70($microtime, $expectedDateTime)
     {
         if (PHP_VERSION_ID >= 70100) {
             $this->markTestSkipped('Skipped as using a different method to create a datetime');
         }
+
         $clockReflection = new \ReflectionClass(ClockMock::class);
 
         $reflectionProperty = $clockReflection->getProperty('now');
