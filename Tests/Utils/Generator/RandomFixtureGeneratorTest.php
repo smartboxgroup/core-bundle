@@ -60,10 +60,6 @@ class RandomFixtureGeneratorTest extends KernelTestCase
     /**
      * @dataProvider dataProviderForGroupsAndVersions
      *
-     * @covers ::generate
-     * @covers       \Smartbox\CoreBundle\Type\Context\ContextFactory::createSerializationContextForFixtures
-     * @covers       \Smartbox\CoreBundle\Type\Context\ContextFactory::createDeserializationContextForFixtures
-     *
      * @param $group
      * @param $version
      *
@@ -91,9 +87,6 @@ class RandomFixtureGeneratorTest extends KernelTestCase
         $this->assertEquals($entity, $deserializedEntity);
     }
 
-    /**
-     * @covers ::generate
-     */
     public function testGenerateForNonEntityClass()
     {
         $this->expectException(\InvalidArgumentException::class);

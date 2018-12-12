@@ -10,9 +10,6 @@ use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
  */
 class NamespaceResolverTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers ::resolveNamespaceForClass
-     */
     public function testResolveNamespaceForClassNameOnly()
     {
         $namespaces = [
@@ -28,9 +25,6 @@ class NamespaceResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @covers ::resolveNamespaceForClass
-     */
     public function testResolveNamespaceForClassNamespace()
     {
         $namespaces = [
@@ -46,9 +40,6 @@ class NamespaceResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @covers ::resolveNamespaceForClass
-     */
     public function testResolveNamespaceForNotExistingClass()
     {
         $this->expectException(\InvalidArgumentException::class);
