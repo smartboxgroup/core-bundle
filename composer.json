@@ -15,7 +15,7 @@
         "sensio/distribution-bundle": "~4.0.0",
         "sensio/framework-extra-bundle": "^3.0.0",
         "jms/serializer": "*",
-        "doctrine/annotations": "^1.6.0"
+        "doctrine/annotations": "^1.2.0"
     },
     "require-dev": {
         "jms/serializer-bundle": "^2.0.0",
