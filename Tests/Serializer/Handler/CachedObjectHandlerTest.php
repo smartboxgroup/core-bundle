@@ -97,7 +97,7 @@ class CachedObjectHandlerTest extends KernelTestCase
             ]
         );
 
-        $context = new SerializationContext();
+        $context = SerializationContext::create();
 
         $serializedEntity = $serializer->serialize($entity, $format, $context);
         $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData, $context);

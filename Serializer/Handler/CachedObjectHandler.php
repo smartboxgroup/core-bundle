@@ -24,11 +24,14 @@ class CachedObjectHandler implements SubscribingHandlerInterface
      */
     public static function getDataCacheKey($data, Context $context)
     {
+        $group = $context->hasAttribute('groups') ? $context->getAttribute('groups') : '*';
+        $version = $context->hasAttribute('version') ? $context->getAttribute('version') : '*';
+
         $dataArray = [
             'data' => $data,
             'serializationFormat' => $context->getFormat(),
-            'serializationGroups' => $context->getAttribute('groups'),
-            'serializationVersion' => $context->getAttribute('version'),
+            'serializationGroups' => $group,
+            'serializationVersion' => $version,
         ];
 
         try {
