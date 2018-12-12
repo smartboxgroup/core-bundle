@@ -11,7 +11,6 @@ use Symfony\Bridge\PhpUnit\ClockMock;
 class DateTimeCreatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers ::getNowDateTime
      * @dataProvider microtimeProvider
      *
      * @param $microtime
@@ -37,9 +36,6 @@ class DateTimeCreatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedDateTime, $datetime);
     }
 
-    /**
-     * @covers ::getNowDateTime
-     */
     public function testGetNowDateTimePHP71()
     {
         if (PHP_VERSION_ID < 70100) {
