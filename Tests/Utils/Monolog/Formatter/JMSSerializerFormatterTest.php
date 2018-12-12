@@ -57,7 +57,6 @@ class JMSSerializerFormatterTest extends WebTestCase
 
     /**
      * @dataProvider dataProviderForFormatter
-     * @covers Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter::format
      *
      * @param $expected
      * @param $entity

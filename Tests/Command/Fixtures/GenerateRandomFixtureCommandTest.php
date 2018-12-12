@@ -57,12 +57,6 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
     /**
      * @dataProvider dataProviderForEntityGeneration
      *
-     * @covers ::execute
-     * @covers Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator::generate
-     * @covers Smartbox\CoreBundle\Utils\Helper\NamespaceResolver::resolveNamespaceForClass
-     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createSerializationContextForFixtures
-     * @covers Smartbox\CoreBundle\Type\Context\ContextFactory::createDeserializationContextForFixtures
-     *
      * @param $group
      * @param $version
      */

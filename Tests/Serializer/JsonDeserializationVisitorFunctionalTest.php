@@ -11,7 +11,7 @@ use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 
-class JsonDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
+class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SerializerInterface */
     private $serializer;
