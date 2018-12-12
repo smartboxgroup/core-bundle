@@ -24,7 +24,8 @@
         "sensio/generator-bundle": "~2.3",
         "digitalnature/php-ref": "dev-master",
         "snc/redis-bundle": "^1.1",
-        "predis/predis": "^1.0"
+        "predis/predis": "^1.0",
+        "symfony/phpunit-bridge": "*"
     },
     "config": {
         "bin-dir": "bin"
