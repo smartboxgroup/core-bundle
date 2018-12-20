@@ -77,7 +77,7 @@ class CacheDriversCompilerPass implements CompilerPassInterface
                 );
 
                 // there should be always one default cache driver
-                if (\is_null(
+                if (null === (
                         $defaultCacheDriver
                     ) || (isset($cacheDriverConf['default']) && $cacheDriverConf['default'])
                 ) {

@@ -226,26 +226,26 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
             case 'integer':
                 $result = $this->ask($question);
-                while (!(\is_numeric($result) || empty($result))) {
+                while (!(\is_numeric($result))) {
                     $this->out->writeln('<error>Invalid integer.</error>');
                     $result = $this->ask($question);
                 }
 
                 if ($result) {
-                    $result = \intval($result);
+                    $result = (int)$result;
                 }
 
                 break;
 
             case 'double':
                 $result = $this->ask($question);
-                while (!\is_numeric($result) || empty($result)) {
+                while (!\is_numeric($result)) {
                     $this->out->writeln('<error>Invalid double.</error>');
                     $result = $this->ask($question);
                 }
 
                 if ($result) {
-                    $result = \doubleval($result);
+                    $result = (float)$result;
                 }
 
                 break;
@@ -262,7 +262,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                     $result = $this->ask($question);
                 }
 
-                $result = ('true' === $result) ? true : false;
+                $result = ('true' === $result);
 
                 break;
 
