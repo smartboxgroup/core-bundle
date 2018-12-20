@@ -154,10 +154,10 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                 } else {
                     $numParams = \count($typeParams);
 
-                    if (2 == $numParams) {
+                    if (2 === $numParams) {
                         $keyType = @$typeParams[0]['name'];
                         $valueType = $typeParams[1]['name'];
-                    } elseif (1 == $numParams) {
+                    } elseif (1 === $numParams) {
                         $keyType = null;
                         $valueType = $typeParams[0]['name'];
                     } else {
@@ -168,7 +168,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
                     $result = [];
 
-                    while ('yes' == $this->ask($question, 'yes')) {
+                    while ('yes' === $this->ask($question, 'yes')) {
                         $key = null;
 
                         if ($keyType) {
@@ -217,7 +217,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                     $result = 'INVALID';
                 }
 
-                while ('INVALID' == $result) {
+                while ('INVALID' === $result) {
                     $this->out->writeln('<error>Invalid date. Use the format Year-Month-Day Hours:Minutes.</error>');
                     $result = $this->ask($customQuestion);
                 }
@@ -268,11 +268,11 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
             default:
                 if (\is_string($tName) && \class_exists($tName) && \is_a($tName, EntityInterface::class, true)) {
-                    if (EntityInterface::class == $tName) {
+                    if (EntityInterface::class === $tName) {
                         $tName = null;
                     }
 
-                    $skip = 'yes' == $this->ask(
+                    $skip = 'yes' === $this->ask(
                             "$field (entity); do you want to leave this field blank? (yes): ",
                             'yes'
                         );
@@ -281,7 +281,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                         return;
                     }
 
-                    $useExisting = 'yes' == $this->ask(
+                    $useExisting = 'yes' === $this->ask(
                             "$field (entity); do you want to use an existing entity fixture? (yes): ",
                             'yes'
                         );
