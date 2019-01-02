@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Tests\Fixtures\Reference;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-abstract class AbstractValidatorTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractValidatorTest extends \PHPUnit\Framework\TestCase
 {
     const ENTITY_CLASS = 'Symfony\Component\Validator\Tests\Fixtures\Entity';
 

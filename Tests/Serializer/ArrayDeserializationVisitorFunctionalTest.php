@@ -13,7 +13,7 @@ use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
-class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
+class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SerializerInterface */
     private $serializer;

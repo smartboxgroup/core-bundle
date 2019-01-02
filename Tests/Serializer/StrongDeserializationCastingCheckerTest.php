@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 
-class StrongDeserializationCastingCheckerTest extends \PHPUnit_Framework_TestCase
+class StrongDeserializationCastingCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StrongDeserializationCastingChecker */
     private $checker;

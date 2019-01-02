@@ -17,9 +17,6 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\MetadataFactoryInterface;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
-/**
- * @covers ValidatorWithExclusion
- */
 class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
 {
     /** @var  ValidatorWithExclusion */

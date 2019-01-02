@@ -10,7 +10,7 @@ use Smartbox\CoreBundle\Serializer\ArraySerializationVisitor;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 
-class ArraySerializationVisitorFunctionalTest extends \PHPUnit_Framework_TestCase
+class ArraySerializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SerializerInterface $serializer */
     private $serializer;

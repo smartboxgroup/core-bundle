@@ -4,7 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Exception\Serializer;
 
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 
-class DeserializationTypeMismatchExceptionTest extends \PHPUnit_Framework_TestCase
+class DeserializationTypeMismatchExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DeserializationTypeMismatchException */
     private $exception;
