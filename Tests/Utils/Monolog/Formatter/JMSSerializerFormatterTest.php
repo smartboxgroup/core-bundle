@@ -17,9 +17,13 @@ class JMSSerializerFormatterTest extends WebTestCase
     /** @var SerializerInterface */
     private $serializer;
 
+    public static function getKernelClass()
+    {
+        return \Smartbox\CoreBundle\Tests\AppKernel::class;
+    }
+
     protected function setUp()
     {
-        self::$class = null;
         static::bootKernel();
         $container = static::$kernel->getContainer();
         $this->serializer = $container->get('serializer');
