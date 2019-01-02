@@ -28,3 +28,4 @@ notifications:
       - si-integration@smartandco.com
     on_success: change
     on_failure: always
+
