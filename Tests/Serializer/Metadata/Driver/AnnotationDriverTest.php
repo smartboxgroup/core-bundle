@@ -24,12 +24,16 @@ class AnnotationDriverTest extends KernelTestCase
      */
     protected $serializer;
 
+    public static function getKernelClass()
+    {
+        return \Smartbox\CoreBundle\Tests\AppKernel::class;
+    }
+
     protected function setUp()
     {
-        $kernel = new \AppKernel('test', false);
-        $kernel->boot();
+       static::bootKernel();
 
-        $this->container = $kernel->getContainer();
+        $this->container = static::$kernel->getContainer();
         $this->serializer = $this->container->get('jms_serializer');
     }
 

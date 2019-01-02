@@ -1,5 +1,7 @@
 <?php
 
+namespace Smartbox\CoreBundle\Tests;
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Smartbox\CoreBundle\DependencyInjection\CacheDriversCompilerPass;
@@ -9,16 +11,16 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Smartbox\CoreBundle\SmartboxCoreBundle(),
+            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new \Symfony\Bundle\MonologBundle\MonologBundle(),
+            new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \Smartbox\CoreBundle\SmartboxCoreBundle(),
         ];
 
         switch ($this->getEnvironment()) {
             case CacheDriversCompilerPass::PREDEFINED_CACHE_DRIVER_PREDIS:
-                $bundles[] = new Snc\RedisBundle\SncRedisBundle();
+                $bundles[] = new \Snc\RedisBundle\SncRedisBundle();
                 break;
         }
 

@@ -40,7 +40,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
 
     public static function getKernelClass()
     {
-        return \AppKernel::class;
+        return \Smartbox\CoreBundle\Tests\AppKernel::class;
     }
 
     public function dataProviderForEntityGeneration()
