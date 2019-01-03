@@ -19,10 +19,10 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class GenerateFixtureCommand extends ContainerAwareCommand
 {
-    /** @var  InputInterface */
+    /** @var InputInterface */
     protected $in;
 
-    /** @var  OutputInterface */
+    /** @var OutputInterface */
     protected $out;
 
     protected $version;
@@ -42,23 +42,23 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
     public function getCleanDefaultPathForFixture($name)
     {
-        $folder = realpath($this->getContainer()->getParameter('smartcore.fixtures_path'));
+        $folder = \realpath($this->getContainer()->getParameter('smartcore.fixtures_path'));
 
-        if (!file_exists($folder)) {
+        if (!\file_exists($folder)) {
             throw new \RuntimeException("Fixtures folder $folder doesn't exist");
         }
 
-        if (!is_dir($folder)) {
+        if (!\is_dir($folder)) {
             throw new \RuntimeException("Fixtures folder $folder is not a directory");
         }
 
-        if (strpos($name, '/') !== false) {
-            $parts = explode('/', $name);
-            array_pop($parts);
+        if (false !== \strpos($name, '/')) {
+            $parts = \explode('/', $name);
+            \array_pop($parts);
 
-            $dir = $folder.'/'.implode('/', $parts);
-            if (!file_exists($dir)) {
-                mkdir($dir, 777, true);
+            $dir = $folder.'/'.\implode('/', $parts);
+            if (!\file_exists($dir)) {
+                \mkdir($dir, 777, true);
             }
         }
 
@@ -92,9 +92,9 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             $entity->getAPIVersion()
         );
 
-        $result = $this->getContainer()->get('serializer')->serialize($entity, 'json', $context);
+        $result = $this->getContainer()->get('jms_serializer')->serialize($entity, 'json', $context);
 
-        file_put_contents($path, $result);
+        \file_put_contents($path, $result);
 
         $this->out->writeln('');
         $this->out->writeln("<info>Fixture successfully generated in $path.</info>");
@@ -112,7 +112,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             $class = $this->ask($question);
             $class = $this->namespaceResolver->resolveNamespaceForClass($class);
 
-            while (!(is_string($class) && class_exists($class) && is_subclass_of($class, EntityInterface::class))) {
+            while (!(\is_string($class) && \class_exists($class) && \is_subclass_of($class, EntityInterface::class))) {
                 $this->out->writeln('<error>Invalid entity class.</error>');
                 $class = $this->ask($question);
             }
@@ -137,7 +137,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
         $metadata = $this->getEntityMetadata($class);
 
         foreach ($metadata->propertyMetadata as $property => $propertyMetadata) {
-            if (!in_array($property, ['_group', '_apiVersion', '_type'])
+            if (!\in_array($property, ['_group', '_apiVersion', '_type'])
                 && $propertyAccessor->isWritable($entity, $property)
                 && (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context))
                 && !$versionExclusion->shouldSkipProperty($propertyMetadata, $context)
@@ -149,15 +149,15 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                     continue;
                 }
 
-                if ($typeName != 'array') {
+                if ('array' != $typeName) {
                     $result = $this->askForField('Value for '.$property, $typeName);
                 } else {
-                    $numParams = count($typeParams);
+                    $numParams = \count($typeParams);
 
-                    if ($numParams == 2) {
+                    if (2 === $numParams) {
                         $keyType = @$typeParams[0]['name'];
                         $valueType = $typeParams[1]['name'];
-                    } elseif ($numParams == 1) {
+                    } elseif (1 === $numParams) {
                         $keyType = null;
                         $valueType = $typeParams[0]['name'];
                     } else {
@@ -168,7 +168,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
                     $result = [];
 
-                    while ($this->ask($question, 'yes') == 'yes') {
+                    while ('yes' === $this->ask($question, 'yes')) {
                         $key = null;
 
                         if ($keyType) {
@@ -217,7 +217,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                     $result = 'INVALID';
                 }
 
-                while ($result == 'INVALID') {
+                while ('INVALID' === $result) {
                     $this->out->writeln('<error>Invalid date. Use the format Year-Month-Day Hours:Minutes.</error>');
                     $result = $this->ask($customQuestion);
                 }
@@ -226,26 +226,26 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
             case 'integer':
                 $result = $this->ask($question);
-                while (!(is_numeric($result) || empty($result))) {
+                while (!(\is_numeric($result))) {
                     $this->out->writeln('<error>Invalid integer.</error>');
                     $result = $this->ask($question);
                 }
 
                 if ($result) {
-                    $result = intval($result);
+                    $result = (int)$result;
                 }
 
                 break;
 
             case 'double':
                 $result = $this->ask($question);
-                while (!is_numeric($result) || empty($result)) {
+                while (!\is_numeric($result)) {
                     $this->out->writeln('<error>Invalid double.</error>');
                     $result = $this->ask($question);
                 }
 
                 if ($result) {
-                    $result = doubleval($result);
+                    $result = (float)$result;
                 }
 
                 break;
@@ -257,34 +257,34 @@ class GenerateFixtureCommand extends ContainerAwareCommand
             case 'boolean':
                 $result = $this->ask($question);
 
-                while ($result !== 'true' && $result !== 'false') {
+                while ('true' !== $result && 'false' !== $result) {
                     $this->out->writeln('<error>Invalid boolean.</error>');
                     $result = $this->ask($question);
                 }
 
-                $result = ($result === 'true') ? true : false;
+                $result = ('true' === $result);
 
                 break;
 
             default:
-                if (is_string($tName) && class_exists($tName) && is_a($tName, EntityInterface::class, true)) {
-                    if ($tName == EntityInterface::class) {
+                if (\is_string($tName) && \class_exists($tName) && \is_a($tName, EntityInterface::class, true)) {
+                    if (EntityInterface::class === $tName) {
                         $tName = null;
                     }
 
-                    $skip = $this->ask(
+                    $skip = 'yes' === $this->ask(
                             "$field (entity); do you want to leave this field blank? (yes): ",
                             'yes'
-                        ) == 'yes';
+                        );
 
                     if ($skip) {
                         return;
                     }
 
-                    $useExisting = $this->ask(
+                    $useExisting = 'yes' === $this->ask(
                             "$field (entity); do you want to use an existing entity fixture? (yes): ",
                             'yes'
-                        ) == 'yes';
+                        );
 
                     if (!$useExisting) {
                         $result = $this->askForEntity($field, $tName);
@@ -294,14 +294,14 @@ class GenerateFixtureCommand extends ContainerAwareCommand
                         while (!$result) {
                             $name = $this->ask($askForName);
 
-                            while (!file_exists($path = $this->getCleanDefaultPathForFixture($name))) {
+                            while (!\file_exists($path = $this->getCleanDefaultPathForFixture($name))) {
                                 $this->out->writeln("<error>Fixture not found in: $path</error>");
                                 $name = $this->ask($askForName);
                             }
 
-                            $serializer = $this->getContainer()->get('serializer');
-                            $obj = $serializer->deserialize(file_get_contents($path), Entity::class, 'json');
-                            if (!$obj || ($tName && !(is_a($obj, $tName) || is_subclass_of($obj, $tName)))) {
+                            $serializer = $this->getContainer()->get('jms_serializer');
+                            $obj = $serializer->deserialize(\file_get_contents($path), Entity::class, 'json');
+                            if (!$obj || ($tName && !(\is_a($obj, $tName) || \is_subclass_of($obj, $tName)))) {
                                 $this->out->writeln(
                                     "<error>The given fixture is not of type: $tName but of type ".$obj->getType().'</error>'
                                 );
@@ -320,18 +320,18 @@ class GenerateFixtureCommand extends ContainerAwareCommand
 
     protected function parseShortcutNotation($shortcut)
     {
-        $entity = str_replace('/', '\\', $shortcut);
+        $entity = \str_replace('/', '\\', $shortcut);
 
-        if (false === $pos = strpos($entity, ':')) {
+        if (false === $pos = \strpos($entity, ':')) {
             throw new \InvalidArgumentException(
-                sprintf(
+                \sprintf(
                     'The entity name must contain a : ("%s" given, expecting something like AcmeBlogBundle:Blog/Post)',
                     $entity
                 )
             );
         }
 
-        return [substr($entity, 0, $pos), substr($entity, $pos + 1)];
+        return [\substr($entity, 0, $pos), \substr($entity, $pos + 1)];
     }
 
     protected function getEntityMetadata($entity)
@@ -344,7 +344,7 @@ class GenerateFixtureCommand extends ContainerAwareCommand
     protected function getQuestionHelper()
     {
         $question = $this->getHelperSet()->get('question');
-        if (!$question || get_class($question) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper') {
+        if (!$question || 'Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper' !== \get_class($question)) {
             $this->getHelperSet()->set($question = new QuestionHelper());
         }
 

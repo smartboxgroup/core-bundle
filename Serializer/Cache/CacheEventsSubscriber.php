@@ -2,9 +2,9 @@
 
 namespace Smartbox\CoreBundle\Serializer\Cache;
 
+use JMS\Serializer\AbstractVisitor;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-use JMS\Serializer\GenericSerializationVisitor;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
@@ -14,13 +14,18 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
     const KEY_EXISTS_TIMEOUT = 60;
 
-    /** @var \ReflectionProperty */
-    private $dataProperty;
+    const DATA_PROPERTY = 'data';
 
-    public function __construct()
+    /** @var array */
+    private $reflectors = [];
+
+    public function __construct(array $vistorClasses)
     {
-        $this->dataProperty = new \ReflectionProperty(GenericSerializationVisitor::class, 'data');
-        $this->dataProperty->setAccessible(true);
+        foreach ($vistorClasses as $class) {
+            $reflector = new \ReflectionProperty($class, self::DATA_PROPERTY);
+            $reflector->setAccessible(true);
+            $this->reflectors[$class] = $reflector;
+        }
     }
 
     public static function getSubscribedEvents()
@@ -43,12 +48,17 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     public function onPreSerialize(PreSerializeEvent $event)
     {
         $data = $event->getObject();
-        if (
-            $data instanceof SerializerCacheableInterface &&
-            $event->getVisitor() instanceof GenericSerializationVisitor
-        ) {
+
+        if (!$data instanceof SerializerCacheableInterface) {
+            return;
+        }
+
+        $visitor = $event->getVisitor();
+        $visitorClass = \get_class($visitor);
+
+        if (\array_key_exists($visitorClass, $this->reflectors)) {
             $key = CachedObjectHandler::getDataCacheKey($data, $event->getContext());
-            if ($key !== null && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
+            if (null !== $key && $this->getCacheService()->exists($key, self::KEY_EXISTS_TIMEOUT)) {
                 $event->setType(CachedObjectHandler::TYPE);
             }
         }
@@ -56,32 +66,35 @@ class CacheEventsSubscriber implements EventSubscriberInterface
 
     public function onPostSerialize(ObjectEvent $event)
     {
-        $visitor = $event->getVisitor();
         $object = $event->getObject();
-        $type = $event->getType();
+        $typeName = $event->getType()['name'];
 
-        if (
-            $type['name'] !== CachedObjectHandler::TYPE &&
-            $object instanceof SerializerCacheableInterface &&
-            $visitor instanceof GenericSerializationVisitor
-        ) {
+        if (CachedObjectHandler::TYPE === $typeName || !$object instanceof SerializerCacheableInterface) {
+            return;
+        }
+
+        $visitor = $event->getVisitor();
+        $visitorClass = \get_class($visitor);
+
+        if (\array_key_exists($visitorClass, $this->reflectors)) {
             // save to cache
-            $cacheData = $this->getDataFromVisitor($visitor);
+            $cacheData = $this->getDataFromVisitor($visitor, $visitorClass);
             $key = CachedObjectHandler::getDataCacheKey($object, $event->getContext());
 
-            if ($key !== null) {
+            if (null !== $key) {
                 $this->cacheService->set($key, $cacheData);
             }
         }
     }
 
     /**
-     * @param GenericSerializationVisitor $visitor
+     * @param AbstractVisitor $visitor
+     * @param string          $class
      *
-     * @return array
+     * @return mixed
      */
-    private function getDataFromVisitor(GenericSerializationVisitor $visitor)
+    private function getDataFromVisitor(AbstractVisitor $visitor, string $class)
     {
-        return $this->dataProperty->getValue($visitor);
+        return $this->reflectors[$class]->getValue($visitor);
     }
 }

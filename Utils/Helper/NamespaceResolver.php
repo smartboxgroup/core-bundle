@@ -21,18 +21,18 @@ class NamespaceResolver
      */
     public function resolveNamespaceForClass($class)
     {
-        if (class_exists($class)) {
+        if (\class_exists($class)) {
             return $class;
         }
 
         foreach ($this->namespaces as $namespace) {
-            if (class_exists($namespace.'\\'.$class)) {
+            if (\class_exists($namespace.'\\'.$class)) {
                 return $namespace.'\\'.$class;
             }
         }
 
         throw new \InvalidArgumentException(
-            sprintf(
+            \sprintf(
                 'Class %s doesn\'t exist in configured namespaces',
                 $class
             )

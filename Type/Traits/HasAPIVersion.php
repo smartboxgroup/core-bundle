@@ -29,7 +29,7 @@ trait HasAPIVersion
      */
     public function setAPIVersion($version)
     {
-        if (!empty($version) && !is_string($version)) {
+        if (!empty($version) && !\is_string($version)) {
             throw new \InvalidArgumentException('Expected null or string in method setVersion');
         }
 

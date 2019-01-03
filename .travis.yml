@@ -4,6 +4,11 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 7.3
+
+matrix:
+  allow_failures:
+    - php: 7.3
 
 env:
   - SYMFONY_VERSION=2.8.*
@@ -13,7 +18,6 @@ before_install:
   - phpenv config-add travis/z_php.ini
 
 before_script:
-  - composer self-update
   - composer install --prefer-dist --no-interaction
 
 script:
@@ -25,3 +29,4 @@ notifications:
       - si-integration@smartandco.com
     on_success: change
     on_failure: always
+

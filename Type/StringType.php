@@ -42,9 +42,9 @@ class StringType extends Basic
      */
     public function setValue($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $this->value = $value;
-        } elseif (is_object($value) && $value instanceof self) {
+        } elseif (\is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         }
 

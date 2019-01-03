@@ -29,7 +29,7 @@ trait HasEntityGroup
      */
     public function setEntityGroup($group)
     {
-        if (!empty($group) && !is_string($group)) {
+        if (!empty($group) && !\is_string($group)) {
             throw new \InvalidArgumentException('Expected null or string in method setGroup');
         }
 

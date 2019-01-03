@@ -42,9 +42,9 @@ class IntegerType extends Basic
      */
     public function setValue($value)
     {
-        if ((is_scalar($value) && is_numeric($value))) {
+        if ((\is_scalar($value) && \is_numeric($value))) {
             $this->value = (int) $value;
-        } elseif (is_object($value) && $value instanceof self) {
+        } elseif (\is_object($value) && $value instanceof self) {
             $this->value = $value->getValue();
         }
 

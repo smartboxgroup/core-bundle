@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
+use JMS\Serializer\Accessor\DefaultAccessorStrategy;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
@@ -19,9 +20,7 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCas
     {
         $builder = new SerializerBuilder();
 
-        /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
-            ->getMock();
+        $objectConstructor = new DefaultAccessorStrategy();
 
         $this->serializer = $builder
             ->setSerializationVisitor(

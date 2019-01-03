@@ -132,9 +132,13 @@ class Configuration implements ConfigurationInterface
                     ->info('Enable or disable serialization cache.')
                     ->defaultValue(false)
                 ->end()
+                ->arrayNode('cached_visitors')
+                    ->prototype('scalar')->end()
+                    ->info('The class name of the visitor type you would like the cache enabled for.')
+                ->end()
                 ->scalarNode('cache_driver')
                     ->info(
-                        sprintf(
+                        \sprintf(
                             'Driver name: predis or any other custom driver configured in "%s".',
                             $configRoot.'.'.CacheDriversCompilerPass::CONFIG_NODE
                         )

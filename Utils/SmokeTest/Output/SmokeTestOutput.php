@@ -24,12 +24,12 @@ class SmokeTestOutput implements SmokeTestOutputInterface
 
     public function setCode($outputCode)
     {
-        if (!in_array($outputCode, self::$outputCodes)) {
+        if (!\in_array($outputCode, self::$outputCodes)) {
             throw new \RuntimeException(
-                sprintf(
+                \sprintf(
                     'Given argument is not supported: "%s". Provide one of: %s',
                     $outputCode,
-                    implode(', ', self::$outputCodes)
+                    \implode(', ', self::$outputCodes)
                 )
             );
         }
@@ -39,7 +39,7 @@ class SmokeTestOutput implements SmokeTestOutputInterface
 
     public function isOK()
     {
-        return $this->outputCode === self::OUTPUT_CODE_SUCCESS;
+        return self::OUTPUT_CODE_SUCCESS === $this->outputCode;
     }
 
     public function addInfoMessage($outputMessage)

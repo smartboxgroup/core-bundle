@@ -7,9 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * Class DeserializationTypeMismatchException.
  */
-class DeserializationTypeMismatchException
-    extends \RuntimeException
-    implements \JMS\Serializer\Exception\Exception
+class DeserializationTypeMismatchException extends \RuntimeException implements \JMS\Serializer\Exception\Exception
 {
     /**
      * @var string
@@ -58,9 +56,9 @@ class DeserializationTypeMismatchException
 
         $message = 'Type mismatch';
         if ($this->propertyName && $this->className) {
-            $message .= sprintf(' in property "%s" while deserializing for "%s', $this->propertyName, $this->className);
+            $message .= \sprintf(' in property "%s" while deserializing for "%s', $this->propertyName, $this->className);
         }
-        $message .= sprintf(
+        $message .= \sprintf(
             ': found "%s", hence "%s" was expected',
             $this->getTypeOrClass($this->propertyValue),
             $this->expectedType
@@ -116,11 +114,11 @@ class DeserializationTypeMismatchException
      */
     private function getTypeOrClass($data)
     {
-        if (is_object($data)) {
-            return get_class($data);
+        if (\is_object($data)) {
+            return \get_class($data);
         }
 
-        return gettype($data);
+        return \gettype($data);
     }
 
     /**
@@ -128,6 +126,6 @@ class DeserializationTypeMismatchException
      */
     public function getType()
     {
-        return get_class($this);
+        return \get_class($this);
     }
 }

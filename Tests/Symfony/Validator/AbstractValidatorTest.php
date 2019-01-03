@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is copied and changed from
+ * This file is copied and changed from.
  *
  * Symfony\Component\Validator\Tests\Validator\AbstractValidatorTest
  *
@@ -1224,7 +1224,7 @@ abstract class AbstractValidatorTest extends \PHPUnit\Framework\TestCase
             $context->addViolation('Violation in Group 3');
         };
 
-        $metadata = new ClassMetadata(get_class($entity));
+        $metadata = new ClassMetadata(\get_class($entity));
         $metadata->addConstraint(new Callback([
             'callback' => function () {},
             'groups' => 'Group 1',
@@ -1260,7 +1260,7 @@ abstract class AbstractValidatorTest extends \PHPUnit\Framework\TestCase
             $context->addViolation('Violation in Group 3');
         };
 
-        $metadata = new ClassMetadata(get_class($entity));
+        $metadata = new ClassMetadata(\get_class($entity));
         $metadata->addConstraint(new Callback([
             'callback' => function () {},
             'groups' => 'Group 1',

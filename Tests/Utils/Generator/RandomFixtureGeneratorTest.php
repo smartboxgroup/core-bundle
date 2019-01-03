@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @coversDefaultClass Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
+ * @coversDefaultClass \Smartbox\CoreBundle\Utils\Generator\RandomFixtureGenerator
  */
 class RandomFixtureGeneratorTest extends KernelTestCase
 {
@@ -62,10 +62,12 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      *
      * @param $group
      * @param $version
+     *
+     * @throws \Exception
      */
     public function testGenerate($group, $version)
     {
-        $serializer = $this->container->get('serializer');
+        $serializer = $this->container->get('jms_serializer');
 
         $entity = $this->randomFixtureGenerator->generate(TestComplexEntity::class, $group, $version);
         $serializedEntity = $serializer->serialize(
@@ -81,7 +83,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
             ContextFactory::createDeserializationContextForFixtures($group, $version)
         );
 
-        $this->assertEquals(TestComplexEntity::class, get_class($entity));
+        $this->assertEquals(TestComplexEntity::class, \get_class($entity));
         $this->assertEquals($entity, $deserializedEntity);
     }
 

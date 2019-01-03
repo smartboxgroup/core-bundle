@@ -36,7 +36,7 @@ class FakeCacheService implements CacheServiceInterface
      */
     public function set($key, $value, $expireTTL = null)
     {
-        $this->cache[$key] = serialize($value);
+        $this->cache[$key] = \serialize($value);
 
         $this->notifySpy('set', [$key, $value, $expireTTL], true);
 
@@ -48,7 +48,7 @@ class FakeCacheService implements CacheServiceInterface
      */
     public function get($key)
     {
-        $data = unserialize($this->cache[$key]);
+        $data = \unserialize($this->cache[$key]);
 
         $this->notifySpy('get', [$key], $data);
 
@@ -60,7 +60,7 @@ class FakeCacheService implements CacheServiceInterface
      */
     public function exists($key, $ttlLimit = null)
     {
-        $result = array_key_exists($key, $this->cache);
+        $result = \array_key_exists($key, $this->cache);
 
         $this->notifySpy('exists', [$key], $result);
 

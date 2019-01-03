@@ -72,7 +72,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('serializer');
+        $serializer = $container->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
         $cacheDataArray = [
             '_type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
@@ -97,7 +97,7 @@ class CachedObjectHandlerTest extends KernelTestCase
             ]
         );
 
-        $context = new SerializationContext();
+        $context = SerializationContext::create();
 
         $serializedEntity = $serializer->serialize($entity, $format, $context);
         $cacheKey = CachedObjectHandler::getDataCacheKey($cacheData, $context);
@@ -106,7 +106,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $this->assertEquals($entity, $deserializedEntity);
 
         $expectedSpyLog = [];
-        if (in_array($format, ['json', 'array'])) {
+        if (\in_array($format, ['json', 'array'])) {
             $expectedSpyLog = [
                 [
                     'method' => 'exists',
@@ -170,7 +170,7 @@ class CachedObjectHandlerTest extends KernelTestCase
         $container = $kernel->getContainer();
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('serializer');
+        $serializer = $container->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
 
         $entity = new SerializableThing();

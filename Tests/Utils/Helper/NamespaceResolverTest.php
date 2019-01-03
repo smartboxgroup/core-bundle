@@ -6,7 +6,7 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
 use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
 
 /**
- * @coversDefaultClass Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
+ * @coversDefaultClass \Smartbox\CoreBundle\Utils\Helper\NamespaceResolver
  */
 class NamespaceResolverTest extends \PHPUnit\Framework\TestCase
 {

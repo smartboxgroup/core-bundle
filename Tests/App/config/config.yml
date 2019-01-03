@@ -27,3 +27,8 @@ smartbox_core:
     cache_drivers:
         null:
             service: ~
+
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "Y-m-d\\TH:i:s.uP"

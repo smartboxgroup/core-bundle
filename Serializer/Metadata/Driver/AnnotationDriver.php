@@ -190,11 +190,11 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
                     } elseif ($annot instanceof Groups) {
                         $propertyMetadata->groups = $annot->groups;
                         foreach ((array) $propertyMetadata->groups as $groupName) {
-                            if (false !== strpos($groupName, ',')) {
+                            if (false !== \strpos($groupName, ',')) {
                                 throw new InvalidArgumentException(
-                                    sprintf(
+                                    \sprintf(
                                         'Invalid group name "%s" on "%s", did you mean to create multiple groups?',
-                                        implode(', ', $propertyMetadata->groups),
+                                        \implode(', ', $propertyMetadata->groups),
                                         $propertyMetadata->class.'->'.$propertyMetadata->name
                                     )
                                 );
