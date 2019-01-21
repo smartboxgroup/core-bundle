@@ -5,6 +5,7 @@ namespace Smartbox\CoreBundle\Tests\Serializer\Handler;
 use JMS\Serializer\SerializerInterface;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use JMS\Serializer\SerializationContext;
+use Smartbox\CoreBundle\Tests\AppKernel;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\CacheableEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
 use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService;
@@ -17,7 +18,7 @@ class CachedObjectHandlerTest extends KernelTestCase
 {
     protected static function getKernelClass()
     {
-        return \AppKernel::class;
+        return AppKernel::class;
     }
 
     private function prepareKernel($env = null)
