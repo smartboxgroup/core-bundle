@@ -2,17 +2,19 @@
 
 namespace Smartbox\CoreBundle\Tests;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Smartbox\CoreBundle\DependencyInjection\CacheDriversCompilerPass;
 
 class AppKernel extends Kernel
 {
+    private $cacheDir;
+
     public function registerBundles()
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new \Smartbox\CoreBundle\SmartboxCoreBundle(),
@@ -35,5 +37,22 @@ class AppKernel extends Kernel
         }
 
         $loader->load($this->getRootDir().'/config/'.$config.'.yml');
+    }
+
+    public function getCacheDir()
+    {
+        if (!$this->cacheDir) {
+            $this->cacheDir = sys_get_temp_dir().'/sbx_core_bundle_tests';
+        }
+
+        return $this->cacheDir;
+    }
+
+    public function shutdown()
+    {
+        parent::shutdown();
+
+        $fs = new Filesystem();
+        $fs->remove($this->getCacheDir());
     }
 }

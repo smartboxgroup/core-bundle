@@ -2,11 +2,6 @@ framework:
     secret: "5yg6u543wrftg34"
     validation:      { enable_annotations: true }
 
-sensio_framework_extra:
-    request:
-        converters: true
-        auto_convert: false
-
 monolog:
     channels: [tracking]
     handlers:
@@ -25,7 +20,7 @@ smartbox_core:
     entities_namespaces:
         - 'Smartbox\CoreBundle\Tests\Fixtures\Entity'
     cache_drivers:
-        null:
+        'null':
             service: ~
 
 jms_serializer:
