@@ -41,16 +41,25 @@ services:
         class: '%smartcore.deserialization_types_validator.class%'
         arguments: ['@smartcore.deserialization_casting_checker']
 
+    smartcore.xml_deserialization_visitor.factory:
+        class: 'JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory'
+        factory: ['@jms_serializer.xml_deserialization_visitor',getVisitor]
+
     smartcore.xml_deserialization_visitor:
         class: '%smartcore.xml_deserialization_visitor.class%'
         arguments:
           - '@jms_serializer.naming_strategy'
           - '@jms_serializer.object_constructor'
           - '@smartcore.deserialization_types_validator'
-        calls:
-          - [setDoctypeWhitelist, ['%jms_serializer.xml_deserialization_visitor.doctype_whitelist%']]
+          - '@smartcore.xml_deserialization_visitor.factory'
+#        calls:
+#          - [setDoctypeWhitelist, ['%jms_serializer.xml_deserialization_visitor.doctype_whitelist%']]
         tags:
             - { name: jms_serializer.deserialization_visitor, format: xml }
+
+    smartcore.json_deserialization_visitor.visitor:
+        class: 'JMS\Serializer\JsonDeserializationVisitorFactory'
+        factory: ['@jms_serializer.json_deserialization_visitor', getVisitor]
 
     smartcore.json_deserialization_visitor:
         class: '%smartcore.json_deserialization_visitor.class%'
@@ -58,6 +67,7 @@ services:
           - '@jms_serializer.naming_strategy'
           - '@jms_serializer.object_constructor'
           - '@smartcore.deserialization_types_validator'
+          - '@smartcore.json_deserialization_visitor.visitor'
         tags:
             - { name: jms_serializer.deserialization_visitor, format: json }
 

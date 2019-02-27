@@ -5,11 +5,12 @@ namespace Smartbox\CoreBundle\Serializer;
 use JMS\Serializer\Construction\ObjectConstructorInterface;
 use JMS\Serializer\Context;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
+use JMS\Serializer\XmlDeserializationVisitor as JMSXmlDeserializationVisitor;
 
 /**
  * Class XmlDeserializationVisitor.
  */
-class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisitor
+class XmlDeserializationVisitor
 {
     /**
      * @var DeserializationTypesValidator
@@ -17,19 +18,29 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
     protected $visitorValidator;
 
     /**
+     * @var JMSXmlDeserializationVisitor
+     */
+    protected $visitor;
+
+    /**
      * @param PropertyNamingStrategyInterface $namingStrategy
      * @param ObjectConstructorInterface      $objectConstructor
      * @param DeserializationTypesValidator   $visitorValidator
+     * @param JMSXmlDeserializationVisitor    $visitor
      */
     public function __construct(
         PropertyNamingStrategyInterface $namingStrategy,
         ObjectConstructorInterface $objectConstructor,
-        DeserializationTypesValidator $visitorValidator
+        DeserializationTypesValidator $visitorValidator,
+        JMSXmlDeserializationVisitor $visitor
     ) {
-        parent::__construct($namingStrategy);
+//        parent::__construct($namingStrategy);
+        $this->visitor = $visitor;
+//        $this->visitor->setCurrentMetadata($namingStrategy);
 
-        $visitorValidator->setNamingStrategy($this->namingStrategy);
+        $visitorValidator->setNamingStrategy($namingStrategy);
         $this->visitorValidator = $visitorValidator;
+
     }
 
     public function visitString($data, array $type, Context $context)
@@ -38,7 +49,7 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
         $this->visitorValidator->validateString($data, $context, $this->getCurrentObject());
 
-        return parent::visitString($data, $type, $context);
+        return $this->visitor->visitString($data, $type, $context);
     }
 
     public function visitBoolean($data, array $type, Context $context)
@@ -47,7 +58,7 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
         $this->visitorValidator->validateBoolean($data, $context, $this->getCurrentObject());
 
-        return parent::visitBoolean($data, $type, $context);
+        return $this->visitor->visitBoolean($data, $type, $context);
     }
 
     public function visitDouble($data, array $type, Context $context)
@@ -56,7 +67,7 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
         $this->visitorValidator->validateDouble($data, $context, $this->getCurrentObject());
 
-        return parent::visitDouble($data, $type, $context);
+        return $this->visitor->visitDouble($data, $type, $context);
     }
 
     public function visitInteger($data, array $type, Context $context)
@@ -65,7 +76,7 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
         $this->visitorValidator->validateInteger($data, $context, $this->getCurrentObject());
 
-        return parent::visitInteger($data, $type, $context);
+        return $this->visitor->visitInteger($data, $type, $context);
     }
 
     /**
@@ -83,4 +94,22 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
 
         return $data;
     }
+
+    /**
+     * @return JMSXmlDeserializationVisitor
+     */
+    public function getVisitor(): JMSXmlDeserializationVisitor
+    {
+        return $this->visitor;
+    }
+
+    /**
+     * @param JMSXmlDeserializationVisitor $visitor
+     */
+    public function setVisitor(JMSXmlDeserializationVisitor $visitor): void
+    {
+        $this->visitor = $visitor;
+    }
+
+
 }

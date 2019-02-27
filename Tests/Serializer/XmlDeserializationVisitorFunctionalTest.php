@@ -10,6 +10,7 @@ use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 use Smartbox\CoreBundle\Serializer\XmlDeserializationVisitor;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
+use JMS\Serializer\XmlDeserializationVisitor as JMSXmlDeserializationVisitor;
 
 class XmlDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,7 +31,8 @@ class XmlDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCas
                 new XmlDeserializationVisitor(
                     new IdenticalPropertyNamingStrategy(),
                     $objectConstructor,
-                    new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
+                    new DeserializationTypesValidator(new StrongDeserializationCastingChecker()),
+                    new JMSXmlDeserializationVisitor(true, [])
                 )
             )
             ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')

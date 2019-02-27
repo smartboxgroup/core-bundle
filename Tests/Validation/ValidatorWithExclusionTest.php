@@ -14,8 +14,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintValidatorFactory;
 use Symfony\Component\Validator\Context\ExecutionContextFactory;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\MetadataFactoryInterface;
+use Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
+use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 
 class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
 {
@@ -79,7 +80,7 @@ class ValidatorWithExclusionTest extends RecursiveValidator2Dot5ApiTest
         $metadata->addPropertyConstraint('description', new NotBlank());
         $metadata->addPropertyConstraint('note', new NotBlank());
 
-        $driver = new AnnotationDriver(new AnnotationReader());
+        $driver = new AnnotationDriver(new AnnotationReader(), new CamelCaseNamingStrategy());
         $jmsMetadata = new MetadataFactory($driver);
 
         $this->validator->setMetadataFactory($jmsMetadata);

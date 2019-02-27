@@ -9,15 +9,16 @@ use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Naming\AdvancedNamingStrategyInterface;
+use JMS\Serializer\GraphNavigatorInterface;
 
 class ArraySerializationVisitor extends AbstractVisitor
 {
-    private $navigator;
-    private $root;
-    private $dataStack;
-    private $data;
+    protected $navigator;
+    protected $root;
+    protected $dataStack;
+    protected $data;
 
-    public function setNavigator(GraphNavigator $navigator)
+    public function setNavigator(GraphNavigatorInterface $navigator):void
     {
         $this->navigator = $navigator;
         $this->root = null;
@@ -215,7 +216,7 @@ class ArraySerializationVisitor extends AbstractVisitor
         $this->root = $data;
     }
 
-    public function getResult()
+    public function getResult($data)
     {
         return $this->getRoot();
     }

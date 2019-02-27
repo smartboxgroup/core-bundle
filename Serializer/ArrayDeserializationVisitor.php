@@ -10,7 +10,7 @@ use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 /**
  * Class ArrayDeserializationVisitor.
  */
-class ArrayDeserializationVisitor extends GenericDeserializationVisitor
+class ArrayDeserializationVisitor extends AbstractArrayDeserializationVisitor
 {
     /**
      * @var DeserializationTypesValidator
@@ -27,9 +27,9 @@ class ArrayDeserializationVisitor extends GenericDeserializationVisitor
         ObjectConstructorInterface $objectConstructor,
         DeserializationTypesValidator $visitorValidator
     ) {
-        parent::__construct($namingStrategy);
+//        parent::__construct($namingStrategy);
 
-        $visitorValidator->setNamingStrategy($this->namingStrategy);
+        $visitorValidator->setNamingStrategy($namingStrategy);
         $this->visitorValidator = $visitorValidator;
     }
 
