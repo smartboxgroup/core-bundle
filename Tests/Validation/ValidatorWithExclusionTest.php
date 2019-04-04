@@ -18,6 +18,9 @@ use Symfony\Component\Validator\Tests\Validator\AbstractTest;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * @group sf3
+ */
 class ValidatorWithExclusionTest extends AbstractTest
 {
     /** @var ValidatorWithExclusion */
