@@ -9,7 +9,7 @@
       }
     },
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.0",
         "jms/serializer": "*",
         "symfony/console": "~2.7|~3.0",
         "symfony/framework-bundle": "~2.7|~3.0",
@@ -21,10 +21,7 @@
         "snc/redis-bundle": "~2.0",
         "symfony/monolog-bundle": "~2.4",
         "symfony/phpunit-bridge": "*",
-        "symfony/validator": "~2.7"
-    },
-    "config": {
-        "bin-dir": "bin"
+        "symfony/validator": "~2.7|~3.0"
     },
     "minimum-stability": "dev",
     "prefer-stable" : true
