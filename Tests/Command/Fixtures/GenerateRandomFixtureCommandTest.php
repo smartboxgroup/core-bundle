@@ -13,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class GenerateRandomFixtureCommandTest.
+ * @group legacy
  *
  * @coversDefaultClass \Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand
  */
@@ -62,8 +62,6 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     public function testExecute($group, $version)
     {
-        $this->application->add($this->container->get('smartbox_core.command_fixtures.generate_random_fixture_command'));
-
         $command = $this->application->find('smartbox:core:generate:random-fixture');
         $commandTester = new CommandTester($command);
 
