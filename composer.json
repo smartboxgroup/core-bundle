@@ -9,22 +9,20 @@
       }
     },
     "require": {
-        "php": ">=5.6.0",
-        "jms/serializer": "*",
-        "symfony/console": "~2.7|~3.0",
-        "symfony/framework-bundle": "~2.7|~3.0",
-        "symfony/property-access": "~2.7|~3.0"
+        "php": ">=7.0",
+        "jms/serializer": "~1.0|~2.0",
+        "symfony/console": "~2.8|~3.0",
+        "symfony/framework-bundle": "~2.8|~3.0",
+        "symfony/property-access": "~2.8|~3.0",
+        "symfony/expression-language": "~2.8|~3.0"
     },
     "require-dev": {
         "jms/serializer-bundle": "^2.0.0",
         "predis/predis": "^1.0",
         "snc/redis-bundle": "~2.0",
-        "symfony/monolog-bundle": "~2.4",
-        "symfony/phpunit-bridge": "*",
-        "symfony/validator": "~2.7"
-    },
-    "config": {
-        "bin-dir": "bin"
+        "symfony/monolog-bundle": "~2.4|~3.0",
+        "symfony/phpunit-bridge": "^4.2",
+        "symfony/validator": "~2.8|~3.0"
     },
     "minimum-stability": "dev",
     "prefer-stable" : true

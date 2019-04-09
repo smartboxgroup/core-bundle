@@ -103,6 +103,7 @@ services:
     smartcore.generator.random_fixture:
         class: '%smartcore.generator.random_fixture.class%'
         arguments: ['@jms_serializer.metadata_factory', '@smartcore.helper.entity_namespace_resolver']
+        public: '%kernel.debug%'
 
     ## SMOKE TESTS ##
     # COMMAND

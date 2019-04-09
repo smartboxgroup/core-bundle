@@ -51,24 +51,21 @@ class SerializationCacheCompilerPass implements CompilerPassInterface
                     throw new \Exception("The class '$class' configured in smartbox_core.serialization_cache.cached_visitors does not have the data property and can not be cached.");
                 }
             }
+            $public = $container->getParameter('kernel.debug');
 
             // Serialization cache subscriber
-            $serializationCacheSubscriber = $container->setDefinition(
-                'smartcore.serializer.subscriber.cache',
-                new Definition(CacheEventsSubscriber::class, [
-                    $vistorClasses,
-                ])
-            );
+            $serializationCacheSubscriber = $container->register('smartcore.serializer.subscriber.cache', CacheEventsSubscriber::class);
+            $serializationCacheSubscriber->setArguments([$vistorClasses]);
             $serializationCacheSubscriber->addMethodCall('setCacheService', [$cacheDriverServiceDef]);
             $serializationCacheSubscriber->addTag('jms_serializer.event_subscriber');
+            $serializationCacheSubscriber->setPublic($public);
+
 
             // Serialization cache handler
-            $serializationCacheHandler = $container->setDefinition(
-                'smartcore.serializer.handler.cache',
-                new Definition(CachedObjectHandler::class)
-            );
+            $serializationCacheHandler = $container->register('smartcore.serializer.handler.cache',CachedObjectHandler::class);
             $serializationCacheHandler->addMethodCall('setCacheService', [$cacheDriverServiceDef]);
             $serializationCacheHandler->addTag('jms_serializer.subscribing_handler');
+            $serializationCacheHandler->setPublic($public);
         }
     }
 }
