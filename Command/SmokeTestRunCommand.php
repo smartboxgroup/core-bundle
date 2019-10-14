@@ -5,6 +5,7 @@ namespace Smartbox\CoreBundle\Command;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputInterface;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputMessage;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
+use Smartbox\Integration\FrameworkBundle\Tools\SmokeTests\CanCheckConnectivityInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -133,19 +134,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             \ksort($smokeTests, SORT_STRING);
 
             // filter by labels
-            if (!empty($labels)) {
-                $filteredSmokeTests = [];
-
-                foreach ($smokeTests as $key => $smokeTestInfo) {
-                    if (!empty(\array_intersect($labels, $smokeTestInfo['labels']))) {
-                        $filteredSmokeTests[$key] = $smokeTestInfo;
-                    } else {
-                        $skipped[$key] = $smokeTestInfo;
-                    }
-                }
-
-                $smokeTests = $filteredSmokeTests;
-            }
+            $smokeTests = empty($labels) ? $this->filterWIPLabels($smokeTests) : $this->filterByLabels($smokeTests, $labels, $skipped);
 
             // filter by skipped
             if (!empty($skipTests)) {
@@ -340,5 +329,36 @@ class SmokeTestRunCommand extends ContainerAwareCommand
     public function getTestNames()
     {
         return \array_keys($this->smokeTests);
+    }
+
+    /**
+     * filter exluding the tests with WIP label
+     * @param array $smokeTests
+     * @return array
+     */
+    public function filterWIPLabels($smokeTests = []): array
+    {
+        return array_filter($smokeTests, function ($smokeTestInfo) {
+            if (!\in_array(CanCheckConnectivityInterface::SMOKE_TEST_LABEL_WIP, $smokeTestInfo['labels'])) {
+                return $smokeTestInfo;
+            }
+        });
+    }
+
+    /**
+     * Filter smoke tests according to the label
+     * @param array $smokeTests
+     * @return array
+     */
+    public function filterByLabels($smokeTests = [], $labels, &$skipped): array
+    {
+        return \array_filter($smokeTests, function ($smokeTestInfo) use ($labels, &$skipped) {
+            $key = $smokeTestInfo['id'];
+            if (!empty(\array_intersect($labels, $smokeTestInfo['labels']))) {
+                return $smokeTestInfo;
+            } else {
+                $skipped[$key] = $smokeTestInfo;
+            }
+        });
     }
 }
