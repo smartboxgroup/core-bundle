@@ -42,6 +42,17 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 'A set of tests id that will be skipped',
                 []
+            )->addOption(
+                'skipLabel',
+                'xl',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'A set of tests label that will be skipped. By default all the tests with label wip will be skip',
+                [SmokeTestInterface::SMOKE_TEST_LABEL_WIP]
+            )->addOption(
+                'all',
+                'a',
+                InputOption::VALUE_NONE,
+                'If set will runs all tests. Including tests with wip label'
             )
             ->addOption('showSkipped', null, InputOption::VALUE_NONE, 'If set will show the list of skipped tests')
             ->addOption(
@@ -92,6 +103,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $json = $in->getOption('json');
         $output = $in->getOption('output');
         $test = $in->getArgument('test');
+        $skipLabels = $in->getOption('skipLabel');
+        $allTests = $in->getOption('all');
         $exitCode = 0;
 
         if (!$silent && !$json) {
@@ -133,24 +146,16 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             // executes all tests (checking for label filters)
             \ksort($smokeTests, SORT_STRING);
 
-            // filter by labels
-            $smokeTests = empty($labels) ? $this->filterWIPLabels($smokeTests) : $this->filterByLabels($smokeTests, $labels, $skipped);
-
-            // filter by skipped
-            if (!empty($skipTests)) {
-                $smokeTests = \array_filter(
-                    $smokeTests,
-                    function ($smokeTestInfo) use ($skipTests, &$skipped) {
-                        $key = $smokeTestInfo['id'];
-                        $skipping = \in_array($key, $skipTests);
-                        if ($skipping) {
-                            $skipped[$key] = $smokeTestInfo;
-                        }
-
-                        return !$skipping;
-                    }
-                );
+            // filter by labels and skipLabels options.
+            // If no label was passed as parameter it will filter by skip (wip) labels
+            if (!$allTests) {
+                $smokeTests = !empty($labels) ?
+                    $this->filterByLabels($smokeTests, $labels, $skipped) :
+                    $this->filterSkipLabels($smokeTests, $skipLabels, $skipped);;
             }
+
+            // filter by skiptTests (id) options
+            $smokeTests = $this->filterBySkipTests($smokeTests, $skipTests, $skipped);
         }
 
         $content = [];
@@ -336,11 +341,14 @@ class SmokeTestRunCommand extends ContainerAwareCommand
      * @param array $smokeTests
      * @return array
      */
-    public function filterWIPLabels($smokeTests = []): array
+    public function filterSkipLabels($smokeTests = [], $skipLabels, &$skipped): array
     {
-        return array_filter($smokeTests, function ($smokeTestInfo) {
-            if (!\in_array(CanCheckConnectivityInterface::SMOKE_TEST_LABEL_WIP, $smokeTestInfo['labels'])) {
+        return array_filter($smokeTests, function ($smokeTestInfo) use ($skipLabels, &$skipped) {
+            $key = $smokeTestInfo['id'];
+            if (!\in_array($skipLabels[0], $smokeTestInfo['labels'])) {
                 return $smokeTestInfo;
+            } else {
+                $skipped[$key] = $smokeTestInfo;
             }
         });
     }
@@ -360,5 +368,28 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 $skipped[$key] = $smokeTestInfo;
             }
         });
+    }
+
+    /**
+     * Filter smoke tests according to the skipTests option
+     * @param array $smokeTests
+     * @return array
+     */    
+    protected function filterBySkipTests($smokeTests, $skipTests, &$skipped)
+    {
+        if (!empty($skipTests)) {
+            $smokeTests = \array_filter(
+                $smokeTests,
+                function ($smokeTestInfo) use ($skipTests, &$skipped) {
+                    $key = $smokeTestInfo['id'];
+                    if (\in_array($key, $skipTests)) {
+                        $skipped[$key] = $smokeTestInfo;
+                    } else {
+                        return $smokeTestInfo;
+                    }
+                }
+            );
+        }
+        return $smokeTests;
     }
 }
