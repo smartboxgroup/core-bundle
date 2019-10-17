@@ -14,6 +14,7 @@ interface SmokeTestInterface
     const SMOKE_TEST_LABEL_WIP = 'wip';
     const SMOKE_TEST_LABEL_IMPORTANT = 'important';
     const SMOKE_TEST_LABEL_CRITICAL = 'critical';
+    
     /**
      * @return string
      */
