@@ -155,7 +155,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             }
 
             // filter by skiptTests (id) options
-            if (!empty($smokeTests)) {
+            if (!empty($skipTests)) {
                 $smokeTests = $this->filterBySkipTests($smokeTests, $skipTests, $skipped);
             }
         }
