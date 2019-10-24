@@ -353,8 +353,7 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         return \array_filter($smokeTests, function ($smokeTestInfo) use ($labels, &$skipped, $skipLabels) {
             $key = $smokeTestInfo['id'];
             if (!empty(\array_intersect($labels, $smokeTestInfo['labels'])) ||
-                (!empty(\array_diff($smokeTestInfo['labels'], $skipLabels))) &&
-                empty($labels)
+                (!empty(\array_diff($smokeTestInfo['labels'], $skipLabels)) && empty($labels))
             ) {
                 return $smokeTestInfo;
             }
