@@ -80,7 +80,7 @@ class SmokeTestRunCommandTest extends KernelTestCase
         $smokeTestRunCommand->run(new ArrayInput(['--label' => []]), new NullOutput());
     }
 
-    public function testMockSmokeTestCommandWipLabel()
+    public function testSmokeTestCommandWipLabel()
     {
         $smokeTestOutput = $this->createMock(SmokeTestOutputInterface::class);
         $smokeTestOutput->expects($this->any())->method('isOK')->will($this->returnValue(true));
@@ -101,7 +101,7 @@ class SmokeTestRunCommandTest extends KernelTestCase
         $smokeTestRunCommand->run(new ArrayInput(['--label' => ['wip']]), new NullOutput());
     }
 
-    public function testMockSmokeTestCommandAllTests()
+    public function testSmokeTestCommandAllTests()
     {
         $smokeTestOutput = $this->createMock(SmokeTestOutputInterface::class);
         $smokeTestOutput->expects($this->any())->method('isOK')->will($this->returnValue(true));
@@ -131,7 +131,7 @@ class SmokeTestRunCommandTest extends KernelTestCase
         $this->assertNotContains('Error', $output);
     }
 
-    public function testFilterByLabels()
+    public function testExecuteWithLabels()
     {
         $label = ['-l' => 'important'];
 
