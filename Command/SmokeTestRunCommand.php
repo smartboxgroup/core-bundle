@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smartbox\CoreBundle\Command;
 
+use Smartbox\CoreBundle\Utils\SmokeTest\Input\SmokeTestLabel;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputInterface;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputMessage;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
@@ -41,6 +44,17 @@ class SmokeTestRunCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 'A set of tests id that will be skipped',
                 []
+            )->addOption(
+                'skipLabel',
+                'z',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'A set of tests label that will be skipped. By default all the tests with label wip will be skipped',
+                [SmokeTestLabel::LABEL_WIP]
+            )->addOption(
+                'all',
+                'a',
+                InputOption::VALUE_NONE,
+                'If set will runs all tests, including tests skipped by default'
             )
             ->addOption('showSkipped', null, InputOption::VALUE_NONE, 'If set will show the list of skipped tests')
             ->addOption(
@@ -91,6 +105,8 @@ class SmokeTestRunCommand extends ContainerAwareCommand
         $json = $in->getOption('json');
         $output = $in->getOption('output');
         $test = $in->getArgument('test');
+        $skipLabels = $in->getOption('skipLabel');
+        $allTests = $in->getOption('all');
         $exitCode = 0;
 
         if (!$silent && !$json) {
@@ -132,35 +148,15 @@ class SmokeTestRunCommand extends ContainerAwareCommand
             // executes all tests (checking for label filters)
             \ksort($smokeTests, SORT_STRING);
 
-            // filter by labels
-            if (!empty($labels)) {
-                $filteredSmokeTests = [];
-
-                foreach ($smokeTests as $key => $smokeTestInfo) {
-                    if (!empty(\array_intersect($labels, $smokeTestInfo['labels']))) {
-                        $filteredSmokeTests[$key] = $smokeTestInfo;
-                    } else {
-                        $skipped[$key] = $smokeTestInfo;
-                    }
-                }
-
-                $smokeTests = $filteredSmokeTests;
+            // filter by labels and skipLabels options.
+            // If no label was passed as parameter it will filter by skip (wip) labels
+            if (!$allTests) {
+                $smokeTests = $this->filterByLabels($smokeTests, $labels, $skipLabels, $skipped);
             }
 
-            // filter by skipped
+            // filter by skiptTests (id) options
             if (!empty($skipTests)) {
-                $smokeTests = \array_filter(
-                    $smokeTests,
-                    function ($smokeTestInfo) use ($skipTests, &$skipped) {
-                        $key = $smokeTestInfo['id'];
-                        $skipping = \in_array($key, $skipTests);
-                        if ($skipping) {
-                            $skipped[$key] = $smokeTestInfo;
-                        }
-
-                        return !$skipping;
-                    }
-                );
+                $smokeTests = $this->filterBySkipTests($smokeTests, $skipTests, $skipped);
             }
         }
 
@@ -340,5 +336,50 @@ class SmokeTestRunCommand extends ContainerAwareCommand
     public function getTestNames()
     {
         return \array_keys($this->smokeTests);
+    }
+
+    /**
+     * Filter smoke tests according to the label.
+     *
+     * @param array $smokeTests
+     * @param array $labels
+     * @param array $skipLabels
+     * @param array $skipped
+     *
+     * @return array
+     */
+    protected function filterByLabels(array $smokeTests, array $labels, array $skipLabels, array &$skipped): array
+    {
+        return \array_filter($smokeTests, function ($smokeTestInfo) use ($labels, &$skipped, $skipLabels) {
+            $key = $smokeTestInfo['id'];
+            if (!empty(\array_intersect($labels, $smokeTestInfo['labels'])) ||
+                (!empty(\array_diff($smokeTestInfo['labels'], $skipLabels)) && empty($labels))
+            ) {
+                return $smokeTestInfo;
+            }
+
+            $skipped[$key] = $smokeTestInfo;
+        });
+    }
+
+    /**
+     * Filter smoke tests according to the skipTests option.
+     *
+     * @param array $smokeTests
+     * @param array $skipTests
+     * @param array $skipped
+     *
+     * @return array
+     */
+    protected function filterBySkipTests(array $smokeTests, array $skipTests, array &$skipped): array
+    {
+        return \array_filter($smokeTests, function ($smokeTestInfo) use ($skipTests, &$skipped) {
+            $key = $smokeTestInfo['id'];
+            if (\in_array($key, $skipTests)) {
+                $skipped[$key] = $smokeTestInfo;
+            }
+
+            return $smokeTestInfo;
+        });
     }
 }
