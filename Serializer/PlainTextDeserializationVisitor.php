@@ -11,5 +11,4 @@ class PlainTextDeserializationVisitor extends \JMS\Serializer\JsonDeserializatio
     {
         return $str;
     }
-
 }
