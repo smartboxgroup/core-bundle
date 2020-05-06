@@ -8,7 +8,10 @@ use Smartbox\CoreBundle\Serializer\PlainTextDeserializationVisitor;
 
 class PlainTextDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSerialization()
+    /**
+     * Deserializer should return the same text it received, without modifications.
+     */
+    public function testDeserialization()
     {
         $builder = new SerializerBuilder();
 
