@@ -8,8 +8,9 @@ Accepted
 
 ## Context
 
-External systems can return responses in different formats like JSON, xml, yml, csv and so on. JMS supports the deserialization of some of them, but not all. This means that if the code 
-tries to deserialize a response that is not in the expected format, the process is interrupted. One case like this is when the response is defined as **plain text**.
+The built-in deserializers included in JMS are sufficient for most cases, but sometimes the provided payloads are not compatible with them. Situations like this include strings in plain text, where no deserialization is expected. Feeding this type of data to JMS raises an exception that stops the execution of the application.
+
+In these cases, the serialization needs to be bypassed in a clean and transparent way that will allow the calling class to continue its execution.
 
 ## Decision
 
