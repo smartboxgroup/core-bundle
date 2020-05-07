@@ -8,7 +8,8 @@ Accepted
 
 ## Context
 
-Some APIs, although they declare themselves as REST, return **a plain text string** as response. This breaks the serializer flow as it is expecting, by default, a JSON string. The result is a failure in deserialization and **the processor is interrupted**.
+External systems can return responses in different formats like JSON, xml, yml, csv and so on. JMS supports the deserialization of some of them, but not all. This means that if the code 
+tries to deserialize a response that is not in the expected format, the process is interrupted. One case like this is when the response is defined as **plain text**.
 
 ## Decision
 
