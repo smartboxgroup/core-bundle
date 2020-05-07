@@ -22,7 +22,7 @@ class PlainTextDeserializationVisitor extends AbstractVisitor
 
     public function visitString($data, array $type, Context $context)
     {
-        return $data;
+        return (string) $data;
     }
 
     public function visitBoolean($data, array $type, Context $context)
