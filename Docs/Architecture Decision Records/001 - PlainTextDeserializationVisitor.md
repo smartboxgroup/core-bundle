@@ -20,3 +20,4 @@ This deserializer is plugged **as a custom deserializer** in JMS' configuration 
 
 ## Metadata
 Authors: @andres.rey
+People involved: @david.camprubi 
