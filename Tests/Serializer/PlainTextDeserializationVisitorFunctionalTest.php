@@ -4,9 +4,10 @@ namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
+use PHPUnit\Framework\TestCase;
 use Smartbox\CoreBundle\Serializer\PlainTextDeserializationVisitor;
 
-class PlainTextDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
+class PlainTextDeserializationVisitorFunctionalTest extends TestCase
 {
     /**
      * Deserializer should return the same text it received, without modifications.
