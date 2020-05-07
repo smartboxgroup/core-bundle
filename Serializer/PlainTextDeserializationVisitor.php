@@ -10,8 +10,8 @@ use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Metadata\PropertyMetadata;
 
 /**
- * This is a really simple visitor that will effectively bypass JMS. Useful for REST APIs that are not truly REST APIs
- * and return plain text responses, which JMS by default refuses to process because they are not real JSON.
+ * This is a really simple visitor that will effectively bypass JMS.
+ * Useful for cases when JMS receives a plain text to deserialize.
  */
 class PlainTextDeserializationVisitor extends AbstractVisitor
 {
