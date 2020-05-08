@@ -52,7 +52,7 @@ class PlainTextDeserializationVisitor extends AbstractVisitor
 
     public function visitProperty(PropertyMetadata $metadata, $data, Context $context)
     {
-        // noop
+        throw new RuntimeException('PlainTextDeserializationVisitor cannot visit properties.');
     }
 
     public function endVisitingObject(ClassMetadata $metadata, $data, array $type, Context $context)
