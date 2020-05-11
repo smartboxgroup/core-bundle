@@ -61,6 +61,13 @@ services:
         tags:
             - { name: jms_serializer.deserialization_visitor, format: json }
 
+    smartcore.plain_text_deserialization_visitor:
+        class: Smartbox\CoreBundle\Serializer\PlainTextDeserializationVisitor
+        arguments:
+            - '@jms_serializer.naming_strategy'
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: plain_text }
+
     smartcore.array_deserialization_visitor:
         class: '%smartcore.array_deserialization_visitor.class%'
         arguments:
