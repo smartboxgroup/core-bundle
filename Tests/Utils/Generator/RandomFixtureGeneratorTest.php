@@ -21,24 +21,17 @@ class RandomFixtureGeneratorTest extends KernelTestCase
     protected $application;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var RandomFixtureGenerator
      */
     protected $randomFixtureGenerator;
 
     protected function setUp()
     {
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        self::bootKernel();
 
-        $this->application = new Application($kernel);
-        $this->container = $kernel->getContainer();
+        $this->application = new Application(self::$kernel);
 
-        $this->randomFixtureGenerator = $this->container->get('smartcore.generator.random_fixture');
+        $this->randomFixtureGenerator = self::$container->get('smartcore.generator.random_fixture');
     }
 
     public static function getKernelClass()
@@ -67,7 +60,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      */
     public function testGenerate($group, $version)
     {
-        $serializer = $this->container->get('jms_serializer');
+        $serializer = self::$container->get('jms_serializer');
 
         $entity = $this->randomFixtureGenerator->generate(TestComplexEntity::class, $group, $version);
         $serializedEntity = $serializer->serialize(
