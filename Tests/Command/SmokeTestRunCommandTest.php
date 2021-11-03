@@ -20,10 +20,9 @@ class SmokeTestRunCommandTest extends KernelTestCase
 {
     public function testExecuteCommand()
     {
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        self::bootKernel();
 
-        $application = new Application($kernel);
+        $application = new Application(self::$kernel);
         $application->add(new SmokeTestRunCommand());
 
         $command = $application->find('smartbox:smoke-test');
