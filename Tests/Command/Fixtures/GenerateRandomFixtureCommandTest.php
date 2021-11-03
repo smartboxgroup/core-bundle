@@ -24,18 +24,11 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     protected $application;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     protected function setUp()
     {
-        $kernel = $this->createKernel();
-        $kernel->boot();
+        self::bootKernel();
 
-        $this->application = new Application($kernel);
-        $this->container = $kernel->getContainer();
+        $this->application = new Application(self::$kernel);
     }
 
     public static function getKernelClass()
@@ -66,7 +59,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('jms_serializer');
+        $serializer = self::$container->get('jms_serializer');
 
         $commandConfiguration = [];
         if (!\is_null($group)) {

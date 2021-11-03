@@ -15,11 +15,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AnnotationDriverTest extends KernelTestCase
 {
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var SerializerInterface
      */
     protected $serializer;
@@ -33,8 +28,7 @@ class AnnotationDriverTest extends KernelTestCase
     {
        static::bootKernel();
 
-        $this->container = static::$kernel->getContainer();
-        $this->serializer = $this->container->get('jms_serializer');
+        $this->serializer = self::$container->get('jms_serializer');
     }
 
     /**
