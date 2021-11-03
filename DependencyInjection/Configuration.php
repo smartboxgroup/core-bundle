@@ -20,9 +20,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder(self::CONFIG_ROOT);
+        $treeBuilder = new TreeBuilder();
 
-        $rootNode = $treeBuilder->getRootNode();
+        $rootNode = $treeBuilder->root(self::CONFIG_ROOT);
         $rootNode
             ->children()
                 ->scalarNode('fixtures_path')
