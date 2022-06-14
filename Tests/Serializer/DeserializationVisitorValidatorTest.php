@@ -2,12 +2,17 @@
 
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
-use JMS\Serializer\GenericDeserializationVisitor;
+use JMS\Serializer\DeserializationContext;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
+use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
+use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
+use JMS\Serializer\Context;
+use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
+use JMS\Serializer\Metadata\PropertyMetadata;
 
 class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \JMS\Serializer\GenericDeserializationVisitor|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $visitorMock;
 
     /** @var DeserializationTypesValidator|\PHPUnit_Framework_MockObject_MockObject */
@@ -31,22 +36,22 @@ class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
     /** @var \JMS\Serializer\Metadata\PropertyMetadata|\PHPUnit_Framework_MockObject_MockObject */
     private $currentPropertyMetadata;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->namingStrategy = $this->getMockBuilder('\JMS\Serializer\Naming\PropertyNamingStrategyInterface')
+        $this->namingStrategy = $this->getMockBuilder(PropertyNamingStrategyInterface::class)
             ->getMock();
         $this->castingChecker = $this->getMockBuilder(
-            '\Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker'
+            StrongDeserializationCastingChecker::class
         )->getMock();
 
-        $this->context = $this->getMockBuilder('\JMS\Serializer\Context')
+        $this->context = $this->getMockBuilder(Context::class)
             ->getMock();
 
-        $this->exclusionStrategy = $this->getMockBuilder('\JMS\Serializer\Exclusion\ExclusionStrategyInterface')
+        $this->exclusionStrategy = $this->getMockBuilder(ExclusionStrategyInterface::class)
             ->getMock();
 
-        $this->metadataStack = $this->getMockBuilder('\SplStack')->getMock();
-        $this->currentPropertyMetadata = $this->getMockBuilder('\JMS\Serializer\Metadata\PropertyMetadata')
+        $this->metadataStack = $this->getMockBuilder(\SplStack::class)->getMock();
+        $this->currentPropertyMetadata = $this->getMockBuilder(PropertyMetadata::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->metadataStack->method('top')->will($this->returnValue($this->currentPropertyMetadata));
@@ -55,7 +60,7 @@ class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
         $this->context->method('getExclusionStrategy')->willReturn($this->exclusionStrategy);
 
         $this->visitorMock = $this
-            ->getMockBuilder(GenericDeserializationVisitor::class)
+            ->getMockBuilder(DeserializationContext::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->visitorValidator = new DeserializationTypesValidator($this->castingChecker);

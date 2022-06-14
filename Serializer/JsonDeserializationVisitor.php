@@ -2,61 +2,61 @@
 
 namespace Smartbox\CoreBundle\Serializer;
 
-use JMS\Serializer\Construction\ObjectConstructorInterface;
 use JMS\Serializer\Context;
-use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
+use JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory;
+use JMS\Serializer\JsonDeserializationVisitor as JsonDeserializationVisitorBase;
 
 /**
  * Class JsonDeserializationVisitor.
  */
-class JsonDeserializationVisitor extends \JMS\Serializer\JsonDeserializationVisitor
+class JsonDeserializationVisitor implements DeserializationVisitorFactory
 {
     /**
      * @var DeserializationTypesValidator
      */
-    protected $visitorValidator;
+    protected DeserializationTypesValidator $visitorValidator;
+
+    private JsonDeserializationVisitorBase $jsonVisitor;
 
     /**
-     * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface      $objectConstructor
-     * @param DeserializationTypesValidator   $visitorValidator
+     * @param DeserializationTypesValidator $visitorValidator
      */
-    public function __construct(
-        PropertyNamingStrategyInterface $namingStrategy,
-        ObjectConstructorInterface $objectConstructor,
-        DeserializationTypesValidator $visitorValidator
-    ) {
-        parent::__construct($namingStrategy);
-
-        $visitorValidator->setNamingStrategy($this->namingStrategy);
+    public function __construct(DeserializationTypesValidator $visitorValidator) {
         $this->visitorValidator = $visitorValidator;
+        $this->jsonVisitor = new JsonDeserializationVisitorBase();
     }
 
-    public function visitString($data, array $type, Context $context)
+    public function visitString($data, array $type, Context $context): string
     {
-        $this->visitorValidator->validateString($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateString($data, $context, $this->jsonVisitor->getCurrentObject());
 
-        return parent::visitString($data, $type, $context);
+        return $this->jsonVisitor->visitString($data, $type);
     }
 
-    public function visitBoolean($data, array $type, Context $context)
+    public function visitBoolean($data, array $type, Context $context): bool
     {
-        $this->visitorValidator->validateBoolean($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateBoolean($data, $context, $this->jsonVisitor->getCurrentObject());
 
-        return parent::visitBoolean($data, $type, $context);
+        return $this->jsonVisitor->visitBoolean($data, $type);
     }
 
-    public function visitDouble($data, array $type, Context $context)
+    public function visitDouble($data, array $type, Context $context): float
     {
-        $this->visitorValidator->validateDouble($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateDouble($data, $context, $this->jsonVisitor->getCurrentObject());
 
-        return parent::visitDouble($data, $type, $context);
+        return $this->jsonVisitor->visitDouble($data, $type);
     }
 
-    public function visitInteger($data, array $type, Context $context)
+    public function visitInteger($data, array $type, Context $context): int
     {
-        $this->visitorValidator->validateInteger($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateInteger($data, $context, $this->jsonVisitor->getCurrentObject());
 
-        return parent::visitInteger($data, $type, $context);
+        return $this->jsonVisitor->visitInteger($data, $type);
+    }
+
+    public function getVisitor(): DeserializationVisitorInterface
+    {
+        return $this->jsonVisitor;
     }
 }

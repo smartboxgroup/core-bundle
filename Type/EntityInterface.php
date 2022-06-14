@@ -4,29 +4,29 @@ namespace Smartbox\CoreBundle\Type;
 
 interface EntityInterface extends SerializableInterface
 {
-    const GROUP_PUBLIC = 'public';
-    const GROUP_METADATA = 'metadata';
-    const GROUP_DEFAULT = 'Default';
+    public const GROUP_PUBLIC = 'public';
+    public const GROUP_METADATA = 'metadata';
+    public const GROUP_DEFAULT = 'Default';
 
     public function __construct();
 
     /**
      * @return string
      */
-    public function getAPIVersion();
+    public function getAPIVersion(): string;
 
     /**
      * @param string $version
      */
-    public function setAPIVersion($version);
+    public function setAPIVersion(string $version): void;
 
     /**
      * @return string
      */
-    public function getEntityGroup();
+    public function getEntityGroup(): string;
 
     /**
      * @param string $group
      */
-    public function setEntityGroup($group);
+    public function setEntityGroup(string $group): void;
 }

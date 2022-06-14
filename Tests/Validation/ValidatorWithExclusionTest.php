@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @group sf3
  */
-class ValidatorWithExclusionTest extends AbstractTest
+class ValidatorWithExclusionTest
 {
     /** @var ValidatorWithExclusion */
     protected $validator;

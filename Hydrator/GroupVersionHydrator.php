@@ -31,12 +31,12 @@ class GroupVersionHydrator
      * version to it and to all its sub-fields/sub-entities recursively.
      *
      * @param array|EntityInterface $object
-     * @param string                $group
-     * @param string                $version
+     * @param string $group
+     * @param string $version
      *
      * @return array|EntityInterface
      */
-    public function hydrate($object, $group, $version)
+    public function hydrate($object, string $group, string $version)
     {
         if (\is_array($object)) {
             return $this->hydrateArray($object, $group, $version);
@@ -71,12 +71,12 @@ class GroupVersionHydrator
      * Hydrate an entity.
      *
      * @param EntityInterface $entity
-     * @param string          $group
-     * @param string          $version
+     * @param string $group
+     * @param string $version
      *
      * @return EntityInterface
      */
-    private function hydrateEntity(EntityInterface $entity, $group, $version)
+    private function hydrateEntity(EntityInterface $entity, string $group, string $version): EntityInterface
     {
         $entity->setEntityGroup($group);
         $entity->setAPIVersion($version);

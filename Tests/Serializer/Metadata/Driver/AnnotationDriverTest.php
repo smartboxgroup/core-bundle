@@ -3,6 +3,7 @@
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use JMS\Serializer\SerializerInterface;
+use Smartbox\CoreBundle\Tests\AppKernel;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyAll;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyAllAndFewPropertiesExposed;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyNone;
@@ -26,10 +27,10 @@ class AnnotationDriverTest extends KernelTestCase
 
     public static function getKernelClass()
     {
-        return \Smartbox\CoreBundle\Tests\AppKernel::class;
+        return AppKernel::class;
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
        static::bootKernel();
 

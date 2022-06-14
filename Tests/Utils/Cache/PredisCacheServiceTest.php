@@ -17,7 +17,7 @@ class PredisCacheServiceTest extends \PHPUnit\Framework\TestCase
     /** @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->getMockBuilder(ClientInterface::class)->getMock();
         $this->service = new PredisCacheService($this->client);

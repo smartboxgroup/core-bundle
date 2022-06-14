@@ -4,6 +4,7 @@ namespace Smartbox\CoreBundle\Tests\Command\Fixtures;
 
 use JMS\Serializer\SerializerInterface;
 use Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand;
+use Smartbox\CoreBundle\Tests\AppKernel;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
@@ -29,21 +30,21 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $kernel = $this->createKernel();
+        $kernel = self::createKernel();
         $kernel->boot();
 
         $this->application = new Application($kernel);
         $this->container = $kernel->getContainer();
     }
 
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
-        return \Smartbox\CoreBundle\Tests\AppKernel::class;
+        return AppKernel::class;
     }
 
-    public function dataProviderForEntityGeneration()
+    public function dataProviderForEntityGeneration(): array
     {
         return [
             [null, null],
@@ -60,7 +61,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      * @param $group
      * @param $version
      */
-    public function testExecute($group, $version)
+    public function testExecute($group, $version): void
     {
         $command = $this->application->find('smartbox:core:generate:random-fixture');
         $commandTester = new CommandTester($command);
@@ -71,9 +72,14 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
         $commandConfiguration = [];
         if (!\is_null($group)) {
             $commandConfiguration['--entity-group'] = $group;
+        } else {
+            $commandConfiguration['--entity-group'] = EntityConstants::GROUP_DEFAULT;
         }
+
         if (!\is_null($version)) {
             $commandConfiguration['--entity-version'] = $version;
+        } else {
+            $commandConfiguration['--entity-version'] = EntityConstants::VERSION_1;
         }
 
         $commandConfiguration['--raw-output'] = true;
@@ -88,9 +94,8 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
             )
         );
 
-        $this->assertTrue(
-            \in_array($commandTester->getStatusCode(), [0, null], true),
-            'Command should return proper status code.'
+        $this->assertContains(
+            $commandTester->getStatusCode(), [0, null], 'Command should return proper status code.'
         );
         $this->assertInstanceOf(
             TestComplexEntity::class,

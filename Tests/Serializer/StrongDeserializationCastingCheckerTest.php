@@ -9,7 +9,7 @@ class StrongDeserializationCastingCheckerTest extends \PHPUnit\Framework\TestCas
     /** @var StrongDeserializationCastingChecker */
     private $checker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->checker = new StrongDeserializationCastingChecker();
     }

@@ -2,29 +2,51 @@
 
 namespace Smartbox\CoreBundle\Tests\Hydrator;
 
+use JMS\Serializer\Metadata\PropertyMetadata;
+use Metadata\ClassMetadata;
+use Metadata\MetadataFactory;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Smartbox\CoreBundle\Hydrator\GroupVersionHydrator;
 use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestNestedEntity;
 
+/**
+ * @group hydrator
+ */
 class GroupVersionHydratorTest extends BaseKernelTestCase
 {
-    const GROUP = 'testGroup';
-    const VERSION = 'v17';
+    public const GROUP = 'testGroup';
+    public const VERSION = 'v17';
 
     /**
      * @var GroupVersionHydrator
      */
-    private $hydrator;
+    private GroupVersionHydrator $hydrator;
 
-    protected function setUp()
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    protected function setUp(): void
     {
         parent::setUp();
-        $metadataFactory = $this->getContainer()->get('jms_serializer')->getMetadataFactory();
+        $metadataFactory = $this->createMock(MetadataFactory::class);
+
+        $metadataFactory->method('getMetadataForClass')->willReturnCallback(function ($class) {
+            $metadata = new PropertyMetadata (
+                TestEntity::class,
+                'testProperty',
+
+            );
+
+            return $metadata;
+        });
         $this->hydrator = new GroupVersionHydrator($metadataFactory);
     }
 
-    public function testItShouldHydrateAnEntity()
+    public function testItShouldHydrateAnEntity(): void
     {
         $entity = new TestEntity();
         $this->hydrator->hydrate($entity, self::GROUP, self::VERSION);
@@ -33,9 +55,8 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
         $this->assertEquals(self::VERSION, $entity->getAPIVersion(), 'The version was not set correctly');
     }
 
-    public function testItShouldHydrateAnArrayOfEntities()
+    public function testItShouldHydrateAnArrayOfEntities(): void
     {
-        /** @var TestEntity[] $array */
         $array = [
             new TestEntity(),
             new TestEntity(),
@@ -56,7 +77,7 @@ class GroupVersionHydratorTest extends BaseKernelTestCase
         }
     }
 
-    public function testItShouldHydrateAnEntityWithNestedEntities()
+    public function testItShouldHydrateAnEntityWithNestedEntities(): void
     {
         $entity = new TestNestedEntity();
         $entity->setItem(new TestEntity());

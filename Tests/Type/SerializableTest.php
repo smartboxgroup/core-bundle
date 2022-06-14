@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Entity;
+namespace Smartbox\CoreBundle\Tests\Type;
 
 use JMS\Serializer\Serializer;
 use Smartbox\CoreBundle\Type\Date;

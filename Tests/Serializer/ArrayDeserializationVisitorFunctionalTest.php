@@ -18,7 +18,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestC
     /** @var SerializerInterface */
     private $serializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $builder = new SerializerBuilder();
 
@@ -39,7 +39,7 @@ class ArrayDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestC
             ->build();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->serializer = null;
     }

@@ -1,71 +1,68 @@
 <?php
+declare(strict_types=1);
 
 namespace Smartbox\CoreBundle\Serializer;
 
-use JMS\Serializer\Construction\ObjectConstructorInterface;
 use JMS\Serializer\Context;
-use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
+use JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory;
+use JMS\Serializer\XmlDeserializationVisitor as xmlDeserializationVisitorBase;
 
 /**
  * Class XmlDeserializationVisitor.
  */
-class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisitor
+class XmlDeserializationVisitor implements DeserializationVisitorFactory
 {
     /**
      * @var DeserializationTypesValidator
      */
-    protected $visitorValidator;
+    protected DeserializationTypesValidator $visitorValidator;
+    private xmlDeserializationVisitorBase $xmlVisitor;
 
     /**
-     * @param PropertyNamingStrategyInterface $namingStrategy
-     * @param ObjectConstructorInterface      $objectConstructor
-     * @param DeserializationTypesValidator   $visitorValidator
+     * @param DeserializationTypesValidator $visitorValidator
      */
     public function __construct(
-        PropertyNamingStrategyInterface $namingStrategy,
-        ObjectConstructorInterface $objectConstructor,
         DeserializationTypesValidator $visitorValidator
     ) {
-        parent::__construct($namingStrategy);
-
-        $visitorValidator->setNamingStrategy($this->namingStrategy);
         $this->visitorValidator = $visitorValidator;
+        $this->xmlVisitor = new xmlDeserializationVisitorBase();
     }
 
-    public function visitString($data, array $type, Context $context)
+    public function visitString($data, array $type, Context $context): string
     {
         $data = $this->fixXmlNode($data);
 
-        $this->visitorValidator->validateString($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateString($data, $context, $this->xmlVisitor->getCurrentObject());
 
-        return parent::visitString($data, $type, $context);
+        return $this->xmlVisitor->visitString($data, $type);
     }
 
-    public function visitBoolean($data, array $type, Context $context)
+    public function visitBoolean($data, array $type, Context $context): bool
     {
         $data = $this->fixXmlNode($data);
 
-        $this->visitorValidator->validateBoolean($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateBoolean($data, $context, $this->xmlVisitor->getCurrentObject());
 
-        return parent::visitBoolean($data, $type, $context);
+        return $this->xmlVisitor->visitBoolean($data, $type);
     }
 
-    public function visitDouble($data, array $type, Context $context)
+    public function visitDouble($data, array $type, Context $context): float
     {
         $data = $this->fixXmlNode($data);
 
-        $this->visitorValidator->validateDouble($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateDouble($data, $context, $this->xmlVisitor->getCurrentObject());
 
-        return parent::visitDouble($data, $type, $context);
+        return $this->xmlVisitor->visitDouble($data, $type);
     }
 
-    public function visitInteger($data, array $type, Context $context)
+    public function visitInteger($data, array $type, Context $context): int
     {
         $data = $this->fixXmlNode($data);
 
-        $this->visitorValidator->validateInteger($data, $context, $this->getCurrentObject());
+        $this->visitorValidator->validateInteger($data, $context, $this->xmlVisitor->getCurrentObject());
 
-        return parent::visitInteger($data, $type, $context);
+        return $this->xmlVisitor->visitInteger($data, $type);
     }
 
     /**
@@ -76,11 +73,22 @@ class XmlDeserializationVisitor extends \JMS\Serializer\XmlDeserializationVisito
     private function fixXmlNode($data)
     {
         if ($data instanceof \SimpleXMLElement) {
-            if (\in_array(\dom_import_simplexml($data)->firstChild->nodeType, [XML_CDATA_SECTION_NODE, XML_TEXT_NODE])) {
+            if (
+                \in_array(
+                    \dom_import_simplexml($data)->firstChild->nodeType,
+                    [XML_CDATA_SECTION_NODE, XML_TEXT_NODE],
+                    true
+                )
+            ) {
                 $data = $data->__toString();
             }
         }
 
         return $data;
+    }
+
+    public function getVisitor(): DeserializationVisitorInterface
+    {
+        return $this->xmlVisitor;
     }
 }

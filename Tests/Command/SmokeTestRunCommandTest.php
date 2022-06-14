@@ -18,9 +18,9 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class SmokeTestRunCommandTest extends KernelTestCase
 {
-    public function testExecuteCommand()
+    public function testExecuteCommand(): void
     {
-        $kernel = $this->createKernel();
+        $kernel = self::createKernel();
         $kernel->boot();
 
         $application = new Application($kernel);
@@ -35,44 +35,50 @@ class SmokeTestRunCommandTest extends KernelTestCase
 
         $output = $commandTester->getDisplay();
 
-        $this->assertInternalType('string', $output);
-        $this->assertContains('Smoke Tests', $output);
-        $this->assertNotContains('Error', $output);
+        $this->assertIsString('string', $output);
+        $this->assertStringContainsString('Smoke Tests', $output);
+        $this->assertStringNotContainsString('Error', $output);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testSmokeTestCommandNoLabels()
     {
         $smokeTestOutput = $this->createMock(SmokeTestOutputInterface::class);
-        $smokeTestOutput->expects($this->any())->method('isOK')->will($this->returnValue(true));
-        $smokeTestOutput->expects($this->any())->method('getMessages')->will($this->returnValue([]));
+        $smokeTestOutput->method('isOK')->willReturn(true);
+        $smokeTestOutput->method('getMessages')->willReturn([]);
 
         $smokeTest1 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest1->expects($this->never())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest1->expects($this->never())->method('run')->willReturn($smokeTestOutput);
         $smokeTest1->expects($this->never())->method('getDescription');
 
         $smokeTest2 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest2->expects($this->once())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest2->expects($this->once())->method('run')->willReturn($smokeTestOutput);
         $smokeTest2->expects($this->once())->method('getDescription');
 
         $smokeTestRunCommand = new SmokeTestRunCommand();
         $smokeTestRunCommand->addTest('id1', $smokeTest1, 'run', 'getDescription', ['wip']);
         $smokeTestRunCommand->addTest('id2', $smokeTest2, 'run', 'getDescription', ['critical']);
-        
+
         $smokeTestRunCommand->run(new ArrayInput(['--label' => []]), new NullOutput());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testSmokeTestCommandWipLabel()
     {
         $smokeTestOutput = $this->createMock(SmokeTestOutputInterface::class);
-        $smokeTestOutput->expects($this->any())->method('isOK')->will($this->returnValue(true));
-        $smokeTestOutput->expects($this->any())->method('getMessages')->will($this->returnValue([]));
+        $smokeTestOutput->method('isOK')->willReturn(true);
+        $smokeTestOutput->method('getMessages')->willReturn([]);
 
         $smokeTest1 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest1->expects($this->once())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest1->expects($this->once())->method('run')->willReturn($smokeTestOutput);
         $smokeTest1->expects($this->once())->method('getDescription');
 
         $smokeTest2 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest2->expects($this->never())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest2->expects($this->never())->method('run')->willReturn($smokeTestOutput);
         $smokeTest2->expects($this->never())->method('getDescription');
 
         $smokeTestRunCommand = new SmokeTestRunCommand();
@@ -82,18 +88,21 @@ class SmokeTestRunCommandTest extends KernelTestCase
         $smokeTestRunCommand->run(new ArrayInput(['--label' => ['wip']]), new NullOutput());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testSmokeTestCommandAllTests()
     {
         $smokeTestOutput = $this->createMock(SmokeTestOutputInterface::class);
-        $smokeTestOutput->expects($this->any())->method('isOK')->will($this->returnValue(true));
-        $smokeTestOutput->expects($this->any())->method('getMessages')->will($this->returnValue([]));
+        $smokeTestOutput->method('isOK')->willReturn(true);
+        $smokeTestOutput->method('getMessages')->willReturn([]);
 
         $smokeTest1 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest1->expects($this->once())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest1->expects($this->once())->method('run')->willReturn($smokeTestOutput);
         $smokeTest1->expects($this->once())->method('getDescription');
 
         $smokeTest2 = $this->createMock(SmokeTestInterface::class);
-        $smokeTest2->expects($this->once())->method('run')->will($this->returnValue($smokeTestOutput));
+        $smokeTest2->expects($this->once())->method('run')->willReturn($smokeTestOutput);
         $smokeTest2->expects($this->once())->method('getDescription');
 
         $smokeTestRunCommand = new SmokeTestRunCommand();

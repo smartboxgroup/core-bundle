@@ -44,17 +44,18 @@ class AnnotationDriver extends \JMS\Serializer\Metadata\Driver\AnnotationDriver
     /**
      * @var Reader
      */
-    protected $reader;
+    protected Reader $reader;
 
     /**
      * @param Reader $reader
      */
     public function __construct(Reader $reader)
     {
+        parent::__construct($reader);
         $this->reader = $reader;
     }
 
-    public function loadMetadataForClass(\ReflectionClass $class)
+    public function loadMetadataForClass(\ReflectionClass $class): ?ClassMetadata
     {
         $classMetadata = new ClassMetadata($name = $class->name);
         $classMetadata->fileResources[] = $class->getFilename();

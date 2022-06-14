@@ -76,7 +76,7 @@ class GenerateRandomFixtureCommand extends Command
      * @param InputInterface  $in
      * @param OutputInterface $out
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException|\Exception
      */
     protected function execute(InputInterface $in, OutputInterface $out)
     {

@@ -11,7 +11,7 @@ class AppKernel extends Kernel
 {
     private $cacheDir;
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -39,7 +39,7 @@ class AppKernel extends Kernel
         $loader->load($this->getRootDir().'/config/'.$config.'.yml');
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         if (!$this->cacheDir) {
             $this->cacheDir = sys_get_temp_dir().'/sbx_core_bundle_tests';

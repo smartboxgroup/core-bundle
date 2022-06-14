@@ -15,63 +15,38 @@ use JMS\Serializer\Metadata\PropertyMetadata;
  */
 class PlainTextDeserializationVisitor extends AbstractVisitor
 {
-    public function visitNull($data, array $type, Context $context)
-    {
-        throw new RuntimeException('PlainTextDeserializationVisitor cannot visit Null types.');
-    }
-
-    public function visitString($data, array $type, Context $context)
+    public function visitString($data, array $type, Context $context): string
     {
         return (string) $data;
     }
 
-    public function visitBoolean($data, array $type, Context $context)
+    public function visitBoolean($data, array $type, Context $context): void
     {
         throw new RuntimeException('PlainTextDeserializationVisitor cannot visit Boolean types.');
     }
 
-    public function visitDouble($data, array $type, Context $context)
+    public function visitDouble($data, array $type, Context $context): void
     {
         throw new RuntimeException('PlainTextDeserializationVisitor cannot visit Double types.');
     }
 
-    public function visitInteger($data, array $type, Context $context)
+    public function visitInteger($data, array $type, Context $context): void
     {
         throw new RuntimeException('PlainTextDeserializationVisitor cannot visit Integer types.');
     }
 
-    public function visitArray($data, array $type, Context $context)
+    public function visitArray($data, array $type, Context $context): void
     {
         throw new RuntimeException('PlainTextDeserializationVisitor cannot visit Array types.');
     }
 
-    public function startVisitingObject(ClassMetadata $metadata, $data, array $type, Context $context)
-    {
-        // noop
-    }
-
-    public function visitProperty(PropertyMetadata $metadata, $data, Context $context)
+    public function visitProperty(PropertyMetadata $metadata, $data, Context $context): void
     {
         throw new RuntimeException('PlainTextDeserializationVisitor cannot visit properties.');
     }
 
-    public function endVisitingObject(ClassMetadata $metadata, $data, array $type, Context $context)
+    public function getResult($data = null)
     {
-        // noop
-    }
-
-    public function setNavigator(GraphNavigator $navigator)
-    {
-        // noop
-    }
-
-    public function getNavigator()
-    {
-        // noop
-    }
-
-    public function getResult()
-    {
-        return null;
+        return $data;
     }
 }

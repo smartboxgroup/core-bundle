@@ -3,46 +3,48 @@
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Exception\NonStringCastableTypeException;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
+use PHPUnit\Framework\TestCase;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
+use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
+use Smartbox\CoreBundle\Type\Entity;
 
-class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCase
+/**
+ * @coversDefaultClass \Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor
+ * @group json
+ */
+class JsonDeserializationVisitorFunctionalTest extends TestCase
 {
     /** @var SerializerInterface */
     private $serializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $builder = new SerializerBuilder();
-
-        /** @var \JMS\Serializer\Construction\ObjectConstructorInterface|\PHPUnit_Framework_MockObject_MockObject $objectConstructor */
-        $objectConstructor = $this->getMockBuilder('\JMS\Serializer\Construction\ObjectConstructorInterface')
-            ->getMock();
 
         $this->serializer = $builder
             ->setDeserializationVisitor(
                 'json',
                 new JsonDeserializationVisitor(
-                    new IdenticalPropertyNamingStrategy(),
-                    $objectConstructor,
-                    new DeserializationTypesValidator(new StrongDeserializationCastingChecker())
+                    new DeserializationTypesValidator(new StrongDeserializationCastingChecker()),
+                    new \JMS\Serializer\JsonDeserializationVisitor()
                 )
             )
-            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', 'Smartbox\CoreBundle\Tests\Fixtures\Entity')
+            ->addMetadataDir(__DIR__.'/../Fixtures/Entity', Entity::class)
             ->build();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->serializer = null;
     }
 
-    public function testItShouldDeserializeValidEntity()
+    public function testItShouldDeserializeValidEntity(): void
     {
         $data =
             '{
@@ -52,14 +54,14 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
             "enabled": true
         }';
 
-        $obj = $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json');
+        $obj = $this->serializer->deserialize($data, TestEntity::class, 'json');
         $this->assertEquals('some title', $obj->getTitle());
         $this->assertEquals('some description', $obj->getDescription());
         $this->assertEquals('some note', $obj->getNote());
         $this->assertTrue($obj->isEnabled());
     }
 
-    public function testItShouldDeserializeValidEntityWithVersion()
+    public function testItShouldDeserializeValidEntityWithVersion(): void
     {
         $data =
             '{
@@ -77,7 +79,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
 
         $obj = $this->serializer->deserialize(
             $data,
-            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            TestEntity::class,
             'json',
             $context
         );
@@ -87,7 +89,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
         $this->assertFalse($obj->isEnabled());
     }
 
-    public function testItShouldDeserializeValidEntityWithGroup()
+    public function testItShouldDeserializeValidEntityWithGroup(): void
     {
         $data =
             '{
@@ -97,7 +99,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
             "enabled": true
         }';
 
-        // Title and note are not valid valid but they are not available in the group B so the error
+        // Title and note are not valid, but they are not available in the group B so the error
         // should not be triggered
 
         $context = new DeserializationContext();
@@ -105,7 +107,7 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
 
         $obj = $this->serializer->deserialize(
             $data,
-            'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity',
+            TestEntity::class,
             'json',
             $context
         );
@@ -115,12 +117,11 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
         $this->assertFalse($obj->isEnabled());
     }
 
-    /**
-     * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
-     * @expectedExceptionMessage Type mismatch in property "description"
-     */
-    public function testItShouldNotDeserializeAnInvalidEntity()
+    public function testItShouldNotDeserializeAnInvalidEntity(): void
     {
+        $this->expectException(NonStringCastableTypeException::class);
+        $this->expectExceptionMessage('Cannot convert value of type "array" to string');
+
         $data =
             '{
             "title": "some title",
@@ -129,6 +130,6 @@ class JsonDeserializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCa
             "enabled": true
         }';
 
-        $this->serializer->deserialize($data, 'Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity', 'json');
+        $this->serializer->deserialize($data, TestEntity::class, 'json');
     }
 }

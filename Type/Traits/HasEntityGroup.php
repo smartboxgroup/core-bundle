@@ -14,12 +14,12 @@ trait HasEntityGroup
      *
      * @var string
      */
-    protected $entityGroup;
+    protected string $entityGroup;
 
     /**
      * @return string
      */
-    public function getEntityGroup()
+    public function getEntityGroup(): string
     {
         return $this->entityGroup;
     }
@@ -27,7 +27,7 @@ trait HasEntityGroup
     /**
      * @param string $group
      */
-    public function setEntityGroup($group)
+    public function setEntityGroup(string $group): void
     {
         if (!empty($group) && !\is_string($group)) {
             throw new \InvalidArgumentException('Expected null or string in method setGroup');

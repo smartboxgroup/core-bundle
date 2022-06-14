@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\Tests\Utils\Generator;
 
+use Smartbox\CoreBundle\Tests\AppKernel;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
@@ -30,7 +31,7 @@ class RandomFixtureGeneratorTest extends KernelTestCase
      */
     protected $randomFixtureGenerator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = $this->createKernel();
         $kernel->boot();
@@ -41,9 +42,9 @@ class RandomFixtureGeneratorTest extends KernelTestCase
         $this->randomFixtureGenerator = $this->container->get('smartcore.generator.random_fixture');
     }
 
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
-        return \AppKernel::class;
+        return AppKernel::class;
     }
 
     public function dataProviderForGroupsAndVersions()

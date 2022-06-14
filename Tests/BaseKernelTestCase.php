@@ -2,21 +2,19 @@
 
 namespace Smartbox\CoreBundle\Tests;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BaseKernelTestCase extends KernelTestCase
 {
     /**
      * @return ContainerInterface
      */
-    public function getContainer()
-    {
-        return self::$kernel->getContainer();
-    }
+    protected ContainerInterface $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->bootKernel();
+        $kernel = self::bootKernel();
+        $this->container = $kernel->getContainer();
     }
 }

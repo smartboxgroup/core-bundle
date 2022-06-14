@@ -15,7 +15,7 @@ class RandomFixtureGenerator
     /**
      * @var MetadataFactoryInterface
      */
-    protected $metadataFactory;
+    protected MetadataFactoryInterface $metadataFactory;
 
     /**
      * @param MetadataFactoryInterface $metadataFactory
@@ -34,7 +34,7 @@ class RandomFixtureGenerator
      *
      * @throws \Exception
      */
-    public function generate($entityNamespace, $group = null, $version = null)
+    public function generate($entityNamespace, $group = null, $version = null): EntityInterface
     {
         if (!\is_subclass_of($entityNamespace, EntityInterface::class)) {
             throw new \InvalidArgumentException(
@@ -56,12 +56,16 @@ class RandomFixtureGenerator
         return $entity;
     }
 
-    protected function fillEntityWithRandomData(EntityInterface $entity)
+    protected function fillEntityWithRandomData(EntityInterface $entity): void
     {
         $version = $entity->getAPIVersion();
         $group = $entity->getEntityGroup();
         $versionExclusion = new VersionExclusionStrategy($version);
-        $groupExclusion = new GroupsExclusionStrategy([$group, Entity::GROUP_METADATA, Entity::GROUP_PUBLIC]);
+        $groupExclusion = new GroupsExclusionStrategy([
+            $group,
+            EntityInterface::GROUP_METADATA,
+            EntityInterface::GROUP_PUBLIC
+        ]);
         $propertyAccessor = new PropertyAccessor();
         $context = ContextFactory::createSerializationContextForFixtures($group, $version);
 
@@ -74,8 +78,8 @@ class RandomFixtureGenerator
                 (!$group || !$groupExclusion->shouldSkipProperty($propertyMetadata, $context)) &&
                 (!$version || !$versionExclusion->shouldSkipProperty($propertyMetadata, $context))
             ) {
-                $typeName = @$propertyMetadata->type['name'];
-                $typeParams = @$propertyMetadata->type['params'];
+                $typeName = $propertyMetadata->type['name'];
+                $typeParams = $propertyMetadata->type['params'];
 
                 if (empty($typeName)) {
                     continue;
@@ -95,10 +99,10 @@ class RandomFixtureGenerator
     /**
      * @param $typeName
      * @param array|null $typeParams
-     * @param null       $group
-     * @param null       $version
+     * @param null $group
+     * @param null $version
      *
-     * @return float|int|string|array|\DateTime|EntityInterface
+     * @return float|\DateTime|EntityInterface|int|bool|array|string
      *
      * @throws \Exception
      */
@@ -112,35 +116,35 @@ class RandomFixtureGenerator
                 break;
 
             case 'integer':
-                $result = \rand(0, 100);
+                $result = \random_int(0, 100);
                 break;
 
             case 'double':
-                $result = \doubleval(\rand(0, 1000) / 1000);
+                $result = \doubleval(\random_int(0, 1000) / 1000);
                 break;
 
             case 'string':
-                $result = \substr(\md5(\rand()), 0, \rand(2, 10));
+                $result = \substr(\md5(\mt_rand()), 0, \random_int(2, 10));
                 break;
 
             case 'boolean':
-                $result = (0 == \rand(0, 1) % 2);
+                $result = (0 === \random_int(0, 1) % 2);
                 break;
 
             case 'array':
                 $numberOfTypeParams = \count($typeParams);
 
-                if (2 == $numberOfTypeParams) {
+                if (2 === $numberOfTypeParams) {
                     $subtypeName = @$typeParams[0]['name'];
                     $subtypeParams = $typeParams[1]['name'];
-                } elseif (1 == $numberOfTypeParams) {
+                } elseif (1 === $numberOfTypeParams) {
                     $subtypeName = $typeParams[0]['name'];
                     $subtypeParams = null;
                 } else {
                     throw new \RuntimeException('Missing JMS type params.');
                 }
 
-                $amountOfArrayIndexes = \rand(0, 5);
+                $amountOfArrayIndexes = \random_int(0, 5);
 
                 $result = [];
                 while ($amountOfArrayIndexes-- > 0) {

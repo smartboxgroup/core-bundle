@@ -16,7 +16,7 @@ class ArraySerializationVisitorFunctionalTest extends \PHPUnit\Framework\TestCas
     /** @var SerializerInterface $serializer */
     private $serializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $builder = new SerializerBuilder();
 
