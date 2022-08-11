@@ -26,8 +26,7 @@ class JMSSerializerFormatterTest extends WebTestCase
     protected function setUp(): void
     {
         static::bootKernel();
-        $container = static::$kernel->getContainer();
-        $this->serializer = $container->get('jms_serializer');
+        $this->serializer = self::$kernel->getContainer()->get('jms_serializer');
     }
 
     protected function tearDown(): void
@@ -64,9 +63,9 @@ class JMSSerializerFormatterTest extends WebTestCase
      * @dataProvider dataProviderForFormatter
      *
      * @param $expected
-     * @param $entity
+     * @param TestEntity $entity
      *
-     * @return string
+     * @return void
      */
     public function testFormat($expected, TestEntity $entity)
     {

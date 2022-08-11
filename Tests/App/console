@@ -6,9 +6,11 @@ set_time_limit(0);
 
 require_once __DIR__.'/autoload.php';
 
+use Smartbox\CoreBundle\Tests\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 
-$input = new \Symfony\Component\Console\Input\ArgvInput();
+$input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), getenv('SYMFONY_ENV') ?: 'test');
 
 $kernel = new AppKernel($env, true);

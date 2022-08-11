@@ -3,8 +3,9 @@
 namespace Smartbox\CoreBundle\Tests\Exception\Serializer;
 
 use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class DeserializationTypeMismatchExceptionTest extends \PHPUnit\Framework\TestCase
+class DeserializationTypeMismatchExceptionTest extends KernelTestCase
 {
     /** @var DeserializationTypeMismatchException */
     private $exception;

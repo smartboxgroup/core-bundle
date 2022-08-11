@@ -2,19 +2,20 @@
 
 namespace Smartbox\CoreBundle\Tests;
 
-use Psr\Container\ContainerInterface;
+use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class BaseKernelTestCase extends KernelTestCase
 {
-    /**
-     * @return ContainerInterface
-     */
-    protected ContainerInterface $container;
-
     protected function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->container = $kernel->getContainer();
+        self::bootKernel();
+
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new SerializationCacheCompilerPass());
     }
 }

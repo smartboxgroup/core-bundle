@@ -2,6 +2,11 @@
 
 namespace Smartbox\CoreBundle\Tests;
 
+use JMS\SerializerBundle\JMSSerializerBundle;
+use Smartbox\CoreBundle\SmartboxCoreBundle;
+use Snc\RedisBundle\SncRedisBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -14,16 +19,14 @@ class AppKernel extends Kernel
     public function registerBundles(): array
     {
         $bundles = [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new \Symfony\Bundle\MonologBundle\MonologBundle(),
-            new \JMS\SerializerBundle\JMSSerializerBundle(),
-            new \Smartbox\CoreBundle\SmartboxCoreBundle(),
+            new FrameworkBundle(),
+            new MonologBundle(),
+            new JMSSerializerBundle(),
+            new SmartboxCoreBundle(),
         ];
 
-        switch ($this->getEnvironment()) {
-            case CacheDriversCompilerPass::PREDEFINED_CACHE_DRIVER_PREDIS:
-                $bundles[] = new \Snc\RedisBundle\SncRedisBundle();
-                break;
+        if ($this->getEnvironment() === CacheDriversCompilerPass::PREDEFINED_CACHE_DRIVER_PREDIS) {
+            $bundles[] = new SncRedisBundle();
         }
 
         return $bundles;

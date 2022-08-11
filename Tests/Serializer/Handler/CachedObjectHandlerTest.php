@@ -1,11 +1,18 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Serializer\Handler;
+namespace Smartbox\CoreBundle\Tests\Serializer\Metadata\Driver\Handler;
 
+use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\SerializerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
+use Smartbox\CoreBundle\DependencyInjection\SmartboxCoreExtension;
+use Smartbox\CoreBundle\Serializer\Cache\CacheEventsSubscriber;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use JMS\Serializer\SerializationContext;
+use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
 use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\CacheableEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
 use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService;
@@ -13,71 +20,75 @@ use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheServiceSpy;
 use Smartbox\CoreBundle\Type\Date;
 use Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\KernelInterface;
 
-class CachedObjectHandlerTest extends KernelTestCase
+/**
+ * @group cache
+ */
+class CachedObjectHandlerTest extends BaseKernelTestCase
 {
     protected static function getKernelClass(): string
     {
         return AppKernel::class;
     }
 
-    private function prepareKernel($env = null)
+    private function prepareKernel($env = null): void
     {
-        $options = ['environment' => $env];
-        $kernel = static::createKernel($options);
-        $kernel->boot();
+        $options = ['environment' => $env, 'enabled' => true];
+        self::bootKernel($options);
 
-        return $kernel;
+        self::$kernel->getBundle('SmartboxCoreBundle')->getContainerExtension()->getConfig()['serialization_cache']['enabled'] = true;
     }
 
-    protected function createCacheableEntity($title)
+    protected function createCacheableEntity($title): CacheableEntity
     {
         $testEntity = new CacheableEntity();
         $testEntity->setTitle($title);
+        $testEntity->setEntityGroup('test_group');
+        $testEntity->setAPIVersion('1.0');
 
         return $testEntity;
     }
 
-    public function dataProviderForSerializationFormatWithCache()
+    public function dataProviderForSerializationFormatWithCache(): array
     {
         return [
             ['json', 'custom'],
-            ['array', 'custom'],
-            ['mongo_array', 'custom'],
             ['json', 'predis'],
-            ['array', 'predis'],
-            ['mongo_array', 'predis'],
         ];
     }
 
     /**
+     * @group test
      * @dataProvider dataProviderForSerializationFormatWithCache
      *
      * @param $format
      * @param $cacheDriver
      */
-    public function testSerializationWithCache($format, $cacheDriver)
+    public function testSerializationWithCache($format, $cacheDriver): void
     {
-        $kernel = $this->prepareKernel($cacheDriver);
-        $container = $kernel->getContainer();
+        $this->prepareKernel($cacheDriver);
 
         $cacheServiceSpy = new FakeCacheServiceSpy();
 
-        /** @var CacheServiceInterface|\PHPUnit_Framework_MockObject_MockObject $cacheServiceMock */
+        /** @var CacheServiceInterface|MockObject $cacheServiceMock */
         $cacheServiceMock = $this->getMockBuilder(FakeCacheService::class)
             ->setConstructorArgs([$cacheServiceSpy])
-            ->setMethods(null)
             ->getMock();
 
-        $container->get('smartcore.serializer.subscriber.cache')->setCacheService($cacheServiceMock);
-        $container->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
+        self::$kernel->getContainer()->get('smartcore.serializer.subscriber.cache')->setCacheService($cacheServiceMock);
+        self::$kernel->getContainer()->get('smartcore.serializer.handler.cache')->setCacheService($cacheServiceMock);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('jms_serializer');
+        $serializer = self::$kernel->getContainer()->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
         $cacheDataArray = [
-            '_type' => 'Smartbox\\CoreBundle\\Tests\\Fixtures\\Entity\\CacheableEntity',
+            '_type' => CacheableEntity::class,
             'title' => 'title 1',
+            'entityGroup' => 'test_group',
+            'version' => '1.0',
         ];
 
         $entity = new SerializableThing();
@@ -147,15 +158,13 @@ class CachedObjectHandlerTest extends KernelTestCase
             'Methods of cache service were not executed with proper order or arguments.'
         );
 
-        $kernel->shutdown();
+//        $kernel->shutdown();
     }
 
-    public function dataProviderForSerializationFormatWithoutCache()
+    public function dataProviderForSerializationFormatWithoutCache(): array
     {
         return [
             ['json'],
-            ['array'],
-            ['mongo_array'],
             ['xml'],
         ];
     }
@@ -165,13 +174,12 @@ class CachedObjectHandlerTest extends KernelTestCase
      *
      * @param $format
      */
-    public function testSerializationWithoutCacheForXML($format)
+    public function testSerializationWithoutCacheForXML($format): void
     {
         $kernel = $this->prepareKernel();
-        $container = $kernel->getContainer();
 
         /** @var SerializerInterface $serializer */
-        $serializer = $container->get('jms_serializer');
+        $serializer = self::$kernel->getContainer()->get('jms_serializer');
         $cacheData = $this->createCacheableEntity('title 1');
 
         $entity = new SerializableThing();

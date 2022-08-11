@@ -3,7 +3,6 @@
 namespace Smartbox\CoreBundle\Tests\Command\Fixtures;
 
 use JMS\Serializer\SerializerInterface;
-use Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand;
 use Smartbox\CoreBundle\Tests\AppKernel;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
@@ -11,7 +10,6 @@ use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group legacy
@@ -25,18 +23,12 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
      */
     protected $application;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     protected function setUp(): void
     {
         $kernel = self::createKernel();
         $kernel->boot();
 
         $this->application = new Application($kernel);
-        $this->container = $kernel->getContainer();
     }
 
     public static function getKernelClass(): string
@@ -67,7 +59,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
 
         /** @var SerializerInterface $serializer */
-        $serializer = $this->container->get('jms_serializer');
+        $serializer = self::$kernel->getContainer()->get('jms_serializer');
 
         $commandConfiguration = [];
         if (!\is_null($group)) {

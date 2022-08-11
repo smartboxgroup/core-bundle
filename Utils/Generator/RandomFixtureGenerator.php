@@ -120,7 +120,7 @@ class RandomFixtureGenerator
                 break;
 
             case 'double':
-                $result = \doubleval(\random_int(0, 1000) / 1000);
+                $result = (float)(\random_int(0, 1000) / 1000);
                 break;
 
             case 'string':

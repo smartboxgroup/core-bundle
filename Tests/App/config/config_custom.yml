@@ -9,12 +9,15 @@ services:
         class: Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService
         arguments: [ "@smartcore.cache_service.fake_cache_service_spy" ]
 
+    smartcore.serializer.subscriber.cache:
+        public: true
+        class: '%smartcore.serializer.subscriber.cache%'
+        arguments:
+            - 'JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
 smartbox_core:
     cache_drivers:
         custom:
             service: "@smartcore.custom_cache_service_id"
-
-    serialization_cache:
-        cached_visitors: ['Smartbox\CoreBundle\Serializer\ArraySerializationVisitor', 'JMS\Serializer\JsonSerializationVisitor']
-        enabled: true
-        cache_driver: custom

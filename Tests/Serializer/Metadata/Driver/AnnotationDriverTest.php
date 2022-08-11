@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Serializer;
+namespace Smartbox\CoreBundle\Tests\Serializer\Metadata\Driver;
 
 use JMS\Serializer\SerializerInterface;
 use Smartbox\CoreBundle\Tests\AppKernel;
@@ -11,15 +11,9 @@ use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPo
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithoutExclusionPolicy;
 use Smartbox\CoreBundle\Type\SerializableInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AnnotationDriverTest extends KernelTestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var SerializerInterface
      */
@@ -34,8 +28,7 @@ class AnnotationDriverTest extends KernelTestCase
     {
        static::bootKernel();
 
-        $this->container = static::$kernel->getContainer();
-        $this->serializer = $this->container->get('jms_serializer');
+        $this->serializer = self::$kernel->getContainer()->get('jms_serializer');
     }
 
     /**

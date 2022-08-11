@@ -9,33 +9,16 @@ use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchExceptio
 
 class DeserializationTypesValidator
 {
-    /**
-     * @var DeserializationCastingCheckerInterface
-     */
-    protected $castingChecker;
+    protected DeserializationCastingCheckerInterface $castingChecker;
 
-    /**
-     * @var PropertyNamingStrategyInterface
-     */
-    protected $namingStrategy;
+    protected PropertyNamingStrategyInterface $namingStrategy;
 
-    /**
-     * @param DeserializationCastingCheckerInterface $castingChecker
-     */
     public function __construct(DeserializationCastingCheckerInterface $castingChecker)
     {
         $this->castingChecker = $castingChecker;
     }
 
-    /**
-     * @param PropertyNamingStrategyInterface $namingStrategy
-     */
-    public function setNamingStrategy(PropertyNamingStrategyInterface $namingStrategy)
-    {
-        $this->namingStrategy = $namingStrategy;
-    }
-
-    public function validateString($data, Context $context, $currentObject)
+    public function validateString($data, Context $context, $currentObject = null): void
     {
         if (
             null === $context->getExclusionStrategy() ||
@@ -51,7 +34,7 @@ class DeserializationTypesValidator
         }
     }
 
-    public function validateBoolean($data, Context $context, $currentObject)
+    public function validateBoolean($data, Context $context, $currentObject = null): void
     {
         if (
             null === $context->getExclusionStrategy() ||
@@ -67,7 +50,7 @@ class DeserializationTypesValidator
         }
     }
 
-    public function validateDouble($data, Context $context, $currentObject)
+    public function validateDouble($data, Context $context, $currentObject = null): void
     {
         if (
             null === $context->getExclusionStrategy() ||
@@ -83,7 +66,7 @@ class DeserializationTypesValidator
         }
     }
 
-    public function validateInteger($data, Context $context, $currentObject)
+    public function validateInteger($data, Context $context, $currentObject = null): void
     {
         if (
             null === $context->getExclusionStrategy() ||
@@ -99,25 +82,14 @@ class DeserializationTypesValidator
         }
     }
 
-    /**
-     * @param Context $context
-     *
-     * @return \JMS\Serializer\Metadata\PropertyMetadata
-     */
-    private function getCurrentPropertyMetadata(Context $context)
+    private function getCurrentPropertyMetadata(Context $context): PropertyMetadata
     {
         return $context->getMetadataStack()->top();
     }
 
-    /**
-     * @param Context $context
-     *
-     * @return string|null
-     */
-    private function getCurrentPropertyName(Context $context)
+    private function getCurrentPropertyName(Context $context): ?string
     {
         $property = null;
-        /** @var PropertyMetadata $metadata */
         if (null !== ($metadata = $this->getCurrentPropertyMetadata($context))) {
             if ($metadata->name) {
                 $property = $this->namingStrategy->translateName($metadata);
@@ -127,12 +99,7 @@ class DeserializationTypesValidator
         return $property;
     }
 
-    /**
-     * @param Context $context
-     *
-     * @return string|null
-     */
-    private function getCurrentClassName(Context $context)
+    private function getCurrentClassName(Context $context): ?string
     {
         $class = null;
         /** @var PropertyMetadata $metadata */

@@ -3,6 +3,9 @@
 namespace Smartbox\CoreBundle\Tests\Serializer;
 
 use JMS\Serializer\DeserializationContext;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException;
 use Smartbox\CoreBundle\Serializer\DeserializationTypesValidator;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;
 use Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker;
@@ -10,31 +13,31 @@ use JMS\Serializer\Context;
 use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
 use JMS\Serializer\Metadata\PropertyMetadata;
 
-class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
+/**
+ * @group deserialization
+ */
+class DeserializationVisitorValidatorTest extends TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
-    private $visitorMock;
+    /** @var DeserializationTypesValidator | MockObject */
+    private object $visitorValidator;
 
-    /** @var DeserializationTypesValidator|\PHPUnit_Framework_MockObject_MockObject */
-    private $visitorValidator;
+    /** @var PropertyNamingStrategyInterface|MockObject */
+    private object $namingStrategy;
 
-    /** @var \JMS\Serializer\Naming\PropertyNamingStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
-    private $namingStrategy;
+    /** @var StrongDeserializationCastingChecker|MockObject */
+    private object $castingChecker;
 
-    /** @var \Smartbox\CoreBundle\Serializer\StrongDeserializationCastingChecker|\PHPUnit_Framework_MockObject_MockObject */
-    private $castingChecker;
+    /** @var Context|MockObject */
+    private object $context;
 
-    /** @var \JMS\Serializer\Context|\PHPUnit_Framework_MockObject_MockObject */
-    private $context;
+    /** @var ExclusionStrategyInterface|MockObject */
+    private object $exclusionStrategy;
 
-    /** @var \JMS\Serializer\Exclusion\ExclusionStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
-    private $exclusionStrategy;
+    /** @var \SplStack|MockObject */
+    private object $metadataStack;
 
-    /** @var \SplStack|\PHPUnit_Framework_MockObject_MockObject */
-    private $metadataStack;
-
-    /** @var \JMS\Serializer\Metadata\PropertyMetadata|\PHPUnit_Framework_MockObject_MockObject */
-    private $currentPropertyMetadata;
+    /** @var PropertyMetadata|MockObject */
+    private object $currentPropertyMetadata;
 
     protected function setUp(): void
     {
@@ -54,9 +57,9 @@ class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
         $this->currentPropertyMetadata = $this->getMockBuilder(PropertyMetadata::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->metadataStack->method('top')->will($this->returnValue($this->currentPropertyMetadata));
+        $this->metadataStack->method('top')->willReturn($this->currentPropertyMetadata);
 
-        $this->context->method('getMetadataStack')->will($this->returnValue($this->metadataStack));
+        $this->context->method('getMetadataStack')->willReturn($this->metadataStack);
         $this->context->method('getExclusionStrategy')->willReturn($this->exclusionStrategy);
 
         $this->visitorMock = $this
@@ -66,195 +69,190 @@ class DeserializationVisitorValidatorTest extends \PHPUnit\Framework\TestCase
         $this->visitorValidator = new DeserializationTypesValidator($this->castingChecker);
     }
 
-    public function testItShouldNotCheckAnExcludedString()
+    public function testItShouldNotCheckAnExcludedString(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->castingChecker
             ->expects($this->never())
             ->method('canBeCastedToString');
 
-        $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateString('some string', $this->context);
     }
 
-    public function testItShouldCheckAValidString()
+    public function testItShouldCheckAValidString(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToString')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->visitorValidator->validateString('some string', $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateString('some string', $this->context);
     }
 
-    /**
-     * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
-     */
-    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidString()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidString(): void
     {
+        $this->expectException(DeserializationTypeMismatchException::class);
+
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToString')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
-        $this->visitorValidator->validateString(11111, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateString(11111, $this->context);
     }
 
-    public function testItShouldNotCheckAnExcludedBoolean()
+    public function testItShouldNotCheckAnExcludedBoolean(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->castingChecker
             ->expects($this->never())
             ->method('canBeCastedToBoolean');
 
-        $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateBoolean(true, $this->context);
     }
 
-    public function testItShouldCheckAValidBoolean()
+    public function testItShouldCheckAValidBoolean(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToBoolean')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->visitorValidator->validateBoolean(true, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateBoolean(true, $this->context);
     }
 
-    /**
-     * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
-     */
-    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidBoolean()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidBoolean(): void
     {
+        $this->expectException(DeserializationTypeMismatchException::class);
+
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToBoolean')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
-        $this->visitorValidator->validateBoolean(11111, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateBoolean(11111, $this->context);
     }
 
-    public function testItShouldNotCheckAnExcludedInteger()
+    public function testItShouldNotCheckAnExcludedInteger(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->castingChecker
             ->expects($this->never())
             ->method('canBeCastedToInteger');
 
-        $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateInteger(17, $this->context);
     }
 
-    public function testItShouldCheckAValidInteger()
+    public function testItShouldCheckAValidInteger(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToInteger')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->visitorValidator->validateInteger(17, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateInteger(17, $this->context);
     }
 
-    /**
-     * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
-     */
-    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidInteger()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidInteger(): void
     {
+        $this->expectException(DeserializationTypeMismatchException::class);
+
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToInteger')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->visitorValidator->validateInteger(
             'notAnInteger',
-            $this->context,
-            $this->visitorMock->getCurrentObject()
+            $this->context
         );
     }
 
-    public function testItShouldNotCheckAnExcludedDouble()
+    public function testItShouldNotCheckAnExcludedDouble(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->castingChecker
             ->expects($this->never())
             ->method('canBeCastedToDouble');
 
-        $this->visitorValidator->validateDouble(22.5, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateDouble(22.5, $this->context);
     }
 
-    public function testItShouldCheckAValidDouble()
+    public function testItShouldCheckAValidDouble(): void
     {
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToDouble')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->visitorValidator->validateDouble(22.4, $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateDouble(22.4, $this->context);
     }
 
-    /**
-     * @expectedException \Smartbox\CoreBundle\Exception\Serializer\DeserializationTypeMismatchException
-     */
-    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidDouble()
+    public function testItShouldRaiseAnExceptionWhenVisitingAnInvalidDouble(): void
     {
+        $this->expectException(DeserializationTypeMismatchException::class);
+
         $this->exclusionStrategy
             ->expects($this->once())
             ->method('shouldSkipProperty')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $this->castingChecker
             ->expects($this->once())
             ->method('canBeCastedToDouble')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
-        $this->visitorValidator->validateDouble('notADouble', $this->context, $this->visitorMock->getCurrentObject());
+        $this->visitorValidator->validateDouble('notADouble', $this->context);
     }
 }

@@ -19,9 +19,9 @@ class CacheEventsSubscriber implements EventSubscriberInterface
     /** @var array */
     private $reflectors = [];
 
-    public function __construct(array $vistorClasses)
+    public function __construct(array $visitorClasses)
     {
-        foreach ($vistorClasses as $class) {
+        foreach ($visitorClasses as $class) {
             $reflector = new \ReflectionProperty($class, self::DATA_PROPERTY);
             $reflector->setAccessible(true);
             $this->reflectors[$class] = $reflector;
@@ -39,6 +39,7 @@ class CacheEventsSubscriber implements EventSubscriberInterface
                 'event' => 'serializer.post_serialize',
                 'method' => 'onPostSerialize',
                 'format' => $format,
+                'enable' => true
             ];
         }
 

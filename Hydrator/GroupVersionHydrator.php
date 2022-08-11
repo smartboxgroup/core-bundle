@@ -60,7 +60,7 @@ class GroupVersionHydrator
      */
     private function hydrateArray($array, $group, $version)
     {
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
             $this->hydrate($value, $group, $version);
         }
 
