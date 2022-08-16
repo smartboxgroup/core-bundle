@@ -7,9 +7,9 @@ use JMS\Serializer\Metadata\StaticPropertyMetadata;
 use Metadata\MetadataFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Smartbox\CoreBundle\Hydrator\GroupVersionHydrator;
-use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestNestedEntity;
+use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Type\Entity;
 
 /**

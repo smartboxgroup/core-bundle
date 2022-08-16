@@ -2,13 +2,13 @@
 
 namespace Smartbox\CoreBundle\Tests\Fixtures\Entity;
 
-use Smartbox\CoreBundle\Type\Entity;
+use Smartbox\CoreBundle\Type\EntityInterface;
 
 class EntityConstants
 {
-    const GROUP_DEFAULT = Entity::GROUP_DEFAULT;
-    const GROUP_PUBLIC = Entity::GROUP_PUBLIC;
-    const GROUP_METADATA = Entity::GROUP_METADATA;
+    const GROUP_DEFAULT = EntityInterface::GROUP_DEFAULT;
+    const GROUP_PUBLIC = EntityInterface::GROUP_PUBLIC;
+    const GROUP_METADATA = EntityInterface::GROUP_METADATA;
     const GROUP_LOGS = 'logs';
 
     const GROUP_A = 'A';

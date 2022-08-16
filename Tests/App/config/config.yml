@@ -22,6 +22,9 @@ smartbox_core:
     cache_drivers:
         'null':
             service: ~
+    serialization_cache:
+        enabled: false
+        cache_driver: predis
 
 jms_serializer:
     handlers:

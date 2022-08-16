@@ -11,7 +11,6 @@ class BaseKernelTestCase extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-
     }
 
     protected function build(ContainerBuilder $container)

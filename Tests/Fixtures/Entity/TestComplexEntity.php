@@ -46,7 +46,7 @@ class TestComplexEntity extends Entity
     /**
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_A})
-     * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
+     * @JMS\Type("Smartbox\\Tests\Fixtures\Entity\TestEntity")
      * @JMS\Expose
      */
     protected $nestedEntity;
@@ -54,7 +54,7 @@ class TestComplexEntity extends Entity
     /**
      * @Assert\Type(type="array")
      * @Assert\Valid
-     * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
+     * @JMS\Type("array<Smartbox\\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
      * @JMS\Groups({EntityConstants::GROUP_DEFAULT, EntityConstants::GROUP_B})
      *

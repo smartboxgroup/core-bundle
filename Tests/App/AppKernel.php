@@ -1,16 +1,16 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests;
+namespace Smartbox\CoreBundle\Tests\App;
 
 use JMS\SerializerBundle\JMSSerializerBundle;
+use Smartbox\CoreBundle\DependencyInjection\CacheDriversCompilerPass;
 use Smartbox\CoreBundle\SmartboxCoreBundle;
 use Snc\RedisBundle\SncRedisBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Smartbox\CoreBundle\DependencyInjection\CacheDriversCompilerPass;
 
 class AppKernel extends Kernel
 {
@@ -39,7 +39,7 @@ class AppKernel extends Kernel
             $config = 'config_'.$this->getEnvironment();
         }
 
-        $loader->load($this->getRootDir().'/config/'.$config.'.yml');
+        $loader->load('Tests/App/config/'.$config.'.yml');
     }
 
     public function getCacheDir(): string

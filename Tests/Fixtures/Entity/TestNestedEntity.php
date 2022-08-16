@@ -11,7 +11,7 @@ class TestNestedEntity extends Entity
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity")
+     * @JMS\Type("Smartbox\\Tests\Fixtures\Entity\TestEntity")
      * @JMS\Expose
      */
     protected $item;
@@ -19,7 +19,7 @@ class TestNestedEntity extends Entity
     /**
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("Smartbox\CoreBundle\Type\Entity")
+     * @JMS\Type("Smartbox\\Type\Entity")
      * @JMS\Expose
      */
     protected $genericItem;
@@ -27,7 +27,7 @@ class TestNestedEntity extends Entity
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("array<Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
+     * @JMS\Type("array<Smartbox\\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
      */
     protected $items;
@@ -35,7 +35,7 @@ class TestNestedEntity extends Entity
     /**
      * @var \Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("array<string,Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity>")
+     * @JMS\Type("array<string,Smartbox\\Tests\Fixtures\Entity\TestEntity>")
      * @JMS\Expose
      */
     protected $assocItems;
@@ -43,7 +43,7 @@ class TestNestedEntity extends Entity
     /**
      * @var Entity
      * @JMS\Groups({EntityConstants::GROUP_A})
-     * @JMS\Type("array<Smartbox\CoreBundle\Type\Entity>")
+     * @JMS\Type("array<Smartbox\\Type\Entity>")
      * @JMS\Expose
      */
     protected $genericItems;

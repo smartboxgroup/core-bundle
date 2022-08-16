@@ -1,9 +1,9 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Serializer\Metadata\Driver;
+namespace Smartbox\CoreBundle\Tests\App\Serializer\Metadata\Driver;
 
 use JMS\Serializer\SerializerInterface;
-use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\App\AppKernel;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyAll;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyAllAndFewPropertiesExposed;
 use Smartbox\CoreBundle\Tests\Fixtures\Serializables\SerializableWithExclusionPolicyNone;
@@ -19,7 +19,7 @@ class AnnotationDriverTest extends KernelTestCase
      */
     protected $serializer;
 
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
         return AppKernel::class;
     }

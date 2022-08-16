@@ -3,7 +3,7 @@
 namespace Smartbox\CoreBundle\Tests\Command\Fixtures;
 
 use JMS\Serializer\SerializerInterface;
-use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\App\AppKernel;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @group legacy
  *
- * @coversDefaultClass \Smartbox\CoreBundle\Command\Fixtures\GenerateRandomFixtureCommand
+ * @coversDefaultClass \Smartbox\CoreBundle\\Command\Fixtures\GenerateRandomFixtureCommand
  */
 class GenerateRandomFixtureCommandTest extends KernelTestCase
 {
@@ -48,6 +48,7 @@ class GenerateRandomFixtureCommandTest extends KernelTestCase
     }
 
     /**
+     * @group test
      * @dataProvider dataProviderForEntityGeneration
      *
      * @param $group

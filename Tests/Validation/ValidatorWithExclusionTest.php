@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Services\Validation;
+namespace Smartbox\CoreBundle\Tests\App\Services\Validation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\Metadata\Driver\AnnotationDriver;

@@ -2,7 +2,7 @@
 
 namespace Smartbox\CoreBundle\Tests\Utils\Generator;
 
-use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\App\AppKernel;
 use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\EntityConstants;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestComplexEntity;

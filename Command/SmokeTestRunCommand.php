@@ -8,14 +8,14 @@ use Smartbox\CoreBundle\Utils\SmokeTest\Input\SmokeTestLabel;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputInterface;
 use Smartbox\CoreBundle\Utils\SmokeTest\Output\SmokeTestOutputMessage;
 use Smartbox\CoreBundle\Utils\SmokeTest\SmokeTestInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SmokeTestRunCommand extends ContainerAwareCommand
+class SmokeTestRunCommand extends KernelTestCase
 {
     /** @var SmokeTestInterface[] */
     protected $smokeTests = [];

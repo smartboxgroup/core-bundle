@@ -82,8 +82,8 @@ class Configuration implements ConfigurationInterface
         - you can access this driver by service reference @{$cacheDriverServicePrefix}null
     
     3) custom driver with any name
-        - create your own cache service which implements Smartbox\\CoreBundle\\Utils\\Cache\\CacheServiceInterface
-            class MyCacheService implements Smartbox\\CoreBundle\\Utils\\Cache\\CacheServiceInterface
+        - create your own cache service which implements Smartbox\\\\\Utils\\Cache\\CacheServiceInterface
+            class MyCacheService implements Smartbox\\\\\Utils\\Cache\\CacheServiceInterface
             {
                 // implement methods
             }

@@ -2,6 +2,7 @@
 
 namespace Smartbox\CoreBundle\DependencyInjection;
 
+use Smartbox\CoreBundle\DependencyInjection\Configuration;
 use Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface;
 use Smartbox\CoreBundle\Utils\Cache\NullCacheService;
 use Smartbox\CoreBundle\Utils\Cache\PredisCacheService;

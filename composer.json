@@ -8,28 +8,33 @@
         "Smartbox\\CoreBundle\\": ""
       }
     },
+    "autoload-dev": {
+      "psr-4": {
+        "Smartbox\\CoreBundle\\Tests\\": "Tests/"
+      }
+    },
     "require": {
-        "php": ">=7.2 || ^8.0",
+        "php": "^8.0",
         "ext-simplexml": "*",
         "ext-dom": "*",
-        "symfony/console": "~2.8 || ~3.0",
-        "symfony/framework-bundle": "~2.8 || ^3.0",
-        "symfony/property-access": "~2.8 || ~3.0",
-        "symfony/expression-language": "~2.8 || ~3.0",
+        "symfony/console": "^4.4 || ^5.4 || ^6.0",
+        "symfony/framework-bundle": "^4.4 || ^5.4 || ^6.0",
+        "symfony/property-access": "^4.4 || ^5.4 || ^6.0",
+        "symfony/expression-language": "^4.4 || ^5.4 || ^6.0",
         "jms/serializer": "^3.0",
-        "symfony/dotenv": "^3.0 || ^4.4",
+        "symfony/dotenv": "^4.4 || ^5.4 || ^6.0",
         "jms/metadata": "^2.6"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "predis/predis":  "^1.0",
         "snc/redis-bundle": "^3.6",
-        "symfony/monolog-bundle": "~2.4 || ^3.0",
-        "symfony/phpunit-bridge": "^3.0 || ^4.2",
-        "symfony/validator": "~2.8 || ~3.0 || ^4.4",
+        "symfony/monolog-bundle": "^3.8",
+        "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0",
+        "symfony/validator": "^4.4 || ^5.4 || ^6.0",
         "jms/serializer-bundle": "^3.10",
         "phpunit/phpunit": "^9.5",
-        "symfony/translation": "~2.8 || ~3.0"
+        "symfony/translation": "^4.4 || ^5.4 || ^6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable" : true,

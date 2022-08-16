@@ -14,7 +14,7 @@ class SerializableArray implements SerializableInterface, \ArrayAccess
 
     /**
      * @var array
-     * @JMS\Type("array<string,Smartbox\CoreBundle\Type\Entity>")
+     * @JMS\Type("array<string,Smartbox\\Type\Entity>")
      * @JMS\Expose
      * @JMS\Groups({"logs"})
      * @JMS\XmlMap(inline = true)

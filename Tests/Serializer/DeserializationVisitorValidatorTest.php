@@ -1,6 +1,6 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Serializer;
+namespace Smartbox\CoreBundle\Tests\App\Serializer;
 
 use JMS\Serializer\DeserializationContext;
 use PHPUnit\Framework\MockObject\MockObject;

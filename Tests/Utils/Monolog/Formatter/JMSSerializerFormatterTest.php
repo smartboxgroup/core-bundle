@@ -3,7 +3,7 @@
 namespace Smartbox\CoreBundle\Tests\Utils\Monolog\Formatter;
 
 use JMS\Serializer\SerializerInterface;
-use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\App\AppKernel;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\TestEntity;
 use Smartbox\CoreBundle\Utils\Monolog\Formatter\JMSSerializerFormatter;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,7 +18,7 @@ class JMSSerializerFormatterTest extends WebTestCase
     /** @var SerializerInterface */
     private $serializer;
 
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
         return AppKernel::class;
     }

@@ -1,28 +1,19 @@
 <?php
 
-namespace Smartbox\CoreBundle\Tests\Serializer\Metadata\Driver\Handler;
+namespace Smartbox\CoreBundle\Tests\Serializer\Handler;
 
-use JMS\Serializer\JsonSerializationVisitor;
 use JMS\Serializer\SerializerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use Smartbox\CoreBundle\DependencyInjection\SerializationCacheCompilerPass;
-use Smartbox\CoreBundle\DependencyInjection\SmartboxCoreExtension;
-use Smartbox\CoreBundle\Serializer\Cache\CacheEventsSubscriber;
 use Smartbox\CoreBundle\Serializer\Handler\CachedObjectHandler;
 use JMS\Serializer\SerializationContext;
-use Smartbox\CoreBundle\Serializer\JsonDeserializationVisitor;
-use Smartbox\CoreBundle\Tests\AppKernel;
+use Smartbox\CoreBundle\Tests\App\AppKernel;
 use Smartbox\CoreBundle\Tests\BaseKernelTestCase;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\CacheableEntity;
 use Smartbox\CoreBundle\Tests\Fixtures\Entity\SerializableThing;
-use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheService;
-use Smartbox\CoreBundle\Tests\Utils\Cache\FakeCacheServiceSpy;
+use Smartbox\CoreBundle\Tests\App\Utils\Cache\FakeCacheService;
+use Smartbox\CoreBundle\Tests\App\Utils\Cache\FakeCacheServiceSpy;
 use Smartbox\CoreBundle\Type\Date;
 use Smartbox\CoreBundle\Utils\Cache\CacheServiceInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * @group cache

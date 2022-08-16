@@ -11,13 +11,12 @@ use Smartbox\CoreBundle\Type\Context\ContextFactory;
 use Smartbox\CoreBundle\Type\Entity;
 use Smartbox\CoreBundle\Type\EntityInterface;
 use Smartbox\CoreBundle\Utils\Helper\NamespaceResolver;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class GenerateFixtureCommand extends ContainerAwareCommand
+class GenerateFixtureCommand
 {
     /** @var InputInterface */
     protected $in;
